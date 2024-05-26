@@ -14,9 +14,7 @@ export default function Home() {
         />
         <SearchForm />
       </div>
-
-      <Button variant="primary">Button</Button>
-      <Button variant="secondary">Button</Button>
+      
     </>
   );
 }
