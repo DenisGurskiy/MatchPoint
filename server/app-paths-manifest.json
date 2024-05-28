@@ -1,0 +1,15 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/about/page": "app/about/page.js",
+  "/api/auth/register/route": "app/api/auth/register/route.js",
+  "/api/grounds/route": "app/api/grounds/route.js",
+  "/contact/page": "app/contact/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/ground/[id]/page": "app/ground/[id]/page.js",
+  "/ground/page": "app/ground/page.js",
+  "/login/page": "app/login/page.js",
+  "/page": "app/page.js",
+  "/register/page": "app/register/page.js",
+  "/profile/page": "app/profile/page.js"
+}
