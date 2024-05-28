@@ -9,7 +9,7 @@ export const Navigation = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="mx-auto max-w-[1152px] w-full ownGrid">
+    <nav className="ownContainer ownGrid">
       <div className="flex items-center col-span-3">
         <Link href="/" className="relative w-[180px] h-[20px]">
           <Image

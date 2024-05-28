@@ -1,18 +1,7 @@
 "use client";
 
-import { FC, useState } from "react";
-import {
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
-  Transition,
-} from "@headlessui/react";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
+import { FC, useEffect, useRef, useState } from "react";
+import classNames from "classnames";
 
 type Props = {
   question: string;
@@ -23,56 +12,80 @@ type Props = {
 export const DropDown: FC<Props> = ({ question, title, options }) => {
   const [value, setValue] = useState<string>(title);
 
+  const [isDropdownActive, setIsDropdownActive] = useState(false);
+  const dropdownRef = useRef<HTMLUListElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownActive(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [dropdownRef]);
+
+  const handleDropDownTrigger = () => setIsDropdownActive((prev) => !prev);
+
+  const handleSelectOption = (currentValue: string) => {
+    setValue(currentValue);
+    handleDropDownTrigger();
+  };
+
   return (
-    <Menu as="div" className="relative w-full inline-block">
-      <div>
-        <MenuButton className="text-left w-full">
+    <>
+      <div className="relative w-full inline-block px-[16px]">
+        <button
+          type="button"
+          className="text-left w-full"
+          onClick={handleDropDownTrigger}
+        >
           <span className="text-gray100Primary font-normal text-[14px] leading-[18.9px]">
             {question}
           </span>
           <div
             className={classNames(
-              value === title ? "text-gray50" : "text-gray100Primary",
-              "inline-flex w-full justify-between font-normal text-[16px] leading-[20.8px]"
+              "inline-flex w-full justify-between item-center font-normal text-[16px] text-gray100Primary",
+              {
+                "text-gray50": value === title,
+              }
             )}
           >
-            {value}
-            <ChevronDownIcon
-              className="w-[24px] text-gray100Primary"
-              aria-hidden="true"
-            />
+            <p>{value}</p>
+            <div className="w-[24px] h-[24px] text-gray100Primary bg-[url('/images/down.png')]"></div>
           </div>
-        </MenuButton>
+        </button>
       </div>
 
-      <Transition
-        enter="transition ease-out duration-100"
-        enterFrom="transform opacity-0 scale-95"
-        enterTo="transform opacity-100 scale-100"
-        leave="transition ease-in duration-75"
-        leaveFrom="transform opacity-100 scale-100"
-        leaveTo="transform opacity-0 scale-95"
+      <ul
+        className={classNames(
+          "list-none w-full bg-white relative top-[20px] rounded-[4px] max-h-[160px] overflow-auto border-[1px] border-gray20divider color-test",
+          {
+            "hidden ": !isDropdownActive,
+          }
+        )}
+        ref={dropdownRef}
       >
-        <MenuItems className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg focus:outline-none">
-          <ul className="py-1">
-            {options.map((option) => (
-              <MenuItem key={option}>
-                {({ focus }) => (
-                  <li
-                    onClick={() => setValue(option)}
-                    className={classNames(
-                      focus ? "text-gray50" : "text-gray50",
-                      "px-4 py-2 text-[16px] cursor-pointer hover:text-gray100Primary"
-                    )}
-                  >
-                    {option}
-                  </li>
-                )}
-              </MenuItem>
-            ))}
-          </ul>
-        </MenuItems>
-      </Transition>
-    </Menu>
+        {options.map((option) => (
+          <li
+            key={option}
+            onClick={() => handleSelectOption(option)}
+            className={classNames(
+              "px-[8px] py-[8px] text-[16px] h-[40px] cursor-pointer text-gray100Primary",
+              {
+                "text-primaryGreen100": option === value,
+              }
+            )}
+          >
+            {option}
+          </li>
+        ))}
+      </ul>
+    </>
   );
 };

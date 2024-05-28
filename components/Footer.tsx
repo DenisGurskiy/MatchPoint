@@ -5,7 +5,7 @@ import { Button } from "./ui/button";
 export const Footer = () => {
   return (
     <footer className="w-full flex flex-col justify-center items-center h-[141px] bg-gray100Primary">
-      <div className="mx-auto max-w-[1152px] w-full flex-1 flex items-center">
+      <div className="ownContainer flex-1 flex items-center">
         <div className="w-full flex justify-between items-center">
           <Link href="/" className="relative w-[180px] h-[20px]">
             <Image
@@ -38,7 +38,7 @@ export const Footer = () => {
         </div>
       </div>
       <div className="divider w-full h-[1px] bg-divider"></div>
-      <div className="mx-auto max-w-[1152px] w-full flex-1 flex items-center justify-between">
+      <div className="ownContainer flex-1 flex items-center justify-between">
         <nav className="flex gap-[32px]">
           <Link href="/contact">
             <Button variant="darkText">Contact</Button>

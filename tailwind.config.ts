@@ -27,6 +27,7 @@ const config = {
         gray100Primary: "#0D0D0D",
         gray50: "#787984",
         divider: "#3B3B3F",
+        gray20divider: "#DDDEE0",
         gray30Disabled: "#BBBCC1",
         gray10Background: "#EBEBEB",
         gray10Border: "#F4F4F5",

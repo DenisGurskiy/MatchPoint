@@ -3,10 +3,11 @@
 import React, { FC } from "react";
 import { Button } from "./ui/button";
 import { DropDown } from "./ui/dropDown";
+import { DropDownDatePicker } from "./ui/dropDownDatePicker";
 
 export const SearchForm: FC = () => {
   return (
-    <div className="max-w-[1152px] absolute ownGrid">
+    <div className="ownContainer absolute ownGrid">
       <h1 className="text-[40px] font-semibold text-white leading-[48px] col-span-7 mb-[82px] row-span-1">
         Convenient online booking for your favorite sports grounds
       </h1>
@@ -18,7 +19,7 @@ export const SearchForm: FC = () => {
             options={["Kyiv", "Lviv", "Odessa"]}
           />
         </label>
-        <label htmlFor="activity" className="px-[16px] flex-1">
+        <label htmlFor="activity" className="flex-1">
           <DropDown
             question="What are you planning?"
             title="Choose an activity"
@@ -26,11 +27,19 @@ export const SearchForm: FC = () => {
           />
         </label>
         <label htmlFor="date" className="px-[16px] flex-1">
-          <DropDown
+          <DropDownDatePicker question="On what date?" title="Choose date" />
+          {/* <DropDown
             question="On what date?"
             title="Choose date"
-            options={["01.06.24", "02.06.24", "03.06.24", "04.06.24"]}
-          />
+            options={[
+              "01.06.24",
+              "02.06.24",
+              "03.06.24",
+              "04.06.24",
+              "03.06.24",
+              "04.06.24",
+            ]}
+          /> */}
         </label>
         <label htmlFor="time" className="px-[16px] flex-1">
           <DropDown

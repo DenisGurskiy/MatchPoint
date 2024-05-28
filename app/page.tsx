@@ -12,7 +12,7 @@ export default function Home() {
           layout="fill"
           objectFit="cover"
         />
-        <SearchForm />
+        <SearchForm /> 
       </div>
       
     </>

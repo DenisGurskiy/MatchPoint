@@ -8,10 +8,27 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  scrollbar-width: 10px;
 }
 
 @layer components {
   .ownGrid {
     @apply grid grid-cols-12 gap-[24px];
   }
+  .ownContainer {
+    @apply max-w-[1200px] px-[24px] w-full mx-auto;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: white;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #bbbcc1;
+  border-radius: 5px;
 }
