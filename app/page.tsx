@@ -1,7 +1,20 @@
+import { SearchForm } from "@/components/SearchForm";
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
+
 export default function Home() {
   return (
-    <main>
-      <h1 className="text-3xl font-bold">Match Point Home page</h1>
-    </main>
+    <>
+      <div className="pt-[74px] w-full h-[600px] relative flex justify-center">
+        <Image
+          src="/images/home_bg.jpg"
+          alt="Main picture"
+          layout="fill"
+          objectFit="cover"
+        />
+        <SearchForm /> 
+      </div>
+      
+    </>
   );
 }
