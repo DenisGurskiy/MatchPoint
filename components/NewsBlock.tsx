@@ -3,10 +3,10 @@ import { NewCardBlock } from "@/components/NewCardBlock";
 export const NewsBlock = () => {
   return (
     <section className="ownContainer ownGrid mb-[60px]">
-      <h2 className="text-[32px] leading-[38.4px] font-semibold mb-[24px] text-gray100Primary col-span-full">
+      <h2 className="text-[32px] leading-[38.4px] font-semibold text-gray100Primary col-span-full">
         News
       </h2>
-      <p className="text-[16px] leading-[20.8px] font-normal mb-[3 2px]  col-span-full">
+      <p className="text-[16px] leading-[20.8px] font-normal mb-[8px]  col-span-full">
         Stay updated with the latest news and activities
       </p>
       <NewCardBlock
