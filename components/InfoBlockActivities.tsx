@@ -68,8 +68,8 @@ export const InfoBlockActivities = () => {
         <Image
           src="/photos/block_activity.jpg"
           alt="Play golf photo"
-          layout="fill"
-          objectFit="cover"
+          fill
+          style={{ objectFit: "cover" }}
         />
       </div>
     </section>

@@ -15,8 +15,8 @@ export const Navigation = () => {
           <Image
             src="/images/logo.png"
             alt="logo"
-            layout="fill"
-            objectFit="contain"
+            fill
+            style={{ objectFit: "contain" }}
           />
         </Link>
       </div>

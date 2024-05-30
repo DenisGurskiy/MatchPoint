@@ -11,8 +11,8 @@ export const Footer = () => {
             <Image
               src="/images/logo_darkmode.png"
               alt="logo"
-              layout="fill"
-              objectFit="contain"
+              fill
+              style={{ objectFit: "contain" }}
             />
           </Link>
           <div className="social flex justify-between gap-[24px]">

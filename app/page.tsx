@@ -13,8 +13,8 @@ export default function Home() {
         <Image
           src="/images/home_bg.jpg"
           alt="Main picture"
-          layout="fill"
-          objectFit="cover"
+          fill
+          style={{ objectFit: "cover" }}
         />
         <SearchForm />
       </div>

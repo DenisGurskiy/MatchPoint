@@ -17,8 +17,8 @@ export const NewCardBlock: React.FC<Props> = ({
         <Image
           src={`/photos/${image}`}
           alt="Main picture"
-          layout="fill"
-          objectFit="cover"
+          fill
+          style={{ objectFit: "cover" }}
         />
       </div>
       <h3 className="font-semibold col-span-full">{title}</h3>
