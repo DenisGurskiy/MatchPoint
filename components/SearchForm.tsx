@@ -41,14 +41,16 @@ export const SearchForm: FC = () => {
             ]}
           /> */}
         </label>
-        <label htmlFor="time" className="px-[16px] flex-1">
+        {/* <label htmlFor="time" className="px-[16px] flex-1">
           <DropDown
             question="At what time?"
             title="Choose time"
             options={["AM (Before Noon)", "PM (After Noon)"]}
           />
-        </label>
-        <Button variant="primary">Search</Button>
+        </label> */}
+        <div className="w-[100px]">
+          <Button variant="primary">Search</Button>
+        </div>
       </form>
     </div>
   );

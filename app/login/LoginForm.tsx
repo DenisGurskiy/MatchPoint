@@ -10,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -90,7 +89,11 @@ export const LoginForm: React.FC = () => {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input type="password" placeholder="Enter password" {...field} />
+                  <Input
+                    type="password"
+                    placeholder="Enter password"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
