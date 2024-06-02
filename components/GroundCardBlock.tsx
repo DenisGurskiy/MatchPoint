@@ -16,7 +16,7 @@ export const GroundCardBlock = () => {
         </div>
       </div>
       <h3 className="font-semibold col-span-full">Tennis court in Kyiv</h3>
-      <div className="col-span-1">
+      <div className="col-span-full">
         <Button variant="badge">Tennis</Button>
       </div>
       <p className="text-gray50 text-[14px] font-normal col-span-full">

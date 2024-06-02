@@ -46,7 +46,7 @@ export const Footer = () => {
           <Link href="/about">
             <Button variant="darkText">About</Button>
           </Link>
-          <Link href="/FAQs">
+          <Link href="/about#FAQs">
             <Button variant="darkText">FAQs</Button>
           </Link>
           <Link href="/privacy">

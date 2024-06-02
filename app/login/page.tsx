@@ -5,7 +5,7 @@ import React from "react";
 import { LoginForm } from "./LoginForm";
 
 const page = async () => {
-  const session = await getServerSession(authOptions);
+  // const session = await getServerSession(authOptions);
 
   // if (session) {
   //   redirect("/");

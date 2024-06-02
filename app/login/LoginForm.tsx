@@ -26,7 +26,7 @@ const formSchema = z.object({
       message: "Email is required",
     })
     .email("This is not a valid email")
-    .max(30, {
+    .max(300, {
       message: "Email can't be longer than 300 characters",
     }),
   password: z

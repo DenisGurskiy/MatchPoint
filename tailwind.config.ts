@@ -32,6 +32,8 @@ const config = {
         gray30Disabled: "#BBBCC1",
         gray10Background: "#EBEBEB",
         gray10Border: "#F4F4F5",
+        systemRedError: "#C33433",
+        systemGreenSuccess: "#13A14E",
         disabled: "#F4F4F5",
       },
       borderRadius: {
