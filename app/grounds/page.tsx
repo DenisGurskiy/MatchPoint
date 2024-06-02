@@ -6,12 +6,12 @@ export default function Grounds() {
     <div className="ownContainer flex  flex-col  gap-y-[24px] mt-[16px]">
       <SearchForm />
       <section className="ownGrid mb-[60px] -z-10">
-        <GroundCardBlock />
-        <GroundCardBlock />
-        <GroundCardBlock />
-        <GroundCardBlock />
-        <GroundCardBlock />
-        <GroundCardBlock />
+        <GroundCardBlock image="new_3" />
+        <GroundCardBlock image="new_2" />
+        <GroundCardBlock image="new_1" />
+        <GroundCardBlock image="home_bg" />
+        <GroundCardBlock image="new_3" />
+        <GroundCardBlock image="new_2" />
       </section>
     </div>
   );

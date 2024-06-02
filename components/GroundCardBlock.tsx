@@ -1,12 +1,16 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
-export const GroundCardBlock = () => {
+type Props = {
+  image: string;
+};
+
+export const GroundCardBlock: React.FC<Props> = ({ image }) => {
   return (
     <div className="col-span-4 grid grid-cols-4 gap-x-[24px] gap-y-[8px] text-gray100Primary">
       <div className="w-full h-[220px] relative rounded-[24px] overflow-hidden col-span-full mb-[8px]">
         <Image
-          src="/images/home_bg.jpg"
+          src={`/photos/${image}.jpg`}
           alt="Main picture"
           layout="fill"
           objectFit="cover"
