@@ -39,7 +39,7 @@ export const DropDown: FC<Props> = ({ question, title, options }) => {
 
   return (
     <>
-      <div className="relative w-full inline-block px-[16px]">
+      <div className="w-full inline-block">
         <button
           type="button"
           className="text-left w-full"
@@ -50,7 +50,7 @@ export const DropDown: FC<Props> = ({ question, title, options }) => {
           </span>
           <div
             className={classNames(
-              "inline-flex w-full justify-between item-center font-normal text-[16px] text-gray100Primary",
+              "inline-flex w-full justify-between item-center font-normal text-[16px] leading-[1.3em] text-gray100Primary",
               {
                 "text-gray50": value === title,
               }
@@ -64,7 +64,7 @@ export const DropDown: FC<Props> = ({ question, title, options }) => {
 
       <ul
         className={classNames(
-          "list-none w-full bg-white relative top-[20px] rounded-[4px] max-h-[160px] overflow-auto border-[1px] border-gray20divider color-test",
+          "absolute list-none w-full bg-white top-[65px] left-0 rounded-[4px] max-h-[160px] overflow-auto border-[1px] border-gray20divider color-test z-10",
           {
             "hidden ": !isDropdownActive,
           }

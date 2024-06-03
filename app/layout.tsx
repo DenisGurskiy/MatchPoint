@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="font-rubik">
-        <div className="mx-auto min-h-[100dvh] flex flex-col">
+        <div className="mx-auto min-h-dvh flex flex-col min-w-[320px]">
           <Header />
           <main className="w-full mx-auto flex-grow">{children}</main>
           <Footer />

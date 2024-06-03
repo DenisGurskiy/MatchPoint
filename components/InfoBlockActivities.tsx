@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export const InfoBlockActivities = () => {
   return (
@@ -60,9 +61,9 @@ export const InfoBlockActivities = () => {
             </li>
           </ul>
         </div>
-        <div className="col-span-2 self-end">
+        <Link href="/about" className="col-span-2 self-end">
           <Button variant="secondary">Tell me more</Button>
-        </div>
+        </Link>
       </div>
       <div className="col-start-7 col-end-13 h-[375px] relative rounded-[24px] overflow-hidden">
         <Image

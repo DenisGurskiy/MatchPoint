@@ -9,9 +9,9 @@ import { SearchForm } from "@/components/SearchForm";
 export default function Home() {
   return (
     <>
-      <HeaderBlock image="home_bg">
-        <div className="ownContainer absolute ownGrid pt-[74px]">
-          <h1 className="text-[40px] font-semibold text-white leading-[48px] col-span-7 mb-[82px] row-span-1">
+      <HeaderBlock image="home_shadow">
+        <div className="ownContainer absolute md:ownGrid pt-[82px] md:pt-[74px]">
+          <h1 className="text-[22px] md:text-[40px] font-semibold text-white leading-[1.2em] col-span-7 mb-[82px] row-span-1">
             Convenient online booking for your favorite sports grounds
           </h1>
           <SearchForm />

@@ -4,8 +4,8 @@ import { Button } from "./ui/button";
 
 export const Footer = () => {
   return (
-    <footer className="w-full flex flex-col justify-center items-center h-[141px] bg-gray100Primary">
-      <div className="ownContainer flex-1 flex items-center">
+    <footer className="w-full flex flex-col justify-center items-center md:h-[141px] bg-gray100Primary py-[16px] md:py-0">
+      <div className="ownContainer flex-1 flex items-center py-[18px]">
         <div className="w-full flex justify-between items-center">
           <Link href="/" className="relative w-[180px] h-[20px]">
             <Image
@@ -38,25 +38,35 @@ export const Footer = () => {
         </div>
       </div>
       <div className="divider w-full h-[1px] bg-divider"></div>
-      <div className="ownContainer flex-1 flex items-center justify-between">
-        <nav className="flex gap-[32px]">
+      <div className="ownContainer flex-1 md:flex ownGridSmall items-center justify-between">
+        <nav className="flex flex-col md:flex-row md:gap-[32px]">
           <Link href="/contact">
-            <Button variant="darkText">Contact</Button>
+            <Button variant="darkText" className="text-left h-[45px]">
+              Contact
+            </Button>
           </Link>
-          <Link href="/about">
-            <Button variant="darkText">About</Button>
+          <Link href="/about" className="text-left">
+            <Button variant="darkText" className="text-left h-[45px]">
+              About
+            </Button>
           </Link>
-          <Link href="/about#FAQs">
-            <Button variant="darkText">FAQs</Button>
+          <Link href="/about#FAQs" className="text-left">
+            <Button variant="darkText" className="text-left h-[45px]">
+              FAQs
+            </Button>
           </Link>
-          <Link href="/privacy">
-            <Button variant="darkText">Privacy Policy</Button>
+          <Link href="/privacy" className="text-left">
+            <Button variant="darkText" className="text-left h-[45px]">
+              Privacy Policy
+            </Button>
           </Link>
-          <Link href="/terms">
-            <Button variant="darkText">Terms</Button>
+          <Link href="/terms" className="text-left">
+            <Button variant="darkText" className="text-left h-[45px]">
+              Terms of Use
+            </Button>
           </Link>
         </nav>
-        <p className="text-gray30Disabled">
+        <p className="text-gray30Disabled text-[16px] font-normal leading-[20.8px] self-end md:self-center">
           Created by SportSpace Team in 2024
         </p>
       </div>

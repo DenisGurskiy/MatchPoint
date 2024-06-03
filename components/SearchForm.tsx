@@ -8,24 +8,29 @@ import Link from "next/link";
 
 export const SearchForm: FC = () => {
   return (
-    <form className="w-full col-span-full row-span-2 bg-white rounded-[100px] h-[80px] flex justify-between p-[16px] gap-[8px] border-[1px] border-gray20divider">
-      <label htmlFor="city" className="px-[16px] flex-1">
-        <DropDown
-          question="Where?"
-          title="Choose city"
-          options={["Kyiv", "Lviv", "Odessa"]}
-        />
-      </label>
-      <label htmlFor="activity" className="flex-1">
-        <DropDown
-          question="What are you planning?"
-          title="Choose an activity"
-          options={["Football", "Tennis", "Volleyball"]}
-        />
-      </label>
-      <label htmlFor="date" className="px-[16px] flex-1">
-        <DropDownDatePicker question="On what date?" title="Choose date" />
-        {/* <DropDown
+    <form className="w-full col-span-full row-span-2 bg-white rounded-[4px] md:rounded-[100px] md:h-[80px] flex md:flex-row flex-col justify-between p-[16px] gap-[8px] border-[1px] border-gray20divider">
+      <div className="px-[16px] py-[8px] md:py-0 flex-1 md:border-none border-b-[1px] border-gray20divider relative">
+        <label htmlFor="city">
+          <DropDown
+            question="Where?"
+            title="Choose city"
+            options={["Kyiv", "Lviv", "Odessa"]}
+          />
+        </label>
+      </div>
+      <div className="px-[16px] py-[8px] md:py-0 flex-1 md:border-none border-b-[1px] border-gray20divider relative">
+        <label htmlFor="activity">
+          <DropDown
+            question="What are you planning?"
+            title="Choose an activity"
+            options={["Football", "Tennis", "Volleyball"]}
+          />
+        </label>
+      </div>
+      <div className="px-[16px] py-[8px] md:py-0 flex-1 md:border-none border-b-[1px] border-gray20divider">
+        <label htmlFor="date">
+          <DropDownDatePicker question="On what date?" title="Choose date" />
+          {/* <DropDown
             question="On what date?"
             title="Choose date"
             options={[
@@ -37,7 +42,8 @@ export const SearchForm: FC = () => {
               "04.06.24",
             ]}
           /> */}
-      </label>
+        </label>
+      </div>
       {/* <label htmlFor="time" className="px-[16px] flex-1">
           <DropDown
             question="At what time?"
@@ -45,7 +51,7 @@ export const SearchForm: FC = () => {
             options={["AM (Before Noon)", "PM (After Noon)"]}
           />
         </label> */}
-      <Link href="/grounds" className="w-[100px]">
+      <Link href="/grounds" className="md:w-[100px] w-full">
         <Button variant="primary">Search</Button>
       </Link>
     </form>

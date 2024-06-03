@@ -9,8 +9,17 @@ export const Navigation = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="ownContainer ownGrid">
-      <div className="flex items-center col-span-3">
+    <nav className="ownContainer md:ownGrid flex justify-between">
+      <div className="flex items-center md:col-span-3">
+        <div className="mr-[16px] md:hidden">
+          <Image
+            className="cursor-pointer"
+            src="/images/menu.png"
+            alt="logo"
+            width={24}
+            height={24}
+          />
+        </div>
         <Link href="/" className="relative w-[180px] h-[20px]">
           <Image
             src="/images/logo.png"
@@ -20,7 +29,16 @@ export const Navigation = () => {
           />
         </Link>
       </div>
-      <div className="col-end-13 col-span-3 flex justify-between">
+      <div className="flex md:hidden">
+        <Image
+          className="cursor-pointer"
+          src="/images/search.png"
+          alt="logo"
+          width={24}
+          height={24}
+        />
+      </div>
+      <div className="col-end-13 col-span-3 md:flex justify-between hidden">
         <Link href="/about" className="w-[82px] flex items-center">
           <Button variant="search" isActive={pathname === "/about"}>
             About

@@ -24,7 +24,7 @@ export const DropDownDatePicker: FC<Props> = ({ question, title }) => {
 
   const ExampleCustomInput = forwardRef<HTMLDivElement, CustomInputProps>(
     ({ value, onClick }, ref) => (
-      <div className="relative w-full inline-block px-[16px]" ref={ref}>
+      <div className="relative w-full inline-block" ref={ref}>
         <button type="button" className="text-left w-full" onClick={onClick}>
           <span className="text-gray100Primary font-normal text-[14px] leading-[18.9px]">
             {question}
@@ -52,6 +52,7 @@ export const DropDownDatePicker: FC<Props> = ({ question, title }) => {
       dateFormat="dd/MM/yyyy"
       minDate={new Date()}
       selected={value}
+      wrapperClassName='w-full'
       onChange={(date: Date) => handleSelectOption(date)}
       customInput={<ExampleCustomInput />}
     />

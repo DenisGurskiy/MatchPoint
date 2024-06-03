@@ -29,8 +29,14 @@ input:-webkit-autofill {
   .ownGrid {
     @apply grid grid-cols-12 gap-[24px];
   }
+  .ownGridSmall {
+    @apply grid grid-cols-2 gap-[16px];
+  }
   .ownContainer {
-    @apply max-w-[1200px] px-[24px] w-full mx-auto;
+    @apply max-w-[1200px] md:px-[24px] px-[20px] w-full mx-auto;
+  }
+  .header_height {
+    @apply md:h-[600px] h-[calc(100dvh-56px)];
   }
 }
 
