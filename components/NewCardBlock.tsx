@@ -12,7 +12,7 @@ export const NewCardBlock: React.FC<Props> = ({
   image,
 }) => {
   return (
-    <div className="col-span-4 text-gray100Primary flex flex-col gap-y-[8px]">
+    <div className="md:col-span-4 sm:col-span-1 col-span-full text-gray100Primary flex flex-col gap-y-[8px]">
       <div className="w-full h-[220px] relative rounded-[24px] overflow-hidden col-span-full">
         <Image
           src={`/photos/${image}`}

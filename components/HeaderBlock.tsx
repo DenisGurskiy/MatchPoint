@@ -7,7 +7,7 @@ type Props = {
 
 export const HeaderBlock: React.FC<Props> = ({ image, children }) => {
   return (
-    <div className="w-full header_height relative flex justify-center">
+    <div className="w-full full_height relative flex justify-center">
       <Image
         src={`/photos/${image}.jpg`}
         alt="Main picture"

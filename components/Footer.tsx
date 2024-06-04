@@ -38,8 +38,8 @@ export const Footer = () => {
         </div>
       </div>
       <div className="divider w-full h-[1px] bg-divider"></div>
-      <div className="ownContainer flex-1 md:flex ownGridSmall items-center justify-between">
-        <nav className="flex flex-col md:flex-row md:gap-[32px]">
+      <div className="ownContainer flex-1 md:flex ownGrid items-center justify-between">
+        <nav className="flex flex-col md:flex-row lg:gap-[32px] md:gap-[16px]">
           <Link href="/contact">
             <Button variant="darkText" className="text-left h-[45px]">
               Contact

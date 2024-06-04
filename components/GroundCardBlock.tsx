@@ -7,8 +7,8 @@ type Props = {
 
 export const GroundCardBlock: React.FC<Props> = ({ image }) => {
   return (
-    <div className="col-span-4 grid grid-cols-4 gap-x-[24px] gap-y-[8px] text-gray100Primary">
-      <div className="w-full h-[220px] relative rounded-[24px] overflow-hidden col-span-full mb-[8px]">
+    <div className="md:col-span-4 sm:col-span-1 col-span-full grid grid-cols-4 gap-x-[24px] gap-y-[8px] text-gray100Primary">
+      <div className="w-full h-[220px] relative rounded-[24px] overflow-hidden col-span-full">
         <Image
           src={`/photos/${image}.jpg`}
           alt="Main picture"

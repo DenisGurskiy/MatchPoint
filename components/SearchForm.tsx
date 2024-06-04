@@ -8,7 +8,7 @@ import Link from "next/link";
 
 export const SearchForm: FC = () => {
   return (
-    <form className="w-full col-span-full row-span-2 bg-white rounded-[4px] md:rounded-[100px] md:h-[80px] flex md:flex-row flex-col justify-between p-[16px] gap-[8px] border-[1px] border-gray20divider">
+    <form className="w-full max-w-[480px] md:max-w-[1152px] m-auto col-span-full row-span-2 bg-white rounded-[4px] md:rounded-[100px] md:h-[80px] flex md:flex-row flex-col justify-between p-[16px] border-[1px] border-gray20divider">
       <div className="px-[16px] py-[8px] md:py-0 flex-1 md:border-none border-b-[1px] border-gray20divider relative">
         <label htmlFor="city">
           <DropDown
@@ -27,7 +27,7 @@ export const SearchForm: FC = () => {
           />
         </label>
       </div>
-      <div className="px-[16px] py-[8px] md:py-0 flex-1 md:border-none border-b-[1px] border-gray20divider">
+      <div className="px-[16px] py-[8px] md:py-0 flex-1 md:border-none">
         <label htmlFor="date">
           <DropDownDatePicker question="On what date?" title="Choose date" />
           {/* <DropDown

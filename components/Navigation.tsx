@@ -5,7 +5,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "./ui/button";
 
-export const Navigation = () => {
+type Props = {
+  isOpen: boolean;
+  setIsOpen: (flag: boolean) => void;
+};
+
+export const Navigation: React.FC<Props> = ({ isOpen, setIsOpen }) => {
   const pathname = usePathname();
 
   return (
@@ -14,10 +19,11 @@ export const Navigation = () => {
         <div className="mr-[16px] md:hidden">
           <Image
             className="cursor-pointer"
-            src="/images/menu.png"
+            src={isOpen ? "/images/close.png" : "/images/menu.png"}
             alt="logo"
             width={24}
             height={24}
+            onClick={() => setIsOpen(!isOpen)}
           />
         </div>
         <Link href="/" className="relative w-[180px] h-[20px]">
@@ -26,16 +32,18 @@ export const Navigation = () => {
             alt="logo"
             fill
             style={{ objectFit: "contain" }}
+            onClick={() => setIsOpen(false)}
           />
         </Link>
       </div>
       <div className="flex md:hidden">
         <Image
           className="cursor-pointer"
-          src="/images/search.png"
+          src="/images/Search.png"
           alt="logo"
           width={24}
           height={24}
+          onClick={() => setIsOpen(false)}
         />
       </div>
       <div className="col-end-13 col-span-3 md:flex justify-between hidden">

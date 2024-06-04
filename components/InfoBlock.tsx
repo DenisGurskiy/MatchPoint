@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export const InfoBlock = () => {
   return (
-    <div className="h-[72px] w-full bg-gray100Primary flex items-center mb-[60px]">
+    <div className="md:h-[72px] h-[56px] w-full bg-gray100Primary flex items-center mb-[60px]">
       <div className="ownContainer flex justify-between text-white items-center">
         <div className="flex justify-between gap-[8px]">
           <Image
@@ -11,7 +11,7 @@ export const InfoBlock = () => {
             width={24}
             height={24}
           />
-          <p>Find your sports ground</p>
+          <p className="md:block hidden">Find your sports ground</p>
         </div>
         <div className="flex justify-between gap-[8px]">
           <Image
@@ -20,7 +20,7 @@ export const InfoBlock = () => {
             width={24}
             height={24}
           />
-          <p>Book online</p>
+          <p className="md:block hidden">Book online</p>
         </div>
         <div className="flex justify-between gap-[8px]">
           <Image
@@ -29,7 +29,7 @@ export const InfoBlock = () => {
             width={24}
             height={24}
           />
-          <p>Enjoy your game</p>
+          <p className="md:block hidden">Enjoy your game</p>
         </div>
       </div>
     </div>

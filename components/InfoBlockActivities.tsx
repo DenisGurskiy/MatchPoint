@@ -5,9 +5,9 @@ import Link from "next/link";
 export const InfoBlockActivities = () => {
   return (
     <section className="ownContainer ownGrid mb-[60px]">
-      <div className="col-span-5 grid grid-cols-5 gap-[24px]">
-        <div className="col-span-5 text-gray100Primary">
-          <h2 className="text-[32px] leading-[38.4px] font-semibold mb-[24px]">
+      <div className="lg:col-span-5 md:col-span-7 col-span-full grid md:grid-cols-5 grid-cols-2 md:gap-[24px] gap-[16px] gap-y-[32px]">
+        <div className="col-span-full text-gray100Primary">
+          <h2 className="md:text-[32px] text-[22px] leading-[1.2em] font-semibold mb-[24px]">
             Playgrounds for your game
           </h2>
           <p className="text-[16px] leading-[20.8px] font-normal mb-[32px]">
@@ -61,11 +61,11 @@ export const InfoBlockActivities = () => {
             </li>
           </ul>
         </div>
-        <Link href="/about" className="col-span-2 self-end">
+        <Link href="/about" className="md:col-span-2 col-spa-1 self-end">
           <Button variant="secondary">Tell me more</Button>
         </Link>
       </div>
-      <div className="col-start-7 col-end-13 h-[375px] relative rounded-[24px] overflow-hidden">
+      <div className="lg:col-start-7 md:col-start-8 col-end-13 h-[375px] relative rounded-[24px] overflow-hidden hidden md:block">
         <Image
           src="/photos/block_activity.jpg"
           alt="Play golf photo"

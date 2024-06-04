@@ -23,6 +23,7 @@ const config = {
       },
       colors: {
         primaryGreen100: "#66D36E",
+        primaryGreen30: "#C2E6C0",
         primaryGreen10: "#ECFDF3",
         secondaryGreen: "#027A48",
         gray100Primary: "#0D0D0D",
