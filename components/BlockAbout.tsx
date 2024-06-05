@@ -1,12 +1,12 @@
 export const BlockAbout = () => {
   return (
     <section className="ownContainer ownGrid my-[60px]">
-      <div className="col-span-5 text-gray100Primary">
-        <h2 className="text-[32px] leading-[38.4px] font-semibold mb-[24px]">
+      <div className="md:col-span-5 col-span-full text-gray100Primary">
+        <h2 className="text-[22px] md:text-[32px] leading-[1.2em] font-semibold">
           Welcome to SPORTSPACE
         </h2>
       </div>
-      <div className="col-start-6 col-end-13 text-gray50 text-[16px] font-normal flex flex-col gap-y-[24px] leading-[1.3em]">
+      <div className="md:col-start-6 col-span-full md:col-end-13 text-gray50 text-[16px] font-normal flex flex-col gap-y-[24px] leading-[1.3em]">
         <p>
           {`Our platform is designed to make it easy and convenient for you to
           find and book sports grounds for your favorite activities. Whether

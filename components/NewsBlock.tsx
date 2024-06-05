@@ -40,7 +40,7 @@ export const NewsBlock = () => {
     windowWidth > 639 && windowWidth < 768 ? newsCards.slice(0, 2) : newsCards;
 
   return (
-    <section className="ownContainer ownGrid mb-[60px]">
+    <section className="ownContainer ownGrid md:mb-[60px] mb-[32px]">
       <h2 className="md:text-[32px] text-[22px] leading-[1.2em] font-semibold text-gray100Primary col-span-full">
         News
       </h2>

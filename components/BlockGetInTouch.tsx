@@ -71,9 +71,9 @@ export const BlockGetInTouch = () => {
   }
 
   return (
-    <section className="ownContainer ownGrid my-[60px]" id="FAQs">
+    <section className="ownContainer ownGrid md:my-[60px] my-[32px]">
       <div className="col-span-full flex flex-col gap-y-[24px]">
-        <h2 className="col-span-full text-[32px] leading-[38.4px] font-semibold text-gray100Primary">
+        <h2 className="col-span-full md:text-[32px] text-[22px] leading-[1.2em] font-semibold text-gray100Primary">
           Get in touch
         </h2>
         <p className="col-span-full text-[16px] font-normal leading-[1.3em] text-gray50">
@@ -81,7 +81,7 @@ export const BlockGetInTouch = () => {
         </p>
       </div>
 
-      <div className="col-span-6">
+      <div className="md:col-span-6 col-span-full">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -156,7 +156,7 @@ export const BlockGetInTouch = () => {
                 </FormItem>
               )}
             />
-            <Button className="col-span-4" type="submit" variant="primary">
+            <Button className="md:col-span-4 col-span-full" type="submit" variant="primary">
               Send question
             </Button>
           </form>

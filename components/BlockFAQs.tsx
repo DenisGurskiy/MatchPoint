@@ -1,13 +1,16 @@
 export const BlockFAQs = () => {
   return (
-    <section className="ownContainer ownGrid my-[92px] gap-y-[32px]" id="FAQs">
+    <section
+      className="ownContainer ownGrid md:my-[92px] my-[60px] gap-y-[32px]"
+      id="FAQs"
+    >
       <div className="col-span-full flex flex-col gap-y-[24px] text-gray100Primary">
         <h2 className=" text-[32px] leading-[38.4px] font-semibold">FAQs</h2>
         <p className="col-span-full text-[16px] font-normal leading-[1.3em]">
           Answers to some of the most common questions.
-        </p>
+        </p> 
       </div>
-      <div className="col-span-6 flex flex-col gap-y-[32px] leading-[1.3em]">
+      <div className="md:col-span-6 col-span-full flex flex-col gap-y-[32px] leading-[1.3em]">
         <div>
           <h3 className="text-[22px] font-semibold mb-[16px]">
             How to book the playground?
