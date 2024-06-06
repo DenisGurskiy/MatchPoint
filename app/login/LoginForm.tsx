@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -18,6 +18,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
+import classNames from "classnames";
+import { Modal } from "@/components/ui/modal";
+import { SocialButton } from "@/components/ui/socialButton";
 
 const formSchema = z.object({
   email: z
@@ -66,55 +69,82 @@ export const LoginForm: React.FC = () => {
   }
 
   return (
-    <>
+    <div className="flex flex-col gap-[24px]">
+      <div className="flex flex-col items-center gap-[16px]">
+        <h2 className="text-[32px] font-semibold text-gray100Primary">
+          Log in to your account
+        </h2>
+        <p className="">Welcome back! Please enter your details.</p>
+      </div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col gap-[16px]"
+        >
           <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
+              <FormItem className="col-span-full gap-y-[8px] flex flex-col">
+                <FormLabel>Email address</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter your email" {...field} />
+                  <Input placeholder="Enter your email address" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input
-                    type="password"
-                    placeholder="Enter password"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type="submit">Sign in</Button>
+          <div className="flex flex-col">
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem className="col-span-full gap-y-[8px] flex flex-col">
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      placeholder="Enter your password"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button
+              className="self-end mt-[8px] leading-[1.3em]"
+              variant="greenText"
+            >
+              Forgot password?
+            </Button>
+          </div>
+          <Button type="submit">Log In</Button>
         </form>
       </Form>
-      <Link href={"/register"}>{`Don't have an account?`}</Link>
-      <Button
-        onClick={() => signIn("google")}
-        className="border border-black rounded-lg"
-      >
+      <div className="flex items-center gap-[8px]">
+        <div className="w-auto grow border-b-[1px] border-gray20divider"></div>
+        <p className="text-[16px] font-normal leading-[1.3em] text-center w-max text-gray50">
+          or use one of these options
+        </p>
+        <div className="w-auto grow border-b-[1px] border-gray20divider"></div>
+      </div>
+      <SocialButton onClick={() => signIn("google")} variant="google">
         Sign in with Google
-      </Button>
-      <Button
-        onClick={() => signIn("github")}
-        className="border border-black rounded-lg"
-      >
-        Sign in with GitHub
-      </Button>
-    </>
+      </SocialButton>
+      <SocialButton onClick={() => signIn("github")} variant="facebook">
+        Sign in with Facebook
+      </SocialButton>
+      <div className="flex gap-[8px] justify-center text-[16px] leading-[1.3em] text-gray100Primary">
+        {`Don't have an account?`}
+        <Link href={"/register"}>
+          <Button
+            variant="greenText"
+          >
+            Sign Up
+          </Button>
+        </Link>
+      </div>
+    </div>
   );
 };

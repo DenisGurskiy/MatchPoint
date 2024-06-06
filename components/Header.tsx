@@ -6,12 +6,15 @@ import { Button } from "./ui/button";
 import { Navigation } from "./Navigation";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { LoginForm } from "@/app/login/LoginForm";
+import { Modal } from "./ui/modal";
 
 export const Header = () => {
+  const [isLoginFormActive, setIsLoginFormActive] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen || isLoginFormActive) {
       document.body.classList.add("overflow-hidden");
     } else {
       document.body.classList.remove("overflow-hidden");
@@ -20,7 +23,7 @@ export const Header = () => {
     return () => {
       document.body.classList.remove("overflow-hidden");
     };
-  }, [isOpen]);
+  }, [isOpen, isLoginFormActive]);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -28,7 +31,11 @@ export const Header = () => {
 
   return (
     <header className="relative w-full flex justify-center items-center md:h-[80px] h-[56px] border-b-[1px] border-gray20divider">
-      <Navigation isOpen={isOpen} setIsOpen={setIsOpen} />
+      <Navigation
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        setIsActive={setIsLoginFormActive}
+      />
       <nav
         className={cn(
           isOpen ? "translate-x-0" : "-translate-x-full",
@@ -44,17 +51,19 @@ export const Header = () => {
             About
           </Button>
         </Link>
-        {false ? (
+        {true ? (
           <>
-            <Link
-              href="/login"
+            <div
               className="flex items-center h-[53px] border-b-[1px] border-gray20divider"
-              onClick={toggleMenu}
+              onClick={() => {
+                setIsLoginFormActive(true);
+                toggleMenu();
+              }}
             >
               <Button variant="mobileTinyText" className="text-left">
                 Log in
               </Button>
-            </Link>
+            </div>
             <Link
               href="/signup"
               className="flex items-center h-[53px] border-b-[1px] border-gray20divider"
@@ -121,6 +130,9 @@ export const Header = () => {
           </div>
         )}
       </nav>
+      <Modal isActive={isLoginFormActive} setIsActive={setIsLoginFormActive}>
+        <LoginForm />
+      </Modal>
     </header>
   );
 };

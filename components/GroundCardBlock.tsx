@@ -12,7 +12,7 @@ export const GroundCardBlock: React.FC<Props> = ({ image }) => {
         <Image
           src={`/photos/${image}.jpg`}
           alt="Main picture"
-          layout="fill"
+          fill
           objectFit="cover"
         />
         <div className="w-[130px] h-[33px] bg-gray100Primary rounded-[28px] text-white absolute bottom-[8px] right-[8px] flex items-center justify-center">

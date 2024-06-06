@@ -8,9 +8,14 @@ import { Button } from "./ui/button";
 type Props = {
   isOpen: boolean;
   setIsOpen: (flag: boolean) => void;
+  setIsActive: (flag: boolean) => void;
 };
 
-export const Navigation: React.FC<Props> = ({ isOpen, setIsOpen }) => {
+export const Navigation: React.FC<Props> = ({
+  isOpen,
+  setIsOpen,
+  setIsActive,
+}) => {
   const pathname = usePathname();
 
   return (
@@ -52,11 +57,16 @@ export const Navigation: React.FC<Props> = ({ isOpen, setIsOpen }) => {
             About
           </Button>
         </Link>
-        <Link href="/login" className="w-[100px]">
+        <div className="w-[100px]" onClick={() => setIsActive(true)}>
           <Button variant="secondary" isActive={pathname === "/login"}>
             Log in
           </Button>
-        </Link>
+        </div>
+        {/* <Link href="/login" className="w-[100px]">
+          <Button variant="secondary" isActive={pathname === "/login"}>
+            Log in
+          </Button>
+        </Link> */}
       </div>
     </nav>
   );
