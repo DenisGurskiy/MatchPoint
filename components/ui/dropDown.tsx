@@ -11,7 +11,6 @@ type Props = {
 
 export const DropDown: FC<Props> = ({ question, title, options }) => {
   const [value, setValue] = useState<string>(title);
-
   const [isDropdownActive, setIsDropdownActive] = useState(false);
   const dropdownRef = useRef<HTMLUListElement>(null);
 

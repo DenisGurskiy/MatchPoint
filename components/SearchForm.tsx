@@ -8,7 +8,7 @@ import Link from "next/link";
 
 export const SearchForm: FC = () => {
   return (
-    <form className="w-full max-w-[480px] md:max-w-[1152px] m-auto col-span-full row-span-2 bg-white rounded-[4px] md:rounded-[100px] md:h-[80px] flex md:flex-row flex-col justify-between p-[16px] border-[1px] border-gray20divider">
+    <form id="searchForm" className="w-full max-w-[480px] md:max-w-[1152px] m-auto col-span-full row-span-2 bg-white rounded-[4px] md:rounded-[100px] md:h-[80px] flex md:flex-row flex-col justify-between md:gap-[0px] gap-[8px] p-[16px] border-[1px] border-gray20divider">
       <div className="px-[16px] py-[8px] md:py-0 flex-1 md:border-none border-b-[1px] border-gray20divider relative">
         <label htmlFor="city">
           <DropDown
@@ -51,7 +51,7 @@ export const SearchForm: FC = () => {
             options={["AM (Before Noon)", "PM (After Noon)"]}
           />
         </label> */}
-      <Link href="/grounds" className="md:w-[100px] w-full">
+      <Link href="/grounds" className="md:w-[100px] w-full mt-[8px] md:mt-0">
         <Button variant="primary">Search</Button>
       </Link>
     </form>

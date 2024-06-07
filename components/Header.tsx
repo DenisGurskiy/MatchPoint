@@ -6,7 +6,7 @@ import { Button } from "./ui/button";
 import { Navigation } from "./Navigation";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import { LoginForm } from "@/app/login/LoginForm";
+import { LoginForm } from "@/components/LoginForm";
 import { Modal } from "./ui/modal";
 
 export const Header = () => {
