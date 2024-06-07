@@ -18,9 +18,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import classNames from "classnames";
-import { Modal } from "@/components/ui/modal";
 import { SocialButton } from "@/components/ui/socialButton";
+import Image from "next/image";
 
 const formSchema = z.object({
   email: z
@@ -42,7 +41,17 @@ const formSchema = z.object({
     }),
 });
 
-export const LoginForm: React.FC = () => {
+type Props = {
+  setIsActive: (flag: boolean) => void;
+  custom: "login" | "signup";
+  setCustom: (flag: "login" | "signup") => void;
+};
+
+export const LoginForm: React.FC<Props> = ({
+  setIsActive,
+  custom,
+  setCustom,
+}) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {},
@@ -68,13 +77,56 @@ export const LoginForm: React.FC = () => {
     toast.success("You are Loged in now!");
   }
 
+  console.log(custom);
+
   return (
     <div className="flex flex-col gap-[24px]">
+      <div
+        className="hidden md:flex justify-end"
+        onClick={() => setIsActive(false)}
+      >
+        <Image
+          className="cursor-pointer"
+          src="/images/close.png"
+          alt="logo"
+          width={24}
+          height={24}
+        />
+      </div>
+      <div
+        className="md:hidden flex justify-start gap-[4px] hover:text-gray50 transition duration-300 ease-in-out cursor-pointer"
+        onClick={() => setIsActive(false)}
+      >
+        <svg
+          className="w-[24px] h-[24px]"
+          version="1.0"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24pt"
+          height="24pt"
+          viewBox="0 0 24 24"
+          preserveAspectRatio="xMidYMid meet"
+        >
+          <g
+            transform="translate(0,24) scale(0.1,-0.1)"
+            fill="currentColor"
+            stroke="none"
+          >
+            <path d="M105 160 l-39 -40 39 -40 c21 -22 44 -40 49 -40 6 0 -8 18 -29 40 l-39 40 39 40 c21 22 35 40 29 40 -5 0 -28 -18 -49 -40z" />
+          </g>
+        </svg>
+        <Button className="" variant="mobileTinyText">
+          Back
+        </Button>
+      </div>
       <div className="flex flex-col items-center gap-[16px]">
-        <h2 className="text-[32px] font-semibold text-gray100Primary">
-          Log in to your account
+        <h2 className="md:text-[32px] text-[22px] font-semibold text-gray100Primary">
+          {custom === "login" ? `Log in to your account` : `Create an account`}
         </h2>
-        <p className="">Welcome back! Please enter your details.</p>
+        <p className="text-center text-[16px] leading-[1.3em] font-normal text-gray50">
+          {custom === "login"
+            ? `Welcome back! Please enter your details`
+            : `Please enter your details`}
+        </p>
       </div>
       <Form {...form}>
         <form
@@ -94,32 +146,36 @@ export const LoginForm: React.FC = () => {
               </FormItem>
             )}
           />
-          <div className="flex flex-col">
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem className="col-span-full gap-y-[8px] flex flex-col">
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="password"
-                      placeholder="Enter your password"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button
-              className="self-end mt-[8px] leading-[1.3em]"
-              variant="greenText"
-            >
-              Forgot password?
-            </Button>
-          </div>
-          <Button type="submit">Log In</Button>
+          {custom === "login" && (
+            <div className="flex flex-col">
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem className="col-span-full gap-y-[8px] flex flex-col">
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        placeholder="Enter your password"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button
+                className="self-end mt-[8px] leading-[1.3em]"
+                variant="greenText"
+              >
+                Forgot password?
+              </Button>
+            </div>
+          )}
+          <Button type="submit">
+            {custom === "login" ? `Log In` : `Get started`}
+          </Button>
         </form>
       </Form>
       <div className="flex items-center gap-[8px]">
@@ -129,21 +185,38 @@ export const LoginForm: React.FC = () => {
         </p>
         <div className="w-auto grow border-b-[1px] border-gray20divider"></div>
       </div>
-      <SocialButton onClick={() => signIn("google")} variant="google">
-        Sign in with Google
-      </SocialButton>
-      <SocialButton onClick={() => signIn("github")} variant="facebook">
-        Sign in with Facebook
-      </SocialButton>
-      <div className="flex gap-[8px] justify-center text-[16px] leading-[1.3em] text-gray100Primary">
-        {`Don't have an account?`}
-        <Link href={"/register"}>
-          <Button
-            variant="greenText"
-          >
-            Sign Up
-          </Button>
-        </Link>
+      <div className="flex gap-[16px] md:flex-col">
+        <SocialButton onClick={() => signIn("google")} variant="google">
+          Sign In With Google
+        </SocialButton>
+        <SocialButton onClick={() => signIn("github")} variant="facebook">
+          Sign In With Facebook
+        </SocialButton>
+      </div>
+      <div className="flex gap-[8px] justify-center items-center text-[16px] leading-[1.3em] text-gray100Primary">
+        {custom === "login" ? (
+          <>
+            <p>{`Don't have an account?`}</p>
+            <div
+              onClick={() => {
+                setCustom("signup");
+              }}
+            >
+              <Button variant="greenText">Sign Up</Button>
+            </div>
+          </>
+        ) : (
+          <>
+            <p>{`Already have an account?`}</p>
+            <div
+              onClick={() => {
+                setCustom("login");
+              }}
+            >
+              <Button variant="greenText">Log In</Button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

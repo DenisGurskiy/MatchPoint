@@ -19,7 +19,7 @@ export const SocialButton: FC<ButtonProps> = ({
   disabled = false,
   variant = "google",
 }) => {
-  const baseStyles = `flex justify-center items-center gap-[8px] text-[16px] transition duration-300 ease-in-out w-full h-[48px] border-[1px] border-gray20divider text-gray100Primary font-semibold rounded-[4px] hover:text-gray50 active:border-primaryGreen100  disabled:text-gray30Disabled ${className}`;
+  const baseStyles = `flex justify-center items-center gap-[8px] text-[16px] transition duration-300 ease-in-out w-full h-[48px] border-[1px] border-gray20divider text-gray100Primary font-semibold rounded-[4px] hover:text-gray50 active:border-primaryGreen100  disabled:text-gray30Disabled hover:shadow-custom ${className}`;
 
   return (
     <button
@@ -45,7 +45,7 @@ export const SocialButton: FC<ButtonProps> = ({
           height={24}
         />
       )}
-      {children}
+      <p className="hidden md:block">{children}</p>
     </button>
   );
 };

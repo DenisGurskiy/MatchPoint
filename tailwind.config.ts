@@ -40,6 +40,9 @@ const config = {
       borderRadius: {
         full: "100px",
       },
+      boxShadow: {
+        'custom': '0px 1px 2px 1px #1018280D',
+      },
       keyframes: {},
       animation: {},
     },

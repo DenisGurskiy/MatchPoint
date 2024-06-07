@@ -23,7 +23,7 @@ export const Modal: React.FC<Props> = ({ isActive, setIsActive, children }) => {
         onClick={() => setIsActive(false)}
       ></div>
       <div
-        className="max-w-[564px] w-full absolute bg-white z-50 rounded-[4px] p-[48px]"
+        className="md:max-w-[564px] w-full md:h-auto h-dvh absolute bg-white z-50 md:rounded-[4px] md:p-[48px] px-[20px] pt-[24px]"
         onClick={(e) => e.stopPropagation()}
       >
         {children}

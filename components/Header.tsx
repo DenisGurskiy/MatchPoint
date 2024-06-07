@@ -12,6 +12,7 @@ import { Modal } from "./ui/modal";
 export const Header = () => {
   const [isLoginFormActive, setIsLoginFormActive] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [modal, setModal] = useState<"login" | "signup">("login");
 
   useEffect(() => {
     if (isOpen || isLoginFormActive) {
@@ -29,17 +30,22 @@ export const Header = () => {
     setIsOpen(!isOpen);
   };
 
+  const setLoginForm = () => {
+    setModal("login");
+    setIsLoginFormActive(true);
+  };
+
   return (
     <header className="relative w-full flex justify-center items-center md:h-[80px] h-[56px] border-b-[1px] border-gray20divider">
       <Navigation
         isOpen={isOpen}
         setIsOpen={setIsOpen}
-        setIsActive={setIsLoginFormActive}
+        setIsActive={setLoginForm}
       />
       <nav
         className={cn(
           isOpen ? "translate-x-0" : "-translate-x-full",
-          "md:hidden overflow-hidden w-full fixed top-[56px] full_height z-10 bg-white transition-transform transform px-[20px] py-[24px] flex flex-col gap-y-[4px]"
+          "md:hidden overflow-hidden w-full fixed top-[56px] full_height z-10 bg-white transition-transf orm transform px-[20px] py-[24px] flex flex-col gap-y-[4px]"
         )}
       >
         <Link
@@ -54,8 +60,9 @@ export const Header = () => {
         {true ? (
           <>
             <div
-              className="flex items-center h-[53px] border-b-[1px] border-gray20divider"
+              className="flex items-center h-[53px] border-b-[1px] border-gray20divider w-full cursor-pointer"
               onClick={() => {
+                setModal((prev) => "login");
                 setIsLoginFormActive(true);
                 toggleMenu();
               }}
@@ -64,15 +71,18 @@ export const Header = () => {
                 Log in
               </Button>
             </div>
-            <Link
-              href="/signup"
-              className="flex items-center h-[53px] border-b-[1px] border-gray20divider"
-              onClick={toggleMenu}
+            <div
+              className="w-full flex items-center h-[53px] border-b-[1px] border-gray20divider"
+              onClick={() => {
+                setModal((prev) => "signup");
+                setIsLoginFormActive(true);
+                toggleMenu();
+              }}
             >
               <Button variant="mobileTinyText" className="text-left">
                 Sign Up
               </Button>
-            </Link>
+            </div>
           </>
         ) : (
           <div className="mt-[40px] flex flex-col gap-y-[4px]">
@@ -81,7 +91,7 @@ export const Header = () => {
             </h3>
             <Link
               href="/personal"
-              className="flex items-center h-[53px] border-b-[1px] border-gray20divider"
+              className="w-full flex items-center h-[53px] border-b-[1px] border-gray20divider"
               onClick={toggleMenu}
             >
               <Button variant="mobileTinyText" className="text-left">
@@ -90,7 +100,7 @@ export const Header = () => {
             </Link>
             <Link
               href="/history"
-              className="flex items-center h-[53px] border-b-[1px] border-gray20divider"
+              className="w-full flex items-center h-[53px] border-b-[1px] border-gray20divider"
               onClick={toggleMenu}
             >
               <Button variant="mobileTinyText" className="text-left">
@@ -99,7 +109,7 @@ export const Header = () => {
             </Link>
             <Link
               href="/changepassword"
-              className="flex items-center h-[53px] border-b-[1px] border-gray20divider"
+              className="w-full flex items-center h-[53px] border-b-[1px] border-gray20divider"
               onClick={toggleMenu}
             >
               <Button variant="mobileTinyText" className="text-left">
@@ -108,7 +118,7 @@ export const Header = () => {
             </Link>
             <Link
               href="/deleteaccount"
-              className="flex items-center h-[53px] border-b-[1px] border-gray20divider"
+              className="w-full flex items-center h-[53px] border-b-[1px] border-gray20divider"
               onClick={toggleMenu}
             >
               <Button
@@ -120,7 +130,7 @@ export const Header = () => {
             </Link>
             <Link
               href="/logout"
-              className="flex items-center h-[53px] border-b-[1px] border-gray20divider"
+              className="w-full flex items-center h-[53px] border-b-[1px] border-gray20divider"
               onClick={toggleMenu}
             >
               <Button variant="mobileTinyText" className="text-left">
@@ -131,7 +141,11 @@ export const Header = () => {
         )}
       </nav>
       <Modal isActive={isLoginFormActive} setIsActive={setIsLoginFormActive}>
-        <LoginForm />
+        <LoginForm
+          setIsActive={setIsLoginFormActive}
+          custom={modal}
+          setCustom={setModal}
+        />
       </Modal>
     </header>
   );
