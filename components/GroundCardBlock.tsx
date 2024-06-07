@@ -10,6 +10,7 @@ export const GroundCardBlock: React.FC<Props> = ({ image }) => {
     <div className="md:col-span-4 sm:col-span-1 col-span-full grid grid-cols-4 gap-x-[24px] gap-y-[8px] text-gray100Primary">
       <div className="w-full h-[220px] relative rounded-[24px] overflow-hidden col-span-full">
         <Image
+          className="hover:scale-50"
           src={`/photos/${image}.jpg`}
           alt="Main picture"
           fill

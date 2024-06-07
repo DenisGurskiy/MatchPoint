@@ -36,7 +36,7 @@ export const Header = () => {
   };
 
   return (
-    <header className="relative w-full flex justify-center items-center md:h-[80px] h-[56px] border-b-[1px] border-gray20divider">
+    <header className="fixed top-0 z-40 bg-white w-full flex justify-center items-center md:h-[80px] h-[56px] border-b-[1px] border-gray20divider">
       <Navigation
         isOpen={isOpen}
         setIsOpen={setIsOpen}

@@ -19,7 +19,9 @@ export default function RootLayout({
       <body className="font-rubik">
         <div className="mx-auto min-h-dvh flex flex-col min-w-[375px]">
           <Header />
-          <main className="w-full mx-auto flex-grow">{children}</main>
+          <main className="w-full mx-auto flex-grow md:mt-[80px] mt-[56px]">
+            {children}
+          </main>
           <Footer />
           <Toaster />
         </div>

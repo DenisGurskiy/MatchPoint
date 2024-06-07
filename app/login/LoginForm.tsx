@@ -68,16 +68,12 @@ export const LoginForm: React.FC<Props> = ({
 
     const data = await response.json();
 
-    console.log(data);
-
     if (data.error) {
       toast.error(data.error);
     }
 
     toast.success("You are Loged in now!");
   }
-
-  console.log(custom);
 
   return (
     <div className="flex flex-col gap-[24px]">
