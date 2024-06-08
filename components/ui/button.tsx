@@ -32,7 +32,7 @@ export const Button: FC<ButtonProps> = ({
 
   const variantStyles = {
     primary: `w-full h-[48px] bg-primaryGreen100 text-white hover:border-primaryGreen10 active:text-gray100Primary disabled:border-none font-semibold`,
-    secondary: `w-full h-[48px] disabled:bg-gray10Background disabled:border-gray10Border hover:bg-primaryGreen10 font-semibold`,
+    secondary: `w-full h-[48px] disabled:bg-gray10Background disabled:border-gray10Background hover:bg-primaryGreen10 font-semibold`,
     search: `w-auto h-[48px] border-none hover:text-gray50 active:text-primaryGreen100 font-semibold`,
     darkText: `w-auto h-[48px] bg-transparent text-white border-none font-normal hover:text-gray50 active:text-primaryGreen100 disabled:text-gray30Disabled disabled:bg-transparent`,
     text: `w-auto h-[21px] border-none text-gray50 hover:text-gray100Primary active:text-primaryGreen100 font-semibold`,

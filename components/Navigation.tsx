@@ -26,32 +26,43 @@ export const Navigation: React.FC<Props> = ({
 
   useEffect(() => {
     const searchElement = document.getElementById("searchForm");
+    const searchFormMini = document.getElementById("searchFormMini");
     searchRef.current = searchElement;
 
-    if (!searchElement) {
+    if (!searchElement && !searchFormMini) {
       setSearchIconVisible(true);
-    } else {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          const entry = entries[0];
-          setSearchIconVisible(!entry.isIntersecting);
-        },
-        {
-          root: null,
-          threshold: 0,
-        }
-      );
-
-      if (searchElement) {
-        observer.observe(searchElement);
-      }
-
-      return () => {
-        if (searchElement) {
-          observer.unobserve(searchElement);
-        }
-      };
+      return;
     }
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      const [searchEntry, miniSearchEntry] = entries;
+      const searchVisible = searchEntry && searchEntry.isIntersecting;
+      const miniSearchVisible = miniSearchEntry && miniSearchEntry.isIntersecting;
+
+      setSearchIconVisible(!(searchVisible || miniSearchVisible));
+    };
+
+    const observer = new IntersectionObserver(observerCallback, {
+      root: null,
+      threshold: 0,
+    });
+
+    if (searchElement) {
+      observer.observe(searchElement);
+    }
+
+    if (searchFormMini) {
+      observer.observe(searchFormMini);
+    }
+
+    return () => {
+      if (searchElement) {
+        observer.unobserve(searchElement);
+      }
+      if (searchFormMini) {
+        observer.unobserve(searchFormMini);
+      }
+    };
   }, [pathname]);
 
   const openSearch = () => {

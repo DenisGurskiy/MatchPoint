@@ -31,8 +31,7 @@ const config = {
         divider: "#3B3B3F",
         gray20divider: "#DDDEE0",
         gray30Disabled: "#BBBCC1",
-        gray10Background: "#EBEBEB",
-        gray10Border: "#F4F4F5",
+        gray10Background: "#F4F4F5",
         systemRedError: "#C33433",
         systemGreenSuccess: "#13A14E",
         disabled: "#F4F4F5",
@@ -42,6 +41,9 @@ const config = {
       },
       boxShadow: {
         'custom': '0px 1px 2px 1px #1018280D',
+      },
+      gridTemplateColumns: {
+        'table': '120px repeat(7, 1f)',
       },
       keyframes: {},
       animation: {},

@@ -15,13 +15,15 @@ export default function Grounds() {
       <div className="hidden md:block">
         <SearchForm />
       </div>
-      <div
-        id="searchForm"
-        className="md:hidden w-full border-[1px] border-gray20divider h-[40px] rounded-[100px] px-[16px] flex items-center gap-[8px] cursor-pointer"
-        onClick={() => setIsSearchFormActive(true)}
-      >
-        <Image src="/images/Search.png" alt="logo" width={24} height={24} />
-        <p>Kyiv · Tennis</p>
+      <div className="md:hidden">
+        <div
+          id="searchFormMini"
+          className="w-full border-[1px] border-gray20divider h-[40px] rounded-[100px] px-[16px] flex items-center gap-[8px] cursor-pointer"
+          onClick={() => setIsSearchFormActive(true)}
+        >
+          <Image src="/images/Search.png" alt="logo" width={24} height={24} />
+          <p>Kyiv · Tennis</p>
+        </div>
       </div>
       <section className="ownGrid mb-[60px]">
         <GroundCardBlock image="new_3" />

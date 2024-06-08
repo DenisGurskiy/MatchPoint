@@ -27,7 +27,7 @@ export const GroundCardBlock: React.FC<Props> = ({ image }) => {
       <p className="text-gray50 text-[14px] font-normal col-span-full">
         12 Khreshchatyk Street, Kyiv, Ukraine
       </p>
-      <div className=" col-span-full">
+      <div className="col-span-full">
         <Button variant="smallPrimary">Book</Button>
       </div>
     </div>
