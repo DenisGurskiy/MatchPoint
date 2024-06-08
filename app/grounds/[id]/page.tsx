@@ -27,6 +27,7 @@ export default function Ground({ params: { id } }: Props) {
   const endHour = 22;
   const countHours = Math.ceil((endHour - startHour) / 2);
   const [pickSlots, setPickSlots] = useState<Set<string>>(new Set());
+  const [isOpenBook, setIsOpenBook] = useState(false);
 
   const prevDay = () => {
     setDate((prevDate: Date) => {
@@ -43,10 +44,10 @@ export default function Ground({ params: { id } }: Props) {
   };
 
   const choseSlot = (day: Date, hour: number) => {
-    const slot = JSON.stringify({ date: day, hour });
     setPickSlots((prevSlots) => {
+      const slot = JSON.stringify({ date: format(day, "yyyy-MM-dd"), hour });
       const newSlots = new Set(prevSlots);
-      if (prevSlots.has(slot)) {
+      if (newSlots.has(slot)) {
         newSlots.delete(slot);
       } else {
         newSlots.add(slot);
@@ -54,8 +55,6 @@ export default function Ground({ params: { id } }: Props) {
       return newSlots;
     });
   };
-
-  console.log("pickSlots", pickSlots);
 
   return (
     <section className="ownContainer ownGrid md:mb-[60px] mb-[32px] mt-[24px] gap-y-[24px]">
@@ -218,7 +217,7 @@ export default function Ground({ params: { id } }: Props) {
             </div>
           </div>
 
-          <table className="w-full text-center">
+          <table className=" hidden sm:table w-full text-center">
             <thead>
               <tr className="grid grid-cols-[120px_repeat(7,_1fr)]">
                 <th className="col-span-1"></th>
@@ -254,7 +253,10 @@ export default function Ground({ params: { id } }: Props) {
                     </td>
                     {Array.from({ length: 7 }, (_, index) => {
                       const day = addDays(date, index);
-                      const slot = JSON.stringify({ date: day, hour });
+                      const slot = JSON.stringify({
+                        date: format(day, "yyyy-MM-dd"),
+                        hour,
+                      });
                       const isPicked = pickSlots.has(slot);
                       return (
                         <td
@@ -278,7 +280,7 @@ export default function Ground({ params: { id } }: Props) {
               })}
             </tbody>
           </table>
-          <table className="md:hidden w-full text-center">
+          <table className="sm:hidden w-full text-center">
             <caption className="bg-gray10Background py-[4px]">
               <p className="text-[16px] text-gray50">{format(date, "EEE")}</p>
               <p className="text-[16px] font-semibold text-gray100Primary">
@@ -287,56 +289,103 @@ export default function Ground({ params: { id } }: Props) {
             </caption>
             <tbody>
               {Array.from({ length: countHours }, (_, index) => {
-                const hour = index + startHour;
-                const nextHour = hour + 1;
+                const firstColumnHour = index + startHour;
+                const secondColumnHour = firstColumnHour + countHours;
+                const firstColumnSlot = JSON.stringify({
+                  date: format(date, "yyyy-MM-dd"),
+                  hour: firstColumnHour,
+                });
+                const secondColumnSlot = JSON.stringify({
+                  date: format(date, "yyyy-MM-dd"),
+                  hour: secondColumnHour,
+                });
+
+                const isPickedFirstColumn = pickSlots.has(firstColumnSlot);
+                const isPickedSecondColumn = pickSlots.has(secondColumnSlot);
                 return (
                   <tr key={index}>
                     <td
                       className={classNames(
-                        "h-[50px] border-[1px] border-gray20divider cursor-pointer",
+                        "h-[50px] border-[1px] cursor-pointer",
                         {
-                          "border-gray20divider bg-gray10Background":
-                            endHour === hour,
+                          "bg-primaryGreen10 border-primaryGreen100":
+                            isPickedFirstColumn,
+                          "bg-white border-gray20divider": !isPickedFirstColumn,
                         }
                       )}
-                    >{`${hour}:00 -${nextHour}:00`}</td>
+                      onClick={() => choseSlot(date, firstColumnHour)}
+                    >{`${firstColumnHour}:00 -${firstColumnHour + 1}:00`}</td>
                     <td
                       className={classNames(
-                        "h-[50px] border-[1px] border-gray20divider cursor-pointer",
+                        "h-[50px] border-[1px] cursor-pointer",
                         {
-                          "border-gray20divider bg-gray10Background":
-                            endHour === hour + countHours,
+                          // "border-gray20divider bg-gray10Background":
+                          //   endHour === hour + countHours,
+                          "bg-primaryGreen10 border-primaryGreen100":
+                            isPickedSecondColumn,
+                          "bg-white border-gray20divider":
+                            !isPickedSecondColumn,
                         }
                       )}
+                      onClick={() => choseSlot(date, secondColumnHour)}
                     >
-                      {endHour !== hour + countHours &&
-                        `${hour + countHours}:00 -${nextHour + countHours}:00`}
+                      {endHour !== secondColumnHour &&
+                        `${secondColumnHour}:00 -${secondColumnHour + 1}:00`}
                     </td>
                   </tr>
                 );
               })}
             </tbody>
-            {/* <tr>
-            <td className="h-[50px] border-[1px] border-gray20divider cursor-pointer">
-              Комірка 1
-            </td>
-            <td className="h-[50px] border-[1px] marker:border-primaryGreen100 bg-primaryGreen10">
-              Комірка 2
-            </td>
-          </tr>
-          <tr>
-            <td className="h-[50px] border-[1px] border-gray20divider bg-gray10Background"></td>
-            <td>Комірка 5</td>
-          </tr> */}
           </table>
         </div>
+        <div className="hidden md:flex flex-col gap-[8px] mt-[16px] text-[16px] leading-[1.3em]">
+          <h3 className="mb-[8px] font-semibold text-gray100Primary">
+            Opening Times
+          </h3>
+          <p className="font-normal text-gray50">Monday 07:00–20:00</p>
+          <p className="font-normal text-gray50">Tuesday 07:00–20:00</p>
+          <p className="font-normal text-gray50">Wednesday 07:00–20:00</p>
+          <p className="font-normal text-gray50">Thursday 07:00–20:00</p>
+          <p className="font-normal text-gray50">Friday 07:00–20:00</p>
+          <p className="font-normal text-gray50">Saturday 07:00–20:00</p>
+          <p className="font-normal text-gray50">Sunday 07:00–20:00</p>
+        </div>
       </div>
-      <div className="hidden md:flex flex-col justify-between md:col-span-4 h-min p-[24px] gap-[24px] text-gray100Primary border-[1px] rounded-[24px]">
-        <h3 className="text-[22px] leading-[1.2em] font-semibold">
-          Booking Details
-        </h3>
-        {!!pickSlots.size && (
-          <div className="flex flex-col justify-between items-center text-center gap-[16px] bg-gray10Background rounded-[8px] py-[16px]">
+      <div
+        className={classNames(
+          "ml-[-20px] w-full px-[20px] py-[24px] rounded-t-[24px] fixed bottom-0 z-20 md:relative flex md:flex flex-col justify-between max-h-[calc(100dvh-56px)]  md:col-span-4 h-min md:ml-0 md:p-[24px] gap-[24px] text-gray100Primary border-[1px] border-gray20divider md:rounded-[24px] bg-white",
+          {
+            hidden: !pickSlots.size,
+          }
+        )}
+      >
+        <div>
+          <h3 className="hidden md:block text-[22px] leading-[1.2em] font-semibold">
+            Booking Details
+          </h3>
+          <div
+            className="md:hidden flex justify-between cursor-pointer"
+            onClick={() => setIsOpenBook((flag) => !flag)}
+          >
+            <h3 className="text-[22px] leading-[1.2em] font-semibold">
+              Booking Details
+            </h3>
+            {isOpenBook ? (
+              <div className="w-[24px] h-[24px] text-gray100Primary bg-[url('/images/down.png')]"></div>
+            ) : (
+              <div className="w-[24px] h-[24px] text-gray100Primary bg-[url('/images/up.png')]"></div>
+            )}
+          </div>
+        </div>
+        {!!pickSlots.size ? (
+          <div
+            className={classNames(
+              "flex md:flex flex-col justify-between items-center text-center gap-[16px] bg-gray10Background rounded-[8px] py-[16px]  overflow-scroll",
+              {
+                hidden: !isOpenBook,
+              }
+            )}
+          >
             <div className="flex flex-col gap-[8px]">
               <p className="text-[22px] font-semibold">600₴</p>
               <p className="text-[16px] text-gray50">
@@ -366,25 +415,20 @@ export default function Ground({ params: { id } }: Props) {
                 </div>
               );
             })}
-            {/* <div className="flex gap-[16px]">
-              <p className="text-[16px] text-gray50">03-June-2024</p>
-              <div
-                className="cursor-pointer flex gap-[4px] items-center"
-                // onClick={() => choseSlot()}
-              >
-                <p className="text-[16px] font-semibold">7:00 - 8:00</p>
-                <Image
-                  className="cursor-pointer hover:scale-[1.1]"
-                  src="/images/close.png"
-                  alt="logo"
-                  width={24}
-                  height={24}
-                />
-              </div>
-            </div> */}
+          </div>
+        ) : (
+          <div className="w-full md:h-[120px] lg:h-[140px] rounded-[8px] overflow-hidden relative">
+            <Image
+              src="/images/No_timeslots_selected.png"
+              alt="logo"
+              fill
+              style={{ objectFit: "cover" }}
+            />
           </div>
         )}
-        <Button variant="smallPrimary">Book</Button>
+        <Button variant="smallPrimary" disabled={!pickSlots.size}>
+          Book
+        </Button>
       </div>
     </section>
   );
