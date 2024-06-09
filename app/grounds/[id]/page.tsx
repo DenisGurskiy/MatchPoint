@@ -466,18 +466,18 @@ export default function Ground({ params: { id } }: Props) {
           setCustom={setModal}
         />
       </Modal>
-      {/* <Modal
+      <Modal
         isActive={isBookingFormActive}
         setIsActive={setIsBookingFormActive}
       >
         <BlockBooking setIsActive={setIsBookingFormActive} />
-      </Modal> */}
-      <ModalError
+      </Modal>
+      {/* <ModalError
         isActive={isBookingFormActive}
         setIsActive={setIsBookingFormActive}
       >
         <BlockError setIsActive={setIsBookingFormActive} />
-      </ModalError>
+      </ModalError> */}
       {/* <Modal
         isActive={isBookingFormActive}
         setIsActive={setIsBookingFormActive}

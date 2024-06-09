@@ -14,9 +14,6 @@ export const InfoBlockCities = () => {
               SportSpace is live in 3 major Ukrainian cities
             </p>
           </div>
-          <div className="lg:col-span-2 md:col-span-3 self-end hidden md:block">
-            <Button variant="primary">Get started</Button>
-          </div>
         </div>
         <div className="md:col-start-7 md:col-end-13 col-span-full flex items-center">
           <ul className="text-white md:text-[40px] text-[22px] font-semibold flex flex-col md:gap-[16px] gap-[8px]">
@@ -30,9 +27,6 @@ export const InfoBlockCities = () => {
               <Link href="#">Odesa</Link>
             </li>
           </ul>
-        </div>
-        <div className="col-span-6 self-end md:hidden">
-          <Button variant="primary">Get started</Button>
         </div>
       </div>
     </section>
