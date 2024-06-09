@@ -71,11 +71,11 @@ export const BlockPrivacy = () => {
             time. Any changes will be effective immediately upon posting on this
             page.
           </p>
-        </div>    
-        <div>    
+        </div>
+        <div>
           <p className="text-gray50 text-[16px] font-normal">
-            If you have any questions or concerns about this Privacy Policy,
-            please contact us at
+            {`If you have any questions or concerns about this Privacy Policy,
+            please contact us at `}
             <a href="mailto: sportspace@gmail.com">
               <strong>sportspace@gmail.com.</strong>
             </a>

@@ -56,7 +56,7 @@ export const DropDown: FC<Props> = ({ question, title, options }) => {
             )}
           >
             <p>{value}</p>
-            <div className="w-[24px] h-[24px] text-gray100Primary bg-[url('/images/down.png')]"></div>
+            <div className="w-[24px] h-[24px] text-gray100Primary bg-[url('/images/down.svg')]"></div>
           </div>
         </button>
       </div>

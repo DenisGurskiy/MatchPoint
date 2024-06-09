@@ -6,7 +6,7 @@ export const InfoBlock = () => {
       <div className="ownContainer flex justify-between text-white items-center">
         <div className="flex justify-between gap-[8px]">
           <Image
-            src="/images/Search_light.png"
+            src="/images/Search_light.svg"
             alt="Find your sports ground"
             width={24}
             height={24}
@@ -15,7 +15,7 @@ export const InfoBlock = () => {
         </div>
         <div className="flex justify-between gap-[8px]">
           <Image
-            src="/images/calendar_light.png"
+            src="/images/calendar_light.svg"
             alt="Book online"
             width={24}
             height={24}
@@ -24,7 +24,7 @@ export const InfoBlock = () => {
         </div>
         <div className="flex justify-between gap-[8px]">
           <Image
-            src="/images/tennis_ball_light.png"
+            src="/images/tennis_ball_light.svg"
             alt="Enjoy your game"
             width={24}
             height={24}

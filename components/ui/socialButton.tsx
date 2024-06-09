@@ -31,7 +31,7 @@ export const SocialButton: FC<ButtonProps> = ({
       {variant === "google" ? (
         <Image
           className="cursor-pointer"
-          src="/images/logos_google-icon.png"
+          src="/images/logos_google-icon.svg"
           alt="logo"
           width={24}
           height={24}
@@ -39,7 +39,7 @@ export const SocialButton: FC<ButtonProps> = ({
       ) : (
         <Image
           className="cursor-pointer"
-          src="/images/facebook_logo.png"
+          src="/images/facebook_logo.svg"
           alt="logo"
           width={24}
           height={24}

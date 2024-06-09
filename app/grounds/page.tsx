@@ -21,7 +21,7 @@ export default function Grounds() {
           className="w-full border-[1px] border-gray20divider h-[40px] rounded-[100px] px-[16px] flex items-center gap-[8px] cursor-pointer"
           onClick={() => setIsSearchFormActive(true)}
         >
-          <Image src="/images/Search.png" alt="logo" width={24} height={24} />
+          <Image src="/images/Search.svg" alt="logo" width={24} height={24} />
           <p>Kyiv · Tennis</p>
         </div>
       </div>

@@ -54,6 +54,9 @@ export const Button: FC<ButtonProps> = ({
     case "search":
       activeStyles = `text-primaryGreen100`;
       break;
+    case "text":
+      activeStyles = `text-primaryGreen100`;
+      break;
     default:
       activeStyles = "";
   }

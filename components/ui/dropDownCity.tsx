@@ -94,7 +94,3 @@ export const DropDownCity: FC<Props> = ({ title, options }) => {
     </>
   );
 };
-
-// mobileBigText: `h-[38px] text-[22px] md:text-[32px] leading-[1.2em] border-none text-primaryGreen100 hover:text-primaryGreen30 active:text-primaryGreen100  disabled:text-gray30Disabled`,
-
-// w-[24px] h-[24px] text-primaryGreen100 bg-[url('/images/green_down.png')] hover:bg-[url('/images/green_down_hover.png')]

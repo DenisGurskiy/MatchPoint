@@ -78,18 +78,18 @@ export const LoginForm: React.FC<Props> = ({
   return (
     <div className="flex flex-col gap-[24px]">
       <div
-        className="hidden md:flex justify-end"
+        className="flex justify-end"
         onClick={() => setIsActive(false)}
       >
         <Image
           className="cursor-pointer"
-          src="/images/close.png"
+          src="/images/close.svg"
           alt="logo"
           width={24}
           height={24}
         />
       </div>
-      <div
+      {/* <div
         className="md:hidden flex justify-start gap-[4px] hover:text-gray50 transition duration-300 ease-in-out cursor-pointer"
         onClick={() => setIsActive(false)}
       >
@@ -113,10 +113,10 @@ export const LoginForm: React.FC<Props> = ({
         <Button className="" variant="mobileTinyText">
           Back
         </Button>
-      </div>
+      </div> */}
       <div className="flex flex-col items-center gap-[16px]">
         <h2 className="md:text-[32px] text-[22px] font-semibold text-gray100Primary">
-          {custom === "login" ? `Log in to your account` : `Create an account`}
+          {custom === "login" ? `Log in to your ac count` : `Create an account`}
         </h2>
         <p className="text-center text-[16px] leading-[1.3em] font-normal text-gray50">
           {custom === "login"
@@ -169,9 +169,11 @@ export const LoginForm: React.FC<Props> = ({
               </Button>
             </div>
           )}
-          <Button type="submit">
-            {custom === "login" ? `Log In` : `Get started`}
-          </Button>
+          {custom === "login" ? (
+            <Button type="submit">Log In</Button>
+          ) : (
+            <Button type="submit">Get started</Button>
+          )}
         </form>
       </Form>
       <div className="flex items-center gap-[8px]">

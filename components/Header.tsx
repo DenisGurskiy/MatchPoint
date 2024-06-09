@@ -57,7 +57,7 @@ export const Header = () => {
             About
           </Button>
         </Link>
-        {true ? (
+        {false ? (
           <>
             <div
               className="flex items-center h-[53px] border-b-[1px] border-gray20divider w-full cursor-pointer"
@@ -90,7 +90,7 @@ export const Header = () => {
               Account
             </h3>
             <Link
-              href="/personal"
+              href="/account/personalInfo"
               className="w-full flex items-center h-[53px] border-b-[1px] border-gray20divider"
               onClick={toggleMenu}
             >
@@ -99,7 +99,7 @@ export const Header = () => {
               </Button>
             </Link>
             <Link
-              href="/history"
+              href="/account/history"
               className="w-full flex items-center h-[53px] border-b-[1px] border-gray20divider"
               onClick={toggleMenu}
             >
@@ -108,7 +108,7 @@ export const Header = () => {
               </Button>
             </Link>
             <Link
-              href="/changepassword"
+              href="/account/password"
               className="w-full flex items-center h-[53px] border-b-[1px] border-gray20divider"
               onClick={toggleMenu}
             >
@@ -117,7 +117,7 @@ export const Header = () => {
               </Button>
             </Link>
             <Link
-              href="/deleteaccount"
+              href="/account/delete"
               className="w-full flex items-center h-[53px] border-b-[1px] border-gray20divider"
               onClick={toggleMenu}
             >

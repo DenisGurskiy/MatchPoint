@@ -37,7 +37,8 @@ export const Navigation: React.FC<Props> = ({
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
       const [searchEntry, miniSearchEntry] = entries;
       const searchVisible = searchEntry && searchEntry.isIntersecting;
-      const miniSearchVisible = miniSearchEntry && miniSearchEntry.isIntersecting;
+      const miniSearchVisible =
+        miniSearchEntry && miniSearchEntry.isIntersecting;
 
       setSearchIconVisible(!(searchVisible || miniSearchVisible));
     };
@@ -83,7 +84,7 @@ export const Navigation: React.FC<Props> = ({
           <div className="mr-[16px] md:hidden">
             <Image
               className="cursor-pointer"
-              src={isOpen ? "/images/close.png" : "/images/menu.png"}
+              src={isOpen ? "/images/close.svg" : "/images/menu.svg"}
               alt="logo"
               width={24}
               height={24}
@@ -106,7 +107,7 @@ export const Navigation: React.FC<Props> = ({
             >
               <Image
                 className="mr-[1.5px]"
-                src="/images/Search.png"
+                src="/images/Search.svg"
                 alt="logo"
                 width={24}
                 height={24}
@@ -120,7 +121,7 @@ export const Navigation: React.FC<Props> = ({
           <div className="flex md:hidden" onClick={openSearch}>
             <Image
               className="cursor-pointer"
-              src="/images/Search.png"
+              src="/images/Search.svg"
               alt="logo"
               width={24}
               height={24}

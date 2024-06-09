@@ -19,7 +19,7 @@ export const Footer = () => {
             <a href="https://instagram.com" target="_blank">
               <Image
                 className="cursor-pointer"
-                src="/images/instagram_logo.png"
+                src="/images/instagram_logo.svg"
                 alt="logo"
                 width={24}
                 height={24}
@@ -28,7 +28,7 @@ export const Footer = () => {
             <a href="https://facebook.com" target="_blank">
               <Image
                 className="cursor-pointer"
-                src="/images/facebook_logo.png"
+                src="/images/facebook_logo.svg"
                 alt="logo"
                 width={24}
                 height={24}

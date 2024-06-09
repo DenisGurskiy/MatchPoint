@@ -38,7 +38,7 @@ export const DropDownDatePicker: FC<Props> = ({ question, title }) => {
             )}
           >
             {value}
-            <div className="w-[24px] h-[24px] text-gray100Primary bg-[url('/images/down.png')]"></div>
+            <div className="w-[24px] h-[24px] text-gray100Primary bg-[url('/images/down.svg')]"></div>
           </div>
         </button>
       </div>
@@ -52,7 +52,7 @@ export const DropDownDatePicker: FC<Props> = ({ question, title }) => {
       dateFormat="dd/MM/yyyy"
       minDate={new Date()}
       selected={value}
-      wrapperClassName='w-full'
+      wrapperClassName="w-full"
       onChange={(date: Date) => handleSelectOption(date)}
       customInput={<ExampleCustomInput />}
     />

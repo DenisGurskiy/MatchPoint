@@ -20,7 +20,7 @@ export const SearchFormHeader: FC<Props> = ({ setIsActive }) => {
       >
         <Image
           className="cursor-pointer"
-          src="/images/close.png"
+          src="/images/close.svg"
           alt="logo"
           width={24}
           height={24}
