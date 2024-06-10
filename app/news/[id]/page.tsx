@@ -18,7 +18,7 @@ export default function New({ params: { id } }: Props) {
     title: "Expanded Service to Lviv and Odesa",
     description:
       "We are excited to announce that SportSpace is now available in Lviv and Odesa. Find your perfect spot today!",
-    image: "new_1.jpg",
+    image: "new_1.png",
     date: "10/06/2024",
     text: `We are thrilled to announce the expansion of our services to include the vibrant cities of Lviv and Odesa! This exciting development means that more sports enthusiasts in Ukraine can now easily access and book their favorite sports facilities through our platform.\nOur goal has always been to provide convenient and efficient booking solutions, and this expansion is a significant step towards achieving that vision. Whether you’re in Lviv, with its rich cultural heritage, or Odesa, known for its beautiful Black Sea coast, you can now enjoy seamless access to a wide range of sports facilities.\nFrom tennis courts and soccer fields to swimming pools and fitness centers, our platform offers a diverse selection of venues to cater to all your sporting needs. With our user-friendly interface and real-time booking capabilities, securing a spot has never been easier.\nWe invite all sports lovers in Lviv and Odesa to explore our services and take advantage of the ease and convenience we provide. Stay active, stay healthy, and enjoy your favorite sports with our expanded service.\nThank you for your continued support as we strive to bring you the best booking experience possible. We look forward to serving the communities of Lviv and Odesa and helping you stay fit and active!`,
   };
