@@ -9,10 +9,13 @@ type Props = {
 export const GroundCardBlock: React.FC<Props> = ({ image }) => {
   return (
     <div className="md:col-span-4 sm:col-span-1 col-span-full grid grid-cols-4 gap-x-[24px] gap-y-[8px] text-gray100Primary">
-      <Link href="/grounds/1" className="w-full h-[220px] relative rounded-[24px] overflow-hidden col-span-full">
+      <Link
+        href="/grounds/1"
+        className="w-full h-[220px] relative rounded-[24px] overflow-hidden col-span-full"
+      >
         <Image
           className="hover:scale-[1.1] transition duration-300 ease-in-out cursor-pointer"
-          src={`/photos/${image}.jpg`}
+          src={`/photos/${image}`}
           alt="Main picture"
           fill
           objectFit="cover"

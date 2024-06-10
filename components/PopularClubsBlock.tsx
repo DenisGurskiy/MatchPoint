@@ -7,12 +7,12 @@ import { useEffect, useState } from "react";
 export const PopularClubsBlock = () => {
   const [windowWidth, setWindowWidth] = useState(0);
   const groundCards = [
-    { image: "new_3" },
-    { image: "new_2" },
-    { image: "new_1" },
-    { image: "home_bg" },
-    { image: "new_3" },
-    { image: "new_2" },
+    { image: "new_3.png" },
+    { image: "new_2.png" },
+    { image: "new_1.png" },
+    { image: "new_4.png" },
+    { image: "new_5.png" },
+    { image: "new_4.png" },
   ];
 
   useEffect(() => {

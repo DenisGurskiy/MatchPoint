@@ -26,12 +26,12 @@ export default function Grounds() {
         </div>
       </div>
       <section className="ownGrid mb-[60px]">
-        <GroundCardBlock image="new_3" />
-        <GroundCardBlock image="new_2" />
-        <GroundCardBlock image="new_1" />
-        <GroundCardBlock image="home_bg" />
-        <GroundCardBlock image="new_3" />
-        <GroundCardBlock image="new_2" />
+        <GroundCardBlock image="new_3.png" />
+        <GroundCardBlock image="new_2.png" />
+        <GroundCardBlock image="new_1.png" />
+        <GroundCardBlock image="new_4.png" />
+        <GroundCardBlock image="new_5.png" />
+        <GroundCardBlock image="new_4.png" />
       </section>
       <ModalSearch
         isActive={isSearchFormActive}

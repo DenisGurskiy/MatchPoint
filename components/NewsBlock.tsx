@@ -12,19 +12,19 @@ export const NewsBlock = () => {
       title: "Expanded Service to Lviv and Odesa",
       description:
         "We are excited to announce that SportSpace is now available in Lviv and Odesa. Find your perfect spot today!",
-      image: "new_1.jpg",
+      image: "new_1.png",
     },
     {
       title: "New Sports Ground Openings in Kyiv",
       description:
         "Stay tuned for updates on the latest sports grounds opening in Kyiv. More options for your favorite activities!",
-      image: "new_2.jpg",
+      image: "new_2.png",
     },
     {
       title: "Discounts on Bookings This Summer",
       description:
         "Enjoy special summer discounts on bookings for sports grounds. Book now and save!",
-      image: "new_3.jpg",
+      image: "new_3.png",
     },
   ];
 
