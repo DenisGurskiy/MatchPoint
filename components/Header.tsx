@@ -8,11 +8,13 @@ import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { LoginForm } from "@/components/LoginForm";
 import { Modal } from "./ui/modal";
+import { useAuth } from "./AuthContext";
 
 export const Header = () => {
   const [isLoginFormActive, setIsLoginFormActive] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [modal, setModal] = useState<"login" | "signup">("login");
+  const { user, logout } = useAuth();
 
   useEffect(() => {
     if (isOpen || isLoginFormActive) {
@@ -38,6 +40,7 @@ export const Header = () => {
   return (
     <header className="fixed top-0 z-40 bg-white w-full flex justify-center items-center md:h-[80px] h-[56px] border-b-[1px] border-gray20divider">
       <Navigation
+        user={user}
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         setIsActive={setLoginForm}
@@ -57,7 +60,7 @@ export const Header = () => {
             About
           </Button>
         </Link>
-        {false ? (
+        {!user ? (
           <>
             <div
               className="flex items-center h-[53px] border-b-[1px] border-gray20divider w-full cursor-pointer"
@@ -128,15 +131,17 @@ export const Header = () => {
                 Delete Account
               </Button>
             </Link>
-            <Link
-              href="/logout"
+            <div
               className="w-full flex items-center h-[53px] border-b-[1px] border-gray20divider"
-              onClick={toggleMenu}
+              onClick={() => {
+                logout();
+                toggleMenu();
+              }}
             >
               <Button variant="mobileTinyText" className="text-left">
                 Log Out
               </Button>
-            </Link>
+            </div>
           </div>
         )}
       </nav>

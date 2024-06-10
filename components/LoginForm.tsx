@@ -20,6 +20,7 @@ import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { SocialButton } from "@/components/ui/socialButton";
 import Image from "next/image";
+import { useAuth } from "./AuthContext";
 
 const formSchema = z.object({
   email: z
@@ -57,30 +58,29 @@ export const LoginForm: React.FC<Props> = ({
     defaultValues: {},
   });
 
+  const { login } = useAuth();
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const response = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(values),
-    });
+    login(values.email, values.password);
+    // const response = await fetch("/api/auth/login", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(values),
+    // });
 
-    const data = await response.json();
+    // const data = await response.json();
 
-    if (data.error) {
-      toast.error(data.error);
-    }
-
-    toast.success("You are Loged in now!");
+    // if (data.error) {
+    //   toast.error(data.error);
+    // }
+    setIsActive(false);
   }
 
   return (
     <div className="flex flex-col gap-[24px]">
-      <div
-        className="flex justify-end"
-        onClick={() => setIsActive(false)}
-      >
+      <div className="flex justify-end" onClick={() => setIsActive(false)}>
         <Image
           className="cursor-pointer"
           src="/images/close.svg"
@@ -89,34 +89,9 @@ export const LoginForm: React.FC<Props> = ({
           height={24}
         />
       </div>
-      {/* <div
-        className="md:hidden flex justify-start gap-[4px] hover:text-gray50 transition duration-300 ease-in-out cursor-pointer"
-        onClick={() => setIsActive(false)}
-      >
-        <svg
-          className="w-[24px] h-[24px]"
-          version="1.0"
-          xmlns="http://www.w3.org/2000/svg"
-          width="24pt"
-          height="24pt"
-          viewBox="0 0 24 24"
-          preserveAspectRatio="xMidYMid meet"
-        >
-          <g
-            transform="translate(0,24) scale(0.1,-0.1)"
-            fill="currentColor"
-            stroke="none"
-          >
-            <path d="M105 160 l-39 -40 39 -40 c21 -22 44 -40 49 -40 6 0 -8 18 -29 40 l-39 40 39 40 c21 22 35 40 29 40 -5 0 -28 -18 -49 -40z" />
-          </g>
-        </svg>
-        <Button className="" variant="mobileTinyText">
-          Back
-        </Button>
-      </div> */}
       <div className="flex flex-col items-center gap-[16px]">
         <h2 className="md:text-[32px] text-[22px] font-semibold text-gray100Primary">
-          {custom === "login" ? `Log in to your ac count` : `Create an account`}
+          {custom === "login" ? `Log in to your account` : `Create an account`}
         </h2>
         <p className="text-center text-[16px] leading-[1.3em] font-normal text-gray50">
           {custom === "login"

@@ -8,21 +8,16 @@ import { useState } from "react";
 import classNames from "classnames";
 import { LoginForm } from "@/components/LoginForm";
 import { Modal } from "@/components/ui/modal";
-import { useRouter } from "next/navigation";
 import { BlockBooking } from "@/components/BlockBooking";
 import { BlockBookingConfirmed } from "@/components/BlockBookingConfirmed";
 import { BlockError } from "@/components/BlockError";
 import { ModalError } from "@/components/ui/modalError";
+import { useAuth } from "@/components/AuthContext";
 
 type Props = {
   params: {
     id: string;
   };
-};
-
-type Slot = {
-  date: Date;
-  hour: number;
 };
 
 export default function Ground({ params: { id } }: Props) {
@@ -37,8 +32,10 @@ export default function Ground({ params: { id } }: Props) {
   const [isOpenBook, setIsOpenBook] = useState(false);
   const [isLoginFormActive, setIsLoginFormActive] = useState(false);
   const [isBookingFormActive, setIsBookingFormActive] = useState(false);
+  const [isConfirmFormActive, setIsConfirmFormActive] = useState(false);
+  const [isErrorFormActive, setIsErrorFormActive] = useState(false);
   const [modal, setModal] = useState<"login" | "signup">("login");
-  const router = useRouter();
+  const { user } = useAuth();
 
   const prevDay = () => {
     setDate((prevDate: Date) => {
@@ -68,17 +65,22 @@ export default function Ground({ params: { id } }: Props) {
   };
 
   const handleBook = () => {
-    if (false) {
-      setIsLoginFormActive(true);
-    } else {
+    if (user) {
       setIsBookingFormActive(true);
+    } else {
+      setIsLoginFormActive(true);
     }
+  };
+
+  const handleConfirm = () => {
+    setIsConfirmFormActive(true);
+    setPickSlots(new Set());
   };
 
   return (
     <>
       <section className="ownContainer ownGrid md:mb-[60px] mb-[32px] pt-[24px] gap-y-[24px]">
-        <div className="col-span-full row-span-1 md:hidden flex justify-start gap-[4px] hover:text-gray50 transition duration-300 ease-in-out cursor-pointer">
+        <div className="col-span-full row-span-1 flex justify-start gap-[4px] hover:text-gray50 transition duration-300 ease-in-out cursor-pointer">
           <svg
             className="w-[24px] h-[24px]"
             version="1.0"
@@ -126,7 +128,7 @@ export default function Ground({ params: { id } }: Props) {
             />
           </div>
         </div>
-        <div className="col-span-full md:col-span-8 flex flex-col gap-[16px]">
+        <div className="col-span-full lg:col-span-8 flex flex-col gap-[16px]">
           <div className="w-full flex flex-col gap-[16px] mb-[16px]">
             <h3 className="text-[22px] md:text-[32px] font-semibold col-span-full">
               Tennis court in Kyiv
@@ -377,18 +379,18 @@ export default function Ground({ params: { id } }: Props) {
         </div>
         <div
           className={classNames(
-            "ml-[-20px] w-full px-[20px] py-[24px] rounded-t-[24px] fixed bottom-0 z-20 md:relative flex md:flex flex-col justify-between max-h-[calc(100dvh-56px)]  md:col-span-4 h-min md:ml-0 md:p-[24px] gap-[24px] text-gray100Primary border-[1px] border-gray20divider md:rounded-[24px] bg-white",
+            "ml-[-20px] md:ml-[-24px] w-full md:w-[376px] px-[20px] py-[24px] rounded-t-[24px] fixed bottom-0 right-0 z-20 lg:relative flex lg:flex flex-col justify-between max-h-[calc(100dvh-56px)] lg:col-span-4 h-min lg:ml-0 lg:p-[24px] gap-[24px] text-gray100Primary border-[1px] border-gray20divider lg:rounded-[24px] bg-white",
             {
               hidden: !pickSlots.size,
             }
           )}
         >
           <div>
-            <h3 className="hidden md:block text-[22px] leading-[1.2em] font-semibold">
+            <h3 className="hidden lg:block text-[22px] leading-[1.2em] font-semibold">
               Booking Details
             </h3>
             <div
-              className="md:hidden flex justify-between cursor-pointer"
+              className="lg:hidden flex justify-between cursor-pointer"
               onClick={() => setIsOpenBook((flag) => !flag)}
             >
               <h3 className="text-[22px] leading-[1.2em] font-semibold">
@@ -404,7 +406,7 @@ export default function Ground({ params: { id } }: Props) {
           {!!pickSlots.size ? (
             <div
               className={classNames(
-                "flex md:flex flex-col justify-between items-center text-center gap-[16px] bg-gray10Background rounded-[8px] py-[16px]  overflow-scroll",
+                "w-full flex lg:flex flex-col justify-between items-center text-center gap-[16px] bg-gray10Background rounded-[8px] p-[16px]",
                 {
                   hidden: !isOpenBook,
                 }
@@ -441,7 +443,7 @@ export default function Ground({ params: { id } }: Props) {
               })}
             </div>
           ) : (
-            <div className="w-full md:h-[120px] lg:h-[140px] rounded-[8px] overflow-hidden relative">
+            <div className="w-full lg:h-[140px] rounded-[8px] overflow-hidden relative">
               <Image
                 src="/images/No_timeslots_selected.png"
                 alt="logo"
@@ -470,20 +472,23 @@ export default function Ground({ params: { id } }: Props) {
         isActive={isBookingFormActive}
         setIsActive={setIsBookingFormActive}
       >
-        <BlockBooking setIsActive={setIsBookingFormActive} />
+        <BlockBooking
+          setIsActive={setIsBookingFormActive}
+          setPayIsOk={handleConfirm}
+        />
       </Modal>
-      {/* <ModalError
-        isActive={isBookingFormActive}
-        setIsActive={setIsBookingFormActive}
+      <ModalError
+        isActive={isErrorFormActive}
+        setIsActive={setIsErrorFormActive}
       >
-        <BlockError setIsActive={setIsBookingFormActive} />
-      </ModalError> */}
-      {/* <Modal
-        isActive={isBookingFormActive}
-        setIsActive={setIsBookingFormActive}
+        <BlockError setIsActive={setIsErrorFormActive} />
+      </ModalError>
+      <Modal
+        isActive={isConfirmFormActive}
+        setIsActive={setIsConfirmFormActive}
       >
-        <BlockBookingConfirmed setIsActive={setIsBookingFormActive} />
-      </Modal> */}
+        <BlockBookingConfirmed setIsActive={setIsConfirmFormActive} />
+      </Modal>
     </>
   );
 }

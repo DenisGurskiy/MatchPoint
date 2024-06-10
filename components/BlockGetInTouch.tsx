@@ -51,21 +51,22 @@ export const BlockGetInTouch = () => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const response = await fetch("/api/sendQuestion", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(values),
-    });
+    // const response = await fetch("/api/sendQuestion", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(values),
+    // });
 
-    const data = await response.json();
+    // const data = await response.json();
 
-    if (data.error) {
-      toast.error(data.error);
-    }
+    // if (data.error) {
+    //   toast.error(data.error);
+    // }
 
     toast.success("Your question has been sent!");
+    form.setValue("question", "");
   }
 
   return (
@@ -154,7 +155,11 @@ export const BlockGetInTouch = () => {
                 </FormItem>
               )}
             />
-            <Button className="md:col-span-4 col-span-full" type="submit" variant="primary">
+            <Button
+              className="md:col-span-4 col-span-full"
+              type="submit"
+              variant="primary"
+            >
               Send question
             </Button>
           </form>

@@ -3,6 +3,7 @@ import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Toaster } from "sonner";
+import { AuthProvider } from "@/components/AuthContext";
 
 export const metadata: Metadata = {
   title: "SportSpace",
@@ -18,12 +19,14 @@ export default function RootLayout({
     <html lang="en">
       <body className="font-rubik">
         <div className="mx-auto min-h-dvh flex flex-col min-w-[375px]">
-          <Header />
-          <main className="w-full mx-auto flex-grow md:mt-[80px] mt-[56px]">
-            {children}
-          </main>
-          <Footer />
-          <Toaster />
+          <AuthProvider>
+            <Header />
+            <main className="w-full mx-auto flex-grow md:mt-[80px] mt-[56px]">
+              {children}
+            </main>
+            <Footer />
+            <Toaster />
+          </AuthProvider>
         </div>
       </body>
     </html>

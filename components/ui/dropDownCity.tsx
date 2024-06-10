@@ -68,7 +68,7 @@ export const DropDownCity: FC<Props> = ({ title, options }) => {
         </button>
         <ul
           className={classNames(
-            "absolute list-none w-[140px] bg-white top-[50px] left-0 rounded-[4px] max-h-[160px] overflow-auto border-[1px] border-gray20divider color-test z-10",
+            "absolute list-none w-[140px] bg-white top-[50px] left-0 rounded-[4px] max-h-[162px] overflow-auto border-[1px] border-gray20divider z-10",
             {
               "hidden ": !isDropdownActive,
             }
@@ -80,7 +80,7 @@ export const DropDownCity: FC<Props> = ({ title, options }) => {
               key={option}
               onClick={() => handleSelectOption(option)}
               className={classNames(
-                "px-[8px] py-[8px] text-[16px] h-[40px] cursor-pointer text-gray100Primary",
+                "px-[8px] py-[8px] text-[16px] h-[40px] cursor-pointer font-normal text-gray100Primary flex items-center",
                 {
                   "text-primaryGreen100": option === value,
                 }

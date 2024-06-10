@@ -7,9 +7,10 @@ import { Button } from "@/components/ui/button";
 
 type Props = {
   setIsActive: (flag: boolean) => void;
+  setPayIsOk: (flag: boolean) => void;
 };
 
-export const BlockBooking: React.FC<Props> = ({ setIsActive }) => {
+export const BlockBooking: React.FC<Props> = ({ setIsActive, setPayIsOk }) => {
   return (
     <div className="flex flex-col gap-[24px]">
       <div className="flex justify-end" onClick={() => setIsActive(false)}>
@@ -83,7 +84,15 @@ export const BlockBooking: React.FC<Props> = ({ setIsActive }) => {
           </h4>
         </div>
       </div>
-      <Button variant="primary">Go To Payment</Button>
+      <Button
+        variant="primary"
+        onClick={() => {
+          setPayIsOk(true);
+          setIsActive(false);
+        }}
+      >
+        Go To Payment
+      </Button>
     </div>
   );
 };

@@ -31,7 +31,7 @@ export const PopularClubsBlock = () => {
   return (
     <section className="ownContainer ownGrid mb-[60px]">
       <h2 className="md:text-[32px] text-[22px] leading-[1.2em] font-semibold text-gray100Primary col-span-full relative">
-        Popular clubs in
+        Popular clubs in the city
         <DropDownCity title="Kyiv" options={["Kyiv", "Lviv", "Odessa"]} />
       </h2>
       {displayCards.map((card) => (

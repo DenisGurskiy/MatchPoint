@@ -1,5 +1,6 @@
 "use client";
 
+import { useAuth } from "@/components/AuthContext";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -10,6 +11,7 @@ export default function Account({
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
+  const { logout } = useAuth();
 
   return (
     <div className="ownContainer ownGrid pt-[24px] pb-[60px]">
@@ -61,11 +63,16 @@ export default function Account({
               </Link>
             </li>
             <li>
-              <Link href="/logout" className="flex items-center">
+              <div
+                className="flex items-center"
+                onClick={() => {
+                  logout();
+                }}
+              >
                 <Button variant="text" isActive={pathname === "/logout"}>
                   Log Out
                 </Button>
-              </Link>
+              </div>
             </li>
           </ul>
         </nav>

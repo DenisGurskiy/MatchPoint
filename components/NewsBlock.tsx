@@ -2,6 +2,8 @@
 
 import { NewCardBlock } from "@/components/NewCardBlock";
 import { useEffect, useState } from "react";
+import { Button } from "./ui/button";
+import Link from "next/link";
 
 export const NewsBlock = () => {
   const [windowWidth, setWindowWidth] = useState(0);
@@ -41,12 +43,24 @@ export const NewsBlock = () => {
 
   return (
     <section className="ownContainer ownGrid md:mb-[60px] mb-[32px]">
-      <h2 className="md:text-[32px] text-[22px] leading-[1.2em] font-semibold text-gray100Primary col-span-full">
-        News
-      </h2>
-      <p className="text-[16px] leading-[1.3em] font-normal col-span-full">
-        Stay updated with the latest news and activities
-      </p>
+      <div className="col-span-full ownGrid items-end">
+        <div className="col-span-full md:col-span-4 flex flex-col gap-[24px]">
+          <h2 className="md:text-[32px] text-[22px] leading-[1.2em] font-semibold text-gray100Primary col-span-full">
+            News
+          </h2>
+          <p className="text-[16px] leading-[1.3em] font-normal col-span-full">
+            Stay updated with the latest news and activities
+          </p>
+        </div>
+        <Link
+          href="/news"
+          className="col-span-full md:col-start-9 md:col-span-4 lg:col-start-11 lg:col-span-2 grid grid-cols-2"
+        >
+          <Button variant="secondary" className="col-span-1 md:col-span-full">
+            View all news
+          </Button>
+        </Link>
+      </div>
       {displayCards.map((card) => (
         <NewCardBlock
           key={card.title}

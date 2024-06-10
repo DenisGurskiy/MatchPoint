@@ -11,7 +11,7 @@ type Props = {
 
 export const BlockBookingConfirmed: React.FC<Props> = ({ setIsActive }) => {
   return (
-    <div className="flex flex-col gap-[24px]">      
+    <div className="flex flex-col gap-[24px]">
       <h2 className="text-[22px] md:text-[32px] text-center font-semibold leading-[1.2em] text-gray100Primary">
         Booking confirmed successfully!
       </h2>
@@ -57,7 +57,9 @@ export const BlockBookingConfirmed: React.FC<Props> = ({ setIsActive }) => {
           </div>
         </div>
       </div>
-      <Button variant="primary">Done</Button>
+      <Button variant="primary" onClick={() => setIsActive(false)}>
+        Done
+      </Button>
     </div>
   );
 };

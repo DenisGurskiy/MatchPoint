@@ -2,24 +2,27 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 import { useEffect, useRef, useState } from "react";
 import { SearchFormHeader } from "@/components/SearchFormHeader";
 import { ModalSearch } from "./ui/modalSearch";
 
 type Props = {
+  user: { token: string; } | null;
   isOpen: boolean;
   setIsOpen: (flag: boolean) => void;
   setIsActive: (flag: boolean) => void;
 };
 
 export const Navigation: React.FC<Props> = ({
+  user,
   isOpen,
   setIsOpen,
   setIsActive,
 }) => {
   const pathname = usePathname();
+  const router = useRouter();
   const [searchIconVisible, setSearchIconVisible] = useState(false);
   const searchRef = useRef<HTMLElement | null>(null);
   const [isSearchFormActive, setIsSearchFormActive] = useState(false);
@@ -135,16 +138,22 @@ export const Navigation: React.FC<Props> = ({
               About
             </Button>
           </Link>
-          <div className="w-[100px]" onClick={() => setIsActive(true)}>
-            <Button variant="secondary" isActive={pathname === "/login"}>
-              Log in
-            </Button>
-          </div>
-          {/* <Link href="/login" className="w-[100px]">
-          <Button variant="secondary" isActive={pathname === "/login"}>
-            Log in
-          </Button>
-        </Link> */}
+          {user ? (
+            <div className="w-[100px]" onClick={() => router.push("/account")}>
+              <Button
+                variant="secondary"
+                isActive={pathname.includes("/account")}
+              >
+                Account
+              </Button>
+            </div>
+          ) : (
+            <div className="w-[100px]" onClick={() => setIsActive(true)}>
+              <Button variant="secondary" isActive={pathname === "/login"}>
+                Log in
+              </Button>
+            </div>
+          )}
         </div>
       </nav>
       <ModalSearch

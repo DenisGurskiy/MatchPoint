@@ -23,8 +23,8 @@ export default function About() {
   return (
     <>
       <HeaderBlock image={coverImage}>
-        <div className="absolute h-full flex md:items-center">
-          <h1 className="md:text-[40px] text-[22px] mt-[82px] font-semibold text-white leading-[1.2em] text-center">
+        <div className="absolute md:ownGrid w-full max-w-[1200px] px-[20px]">
+          <h1 className="col-span-full md:col-span-7 md:text-[40px] text-[22px] font-semibold text-white leading-[1.2em] text-left">
             About our sports ground booking platform
           </h1>
         </div>
