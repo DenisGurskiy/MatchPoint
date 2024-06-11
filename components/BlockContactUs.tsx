@@ -44,7 +44,7 @@ const formSchema = z.object({
     }),
 });
 
-export const BlockGetInTouch = () => {
+export const BlockContactUs = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {},
@@ -73,10 +73,10 @@ export const BlockGetInTouch = () => {
     <section className="ownContainer ownGrid md:my-[60px] my-[32px]">
       <div className="col-span-full flex flex-col gap-y-[24px]">
         <h2 className="col-span-full md:text-[32px] text-[22px] leading-[1.2em] font-semibold text-gray100Primary">
-          Get in touch
+          Contact Us
         </h2>
         <p className="col-span-full text-[16px] font-normal leading-[1.3em] text-gray50">
-          Feel free to contact us.
+          {`We're here to help. Feel free to contact us.`}
         </p>
       </div>
 
@@ -84,7 +84,7 @@ export const BlockGetInTouch = () => {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="col-span-full grid grid-cols-6 gap-[24px]"
+            className="col-span-full grid grid-cols-6 gap-[16px]"
           >
             <FormField
               control={form.control}

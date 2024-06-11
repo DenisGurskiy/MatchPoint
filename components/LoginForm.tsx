@@ -160,10 +160,12 @@ export const LoginForm: React.FC<Props> = ({
       </div>
       <div className="flex gap-[16px] md:flex-col">
         <SocialButton onClick={() => signIn("google")} variant="google">
-          Sign In With Google
+          {custom === "login" ? `Log In ` : `Sign up `}
+          With Google
         </SocialButton>
         <SocialButton onClick={() => signIn("github")} variant="facebook">
-          Sign In With Facebook
+          {custom === "login" ? `Log In ` : `Sign up `}
+          With Facebook
         </SocialButton>
       </div>
       <div className="flex gap-[8px] justify-center items-center text-[16px] leading-[1.3em] text-gray100Primary">

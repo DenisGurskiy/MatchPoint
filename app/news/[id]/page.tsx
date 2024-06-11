@@ -1,9 +1,5 @@
 "use client";
 
-import { HeaderBlock } from "@/components/HeaderBlock";
-import { BlockAbout } from "@/components/BlockAbout";
-import { BlockFAQs } from "@/components/BlockFAQs";
-import { BlockGetInTouch } from "@/components/BlockGetInTouch";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 

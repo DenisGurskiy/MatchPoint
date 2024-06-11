@@ -1,6 +1,6 @@
 export const BlockAbout = () => {
   return (
-    <section className="ownContainer ownGrid my-[60px]">
+    <section className="ownContainer ownGrid mt-[32px] md:mt-[60px] mb-[60px]">
       <div className="md:col-span-5 col-span-full text-gray100Primary">
         <h2 className="text-[22px] md:text-[32px] leading-[1.2em] font-semibold">
           Welcome to SPORTSPACE
