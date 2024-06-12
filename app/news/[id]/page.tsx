@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { BackButton } from "@/components/ui/backButton";
 
 type Props = {
   params: {
@@ -28,28 +29,7 @@ export default function New({ params: { id } }: Props) {
           fill
           style={{ objectFit: "cover" }}
         />
-        <div className="absolute top-[24px] left-[20px] z-10 flex justify-start gap-[4px] hover:text-gray50 transition duration-300 ease-in-out cursor-pointer">
-          <svg
-            className="w-[24px] h-[24px]"
-            version="1.0"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24pt"
-            height="24pt"
-            viewBox="0 0 24 24"
-            preserveAspectRatio="xMidYMid meet"
-          >
-            <g
-              transform="translate(0,24) scale(0.1,-0.1)"
-              fill="currentColor"
-              stroke="none"
-            >
-              <path d="M105 160 l-39 -40 39 -40 c21 -22 44 -40 49 -40 6 0 -8 18 -29 40 l-39 40 39 40 c21 22 35 40 29 40 -5 0 -28 -18 -49 -40z" />
-            </g>
-          </svg>
-          <Button className="" variant="mobileTinyText">
-            Back
-          </Button>
-        </div>
+        <BackButton className="absolute top-[24px] left-[20px] z-10" />
         <div className="absolute md:ownGrid w-full max-w-[1200px] px-[20px]">
           <h1 className="col-span-full md:col-span-7 md:text-[40px] text-[22px] font-semibold text-white leading-[1.2em] text-left">
             {card.title}
