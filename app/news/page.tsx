@@ -55,7 +55,7 @@ export default function News() {
 
   return (
     <section className="ownContainer ownGrid flex flex-col gap-y-[24px] mt-[24px] mb-[32px] md:mb-[60px]">
-      <BackButton />
+      <BackButton className="col-span-full row-span-1" />
       <div className="md:col-start-4 md:col-span-8 col-span-full text-gray100Primary">
         <h2 className="text-[22px] md:text-[32px] leading-[1.2em] font-semibold mb-[24px]">
           News
