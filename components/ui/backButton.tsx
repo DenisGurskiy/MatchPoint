@@ -2,13 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import classNames from "classnames";
 
-type Props = {
-  className: string;
-};
-
-export const BackButton: React.FC<Props> = ({ className }) => {
+export const BackButton = () => {
   const router = useRouter();
 
   const handleBack = () => {
@@ -17,7 +12,7 @@ export const BackButton: React.FC<Props> = ({ className }) => {
 
   return (
     <div
-      className={classNames("flex justify-start gap-[4px] hover:text-gray50 transition duration-300 ease-in-out cursor-pointer", className)}
+      className="col-span-full row-span-1 flex justify-start gap-[4px] hover:text-gray50 transition duration-300 ease-in-out cursor-pointer"
       onClick={handleBack}
     >
       <svg

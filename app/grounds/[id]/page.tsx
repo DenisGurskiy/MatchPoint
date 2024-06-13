@@ -81,7 +81,7 @@ export default function Ground({ params: { id } }: Props) {
   return (
     <>
       <section className="ownContainer ownGrid md:mb-[60px] mb-[32px] pt-[24px] gap-y-[24px]">
-        <BackButton className="col-span-full row-span-1" />
+        <BackButton />
         <div className="col-span-full grid grid-cols-2 md:grid-cols-12 grid-rows-2 gap-[4px] h-[210px] md:h-[419px] rounded-[24px] overflow-hidden">
           <div className="col-span-1 md:col-span-8 row-span-2 relative w-full h-auto">
             <Image

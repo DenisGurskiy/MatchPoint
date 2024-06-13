@@ -29,7 +29,9 @@ export default function New({ params: { id } }: Props) {
           fill
           style={{ objectFit: "cover" }}
         />
-        <BackButton className="absolute top-[24px] left-[20px] z-10" />
+        <div className="absolute top-[24px] md:top-[35px] md:ownGrid w-full max-w-[1200px] px-[20px]">
+          <BackButton />
+        </div>
         <div className="absolute md:ownGrid w-full max-w-[1200px] px-[20px]">
           <h1 className="col-span-full md:col-span-7 md:text-[40px] text-[22px] font-semibold text-white leading-[1.2em] text-left">
             {card.title}
