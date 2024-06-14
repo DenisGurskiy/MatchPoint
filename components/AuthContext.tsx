@@ -13,6 +13,7 @@ import { toast } from "sonner";
 interface AuthContextType {
   user: { token: string } | null;
   login: (username: string, password: string) => Promise<void>;
+  signUp: (username: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -62,6 +63,34 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  const signUp = async (email: string) => {
+    if (email) {
+      const password = "dummy-password";
+
+      try {
+        const res = await fetch("/api/sendEmail", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        });
+
+        if (!res.ok) {
+          throw new Error("Failed to send email");
+        }
+
+        const result = await res.json();
+        toast.success(result.message);
+      } catch (error) {
+        console.error("Error sending email:", error);
+        toast.error("Failed to send email");
+      }
+    } else {
+      toast.error("Sorry! Invalid credentials!");
+    }
+  };
+
   const logout = () => {
     localStorage.removeItem("token");
     setUser(null);
@@ -69,11 +98,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     router.push("/");
   };
 
-  return (
-    <AuthContext.Provider value={{ user, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  const value = {
+    user,
+    login,
+    logout,
+    signUp,
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = (): AuthContextType => {
