@@ -7,10 +7,17 @@ type Props = {
   question: string;
   title: string;
   options: string[];
+  value: string;
+  setValue: (value: string) => void;
 };
 
-export const DropDown: FC<Props> = ({ question, title, options }) => {
-  const [value, setValue] = useState<string>(title);
+export const DropDown: FC<Props> = ({
+  question,
+  title,
+  options,
+  value,
+  setValue,
+}) => {
   const [isDropdownActive, setIsDropdownActive] = useState(false);
   const dropdownRef = useRef<HTMLUListElement | null>(null);
 
@@ -55,7 +62,7 @@ export const DropDown: FC<Props> = ({ question, title, options }) => {
               }
             )}
           >
-            <p>{value}</p>
+            <p>{value === '' ? title : value}</p>
             <div className="w-[24px] h-[24px] text-gray100Primary bg-[url('/images/down.svg')]"></div>
           </div>
         </button>

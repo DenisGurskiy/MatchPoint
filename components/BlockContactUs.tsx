@@ -51,21 +51,28 @@ export const BlockContactUs = () => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // const response = await fetch("/api/sendQuestion", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(values),
-    // });
+    const { name, email, question } = values;
 
-    // const data = await response.json();
+    try {
+      const res = await fetch("/api/contactUs", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, question }),
+      });
 
-    // if (data.error) {
-    //   toast.error(data.error);
-    // }
+      if (!res.ok) {
+        throw new Error("Failed to send email");
+      }
 
-    toast.success("Your question has been sent!");
+      const result = await res.json();
+      toast.success(result.message);
+    } catch (error) {
+      console.error("Error sending email:", error);
+      toast.error("Failed to send email");
+    }
+
     form.setValue("question", "");
   }
 

@@ -65,26 +65,46 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const signUp = async (email: string) => {
     if (email) {
-      const password = "dummy-password";
+      // const password = "dummy-password";
+      let password;
 
-      try {
-        const res = await fetch("/api/sendEmail", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, password }),
+      fetch("https://sportspace.onrender.com/api/client/register/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // password = data;
+
+          console.log("Response data:", data);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
         });
 
-        if (!res.ok) {
-          throw new Error("Failed to send email");
-        }
+      if (password) {
+        try {
+          const res = await fetch("/api/sendEmail", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, password }),
+          });
 
-        const result = await res.json();
-        toast.success(result.message);
-      } catch (error) {
-        console.error("Error sending email:", error);
-        toast.error("Failed to send email");
+          if (!res.ok) {
+            throw new Error("Failed to send email");
+          }
+
+          const result = await res.json();
+          toast.success(result.message);
+        } catch (error) {
+          console.error("Error sending email:", error);
+          toast.error("Failed to send email");
+        }
       }
     } else {
       toast.error("Sorry! Invalid credentials!");

@@ -2,15 +2,21 @@
 
 import { FC, useEffect, useRef, useState } from "react";
 import classNames from "classnames";
-import Image from "next/image";
 
 type Props = {
   title: string;
   options: string[];
+  value: string;
+  setValue: (value: string) => void;
 };
 
-export const DropDownCity: FC<Props> = ({ title, options }) => {
-  const [value, setValue] = useState<string>(title);
+export const DropDownCity: FC<Props> = ({
+  title,
+  options,
+  value,
+  setValue,
+}) => {
+  // const [value, setValue] = useState<string>(title);
 
   const [isDropdownActive, setIsDropdownActive] = useState(false);
   const dropdownRef = useRef<HTMLUListElement>(null);

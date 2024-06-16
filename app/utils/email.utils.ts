@@ -28,3 +28,19 @@ export const sendEmail = (email: string, password: string) => {
     html,
   });
 };
+
+export const ContactUs = (name: string, email: string, question: string) => {
+  const html = `
+  <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+    <h1 style="color: #4CAF50;">Name: ${name}</h1>
+    <p style="font-size: 1.2em; font-weight: bold;">Email: ${email}</p>
+    <p style="font-size: 1.2em; font-weight: bold;">Question: ${question}</p>    
+  </div>`;
+
+  return transporter.sendMail({
+    from: "SportSpace Auth API",
+    to: process.env.SMTP_USER,
+    subject: "Question from client",
+    html,
+  });
+};

@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, forwardRef, useEffect, useRef, useState } from "react";
+import { FC, forwardRef } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import classNames from "classnames";
@@ -8,6 +8,8 @@ import classNames from "classnames";
 type Props = {
   question: string;
   title: string;
+  value: Date | null;
+  setValue: (value: Date | null) => void;
 };
 
 type CustomInputProps = {
@@ -15,9 +17,12 @@ type CustomInputProps = {
   onClick?: () => void;
 };
 
-export const DropDownDatePicker: FC<Props> = ({ question, title }) => {
-  const [value, setValue] = useState<Date>(new Date());
-
+export const DropDownDatePicker: FC<Props> = ({
+  question,
+  title,
+  value,
+  setValue,
+}) => {
   const handleSelectOption = (currentValue: Date) => {
     setValue(currentValue);
   };
@@ -37,7 +42,7 @@ export const DropDownDatePicker: FC<Props> = ({ question, title }) => {
               }
             )}
           >
-            {value}
+            {value || "Any"}
             <div className="w-[24px] h-[24px] text-gray100Primary bg-[url('/images/down.svg')]"></div>
           </div>
         </button>

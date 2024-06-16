@@ -1,4 +1,6 @@
-import { Button } from "@/components/ui/button";
+"use client";
+
+import { CITIES } from "@/app/constants/cities";
 import Link from "next/link";
 
 export const InfoBlockCities = () => {
@@ -17,15 +19,14 @@ export const InfoBlockCities = () => {
         </div>
         <div className="col-span-full flex items-center">
           <ul className="text-white md:text-[40px] text-[22px] font-semibold flex flex-col md:gap-[16px] gap-[8px]">
-            <li className="leading-[46px]  hover:text-gray100Primary cursor-pointer active:text-primaryGreen100">
-              <Link href="#">Kyiv</Link>
-            </li>
-            <li className="leading-[46px]  hover:text-gray100Primary cursor-pointer active:text-primaryGreen100">
-              <Link href="#">Lviv</Link>
-            </li>
-            <li className="leading-[46px]  hover:text-gray100Primary cursor-pointer active:text-primaryGreen100">
-              <Link href="#">Odesa</Link>
-            </li>
+            {CITIES.slice(0, 3).map((city) => (
+              <li
+                key={city}
+                className="leading-[46px]  hover:text-gray100Primary cursor-pointer active:text-primaryGreen100"
+              >
+                <Link href={`/grounds?location=${city}`}>{city}</Link>
+              </li>
+            ))}
           </ul>
         </div>
       </div>

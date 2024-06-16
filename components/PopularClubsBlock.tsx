@@ -3,8 +3,10 @@
 import { GroundCardBlock } from "@/components/GroundCardBlock";
 import { DropDownCity } from "./ui/dropDownCity";
 import { useEffect, useState } from "react";
+import { CITIES } from "@/app/constants/cities";
 
 export const PopularClubsBlock = () => {
+  const [location, setLocation] = useState(CITIES[0]);
   const [windowWidth, setWindowWidth] = useState(0);
   const groundCards = [
     { image: "new_3.png" },
@@ -32,7 +34,12 @@ export const PopularClubsBlock = () => {
     <section className="ownContainer ownGrid mb-[60px]">
       <h2 className="md:text-[32px] text-[22px] leading-[1.2em] font-semibold text-gray100Primary col-span-full relative">
         Popular clubs in the city
-        <DropDownCity title="Kyiv" options={["Kyiv", "Lviv", "Odessa"]} />
+        <DropDownCity
+          title="Kyiv"
+          options={CITIES}
+          value={location}
+          setValue={setLocation}
+        />
       </h2>
       {displayCards.map((card) => (
         <GroundCardBlock key={card.image} image={card.image} />
