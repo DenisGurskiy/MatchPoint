@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -15,23 +15,25 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useAuth } from "@/components/AuthContext";
+import { Loader } from "@/components/ui/loader";
 
 const formSchema = z.object({
-  firstName: z.string().optional(),
-  lastName: z.string().optional(),
-  birthDay: z
+  first_name: z.string().optional(),
+  last_name: z.string().optional(),
+  date_of_birth: z
     .string()
     .refine(
       (val) => {
-        const regex = /^(0[1-9]|[12]\d|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
-        return regex.test(val);
+        const regex = /^\d{4}-\d{2}-\d{2}$/;
+        return regex.test(val) || val === "";
       },
       { message: "Date must be in format DD/MM/YYYY" }
     )
     .optional(),
-  phone: z
+  phone_number: z
     .string()
-    .regex(/^\+?[1-9]\d{1,14}$/, {
+    .regex(/^$|^\+?[1-9]\d{1,14}$/, {
       message: "This is not a valid phone number",
     })
     .optional(),
@@ -40,38 +42,77 @@ const formSchema = z.object({
 });
 
 export default function Personal() {
+  const { user, setUser } = useAuth();
+  const [loading, setLoading] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {},
+    defaultValues: {
+      first_name: user?.first_name || "",
+      last_name: user?.last_name || "",
+      date_of_birth: user?.date_of_birth || "",
+      phone_number: user?.phone_number || "",
+      email: user?.email || "",
+      gender: user?.gender || undefined,
+    },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    const response = await fetch("/api/sendQuestion", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(values),
-    });
-
-    const data = await response.json();
-
-    if (data.error) {
-      toast.error(data.error);
+  useEffect(() => {
+    if (user) {
+      form.reset({
+        first_name: user?.first_name || "",
+        last_name: user?.last_name || "",
+        date_of_birth: user?.date_of_birth || "",
+        phone_number: user?.phone_number || "",
+        email: user?.email || "",
+        gender: user?.gender || undefined,
+      });
     }
+  }, [user, form]);
 
-    toast.success("Your question has been sent!");
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setLoading(true);
+    const token = localStorage.getItem("access_token");
+    try {
+      const userData = await fetch(
+        "https://sportspace.onrender.com/api/client/me/",
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(values),
+        }
+      );
+
+      const data = await userData.json();
+
+      if (userData.ok) {
+        setUser({
+          ...data,
+        });
+        toast.success("Data is saved!");
+      } else {
+        toast.error("Failed to fetch user data");
+      }
+    } catch (error) {
+      console.error("Save error:", error);
+      toast.error("Failed to save data. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     let inputValue = e.target.value.replace(/\D/g, "");
-    if (inputValue.length >= 2) {
-      inputValue = inputValue.slice(0, 2) + "/" + inputValue.slice(2);
+    if (inputValue.length >= 4) {
+      inputValue = inputValue.slice(0, 4) + "-" + inputValue.slice(4);
     }
-    if (inputValue.length >= 5) {
-      inputValue = inputValue.slice(0, 5) + "/" + inputValue.slice(5);
+    if (inputValue.length >= 7) {
+      inputValue = inputValue.slice(0, 7) + "-" + inputValue.slice(7);
     }
-    form.setValue("birthDay", inputValue);
+    form.setValue("date_of_birth", inputValue);
   };
 
   return (
@@ -87,7 +128,7 @@ export default function Personal() {
           >
             <FormField
               control={form.control}
-              name="firstName"
+              name="first_name"
               render={({ field }) => (
                 <FormItem className="col-span-1 md:col-span-3 gap-y-[8px] flex flex-col">
                   <FormLabel>First name</FormLabel>
@@ -96,21 +137,21 @@ export default function Personal() {
                       placeholder="Enter first name"
                       {...field}
                       className={
-                        form.formState.errors.firstName
+                        form.formState.errors.first_name
                           ? "border-systemRedError"
                           : ""
                       }
                     />
                   </FormControl>
                   <FormMessage>
-                    {form.formState.errors.firstName?.message}
+                    {form.formState.errors.first_name?.message}
                   </FormMessage>
                 </FormItem>
               )}
             />
             <FormField
               control={form.control}
-              name="lastName"
+              name="last_name"
               render={({ field }) => (
                 <FormItem className="col-span-1 md:col-span-3 gap-y-[8px] flex flex-col">
                   <FormLabel>Last name</FormLabel>
@@ -119,32 +160,32 @@ export default function Personal() {
                       placeholder="Enter last name"
                       {...field}
                       className={
-                        form.formState.errors.lastName
+                        form.formState.errors.last_name
                           ? "border-systemRedError"
                           : ""
                       }
                     />
                   </FormControl>
                   <FormMessage>
-                    {form.formState.errors.lastName?.message}
+                    {form.formState.errors.last_name?.message}
                   </FormMessage>
                 </FormItem>
               )}
             />
             <FormField
               control={form.control}
-              name="birthDay"
+              name="date_of_birth"
               render={({ field }) => (
                 <FormItem className="col-span-full gap-y-[8px] flex flex-col">
                   <FormLabel>Date of Birth</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="DD/MM/YYYY"
+                      placeholder="YYYY-MM-DD"
                       {...field}
-                      pattern="\d{2}/\d{2}/\d{4}" // Регулярний вираз для формату "DD/MM/YYYY"
-                      title="Please enter date in format DD/MM/YYYY" // Пояснення для користувача
+                      pattern="\d{4}-\d{2}-\d{2}"
+                      title="Please enter date in format YYYY-MM-DD"
                       className={
-                        form.formState.errors.lastName
+                        form.formState.errors.last_name
                           ? "border-systemRedError"
                           : ""
                       }
@@ -152,14 +193,14 @@ export default function Personal() {
                     />
                   </FormControl>
                   <FormMessage>
-                    {form.formState.errors.birthDay?.message}
+                    {form.formState.errors.date_of_birth?.message}
                   </FormMessage>
                 </FormItem>
               )}
             />
             <FormField
               control={form.control}
-              name="phone"
+              name="phone_number"
               render={({ field }) => (
                 <FormItem className="col-span-full gap-y-[8px] flex flex-col">
                   <FormLabel>Phone number</FormLabel>
@@ -168,14 +209,14 @@ export default function Personal() {
                       placeholder="Enter your phone number"
                       {...field}
                       className={
-                        form.formState.errors.phone
+                        form.formState.errors.phone_number
                           ? "border-systemRedError"
                           : ""
                       }
                     />
                   </FormControl>
                   <FormMessage>
-                    {form.formState.errors.phone?.message}
+                    {form.formState.errors.phone_number?.message}
                   </FormMessage>
                 </FormItem>
               )}
@@ -190,6 +231,7 @@ export default function Personal() {
                     <Input
                       placeholder="Enter email address"
                       {...field}
+                      readOnly={true}
                       className={
                         form.formState.errors.email
                           ? "border-systemRedError"
@@ -272,8 +314,9 @@ export default function Personal() {
               className="md:col-span-2 md:col-end-7 col-span-full"
               type="submit"
               variant="primary"
+              disabled={loading}
             >
-              Save
+              {loading ? <Loader /> : `Save`}
             </Button>
           </form>
         </Form>

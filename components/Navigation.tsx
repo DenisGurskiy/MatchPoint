@@ -9,7 +9,7 @@ import { SearchFormHeader } from "@/components/SearchFormHeader";
 import { ModalSearch } from "./ui/modalSearch";
 
 type Props = {
-  user: { token: string; } | null;
+  user: User | null;
   isOpen: boolean;
   setIsOpen: (flag: boolean) => void;
   setIsActive: (flag: boolean) => void;
