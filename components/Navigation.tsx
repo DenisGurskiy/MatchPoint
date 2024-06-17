@@ -7,6 +7,7 @@ import { Button } from "./ui/button";
 import { useEffect, useRef, useState } from "react";
 import { SearchFormHeader } from "@/components/SearchFormHeader";
 import { ModalSearch } from "./ui/modalSearch";
+import { User } from "@/app/types/user";
 
 type Props = {
   user: User | null;
