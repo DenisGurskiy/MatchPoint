@@ -1,9 +1,11 @@
 "use client";
 
-import { CITIES } from "@/app/constants/cities";
 import Link from "next/link";
+import { City } from "@/app/types/city";
 
 export const InfoBlockCities = () => {
+  const cities: City[] = Object.values(City);
+
   return (
     <section className="mb-[60px] md:h-[411px] bg-[url('/photos/block_cities.jpg')] bg-cover bg-center py-[60px]">
       <div className="ownContainer ownGrid h-full">
@@ -19,7 +21,7 @@ export const InfoBlockCities = () => {
         </div>
         <div className="col-span-full flex items-center">
           <ul className="text-white md:text-[40px] text-[22px] font-semibold flex flex-col md:gap-[16px] gap-[8px]">
-            {CITIES.slice(0, 3).map((city) => (
+            {cities.slice(0, 3).map((city) => (
               <li
                 key={city}
                 className="leading-[46px]  hover:text-gray100Primary cursor-pointer active:text-primaryGreen100"

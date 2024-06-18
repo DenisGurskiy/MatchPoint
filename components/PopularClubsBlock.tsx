@@ -3,19 +3,21 @@
 import { GroundCardBlock } from "@/components/GroundCardBlock";
 import { DropDownCity } from "./ui/dropDownCity";
 import { useEffect, useState } from "react";
-import { CITIES } from "@/app/constants/cities";
 import { GroundType } from "@/app/types/ground";
 import { Loader } from "./ui/loader";
+import { City } from "@/app/types/city";
 
 export const PopularClubsBlock = () => {
-  const [location, setLocation] = useState(CITIES[0]);
+  const [location, setLocation] = useState<City>(City.Kyiv);
   const [windowWidth, setWindowWidth] = useState(0);
 
   const [grounds, setGrounds] = useState<GroundType[]>([]);
   const [loading, setLoading] = useState(false);
   const [url, setUrl] = useState(
-    "https://sportspace.onrender.com/api/service/sports-complexes/"
+    "https://sportspace.onrender.com/api/service/sports-complexes/?location=Kyiv"
   );
+
+  const cities: City[] = Object.values(City);
 
   useEffect(() => {
     setUrl(
@@ -66,8 +68,7 @@ export const PopularClubsBlock = () => {
       <h2 className="md:text-[32px] text-[22px] leading-[1.2em] font-semibold text-gray100Primary col-span-full relative">
         Popular clubs in the city
         <DropDownCity
-          title="Kyiv"
-          options={CITIES}
+          options={cities}
           value={location}
           setValue={setLocation}
         />

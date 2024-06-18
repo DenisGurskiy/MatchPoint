@@ -2,22 +2,15 @@
 
 import { FC, useEffect, useRef, useState } from "react";
 import classNames from "classnames";
+import { City } from "@/app/types/city";
 
 type Props = {
-  title: string;
-  options: string[];
-  value: string;
-  setValue: (value: string) => void;
+  options: City[];
+  value: City;
+  setValue: (value: City) => void;
 };
 
-export const DropDownCity: FC<Props> = ({
-  title,
-  options,
-  value,
-  setValue,
-}) => {
-  // const [value, setValue] = useState<string>(title);
-
+export const DropDownCity: FC<Props> = ({ options, value, setValue }) => {
   const [isDropdownActive, setIsDropdownActive] = useState(false);
   const dropdownRef = useRef<HTMLUListElement>(null);
 
@@ -38,7 +31,7 @@ export const DropDownCity: FC<Props> = ({
 
   const handleDropDownTrigger = () => setIsDropdownActive((prev) => !prev);
 
-  const handleSelectOption = (currentValue: string) => {
+  const handleSelectOption = (currentValue: City) => {
     setValue(currentValue);
     handleDropDownTrigger();
   };
