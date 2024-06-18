@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -19,6 +19,7 @@ import { signIn } from "next-auth/react";
 import { SocialButton } from "@/components/ui/socialButton";
 import Image from "next/image";
 import { useAuth } from "./AuthContext";
+import { Loader } from "./ui/loader";
 
 const loginSchema = z.object({
   email: z
@@ -62,14 +63,22 @@ export const LoginForm: React.FC<Props> = ({
   });
 
   const { login, signUp } = useAuth();
+  const [loading, setLoading] = useState(false);
 
   async function onSubmit(values: LoginFormValues | SignupFormValues) {
-    if (custom === "login") {
-      await login(values.email, (values as LoginFormValues).password);
-    } else {
-      await signUp(values.email);
+    setLoading(true);
+    try {
+      if (custom === "login") {
+        await login(values.email, (values as LoginFormValues).password);
+      } else {
+        await signUp(values.email);
+      }
+      setIsActive(false);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
-    setIsActive(false);
   }
 
   return (
@@ -138,8 +147,12 @@ export const LoginForm: React.FC<Props> = ({
               </Button>
             </div>
           )}
-          <Button type="submit">
-            {custom === "login" ? "Log In" : "Get started"}
+          <Button type="submit" disabled={loading}>
+            {loading ? (
+              <Loader />
+            ) : (
+              <>{custom === "login" ? "Log In" : "Get started"}</>
+            )}
           </Button>
         </form>
       </Form>

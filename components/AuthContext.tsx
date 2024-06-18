@@ -103,11 +103,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             toast.error("Failed to fetch user data");
           }
         } else {
-          toast.error(data.error);
+          toast.error(data.detail);
+          throw new Error(data.detail);
         }
       } catch (error) {
-        console.error("Login error:", error);
         toast.error("Failed to log in. Please try again.");
+        throw new Error("Failed to log in. Please try again.");
       }
     } else {
       toast.error("Invalid credentials");
