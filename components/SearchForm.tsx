@@ -6,12 +6,17 @@ import { Button } from "./ui/button";
 import { DropDown } from "./ui/dropDown";
 import { DropDownDatePicker } from "./ui/dropDownDatePicker";
 import Link from "next/link";
+import { City } from "@/app/types/city";
+import { Activity } from "@/app/types/activity";
 
 export const SearchForm: FC = () => {
   const [location, setLocation] = useState<string>("");
   const [activity, setActivity] = useState<string>("");
   const [date, setDate] = useState<Date | null>(null);
   const [path, setPath] = useState<string>("/grounds");
+
+  const cities = Object.values(City);
+  const activities = Object.values(Activity);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -46,7 +51,7 @@ export const SearchForm: FC = () => {
           <DropDown
             question="Where?"
             title="Choose city"
-            options={["Kyiv", "Lviv", "Odessa"]}
+            options={cities}
             value={location}
             setValue={setLocation}
           />
@@ -57,7 +62,7 @@ export const SearchForm: FC = () => {
           <DropDown
             question="What are you planning?"
             title="Choose an activity"
-            options={["Football", "Tennis", "Volleyball"]}
+            options={activities}
             value={activity}
             setValue={setActivity}
           />

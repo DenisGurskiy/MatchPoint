@@ -1,8 +1,11 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { Activity } from "@/app/types/activity";
 
 export const InfoBlockActivities = () => {
+  const activities = Object.values(Activity);
+
   return (
     <section className="ownContainer ownGrid mb-[60px]">
       <div className="lg:col-span-5 md:col-span-7 col-span-full grid md:grid-cols-5 grid-cols-2 md:gap-[24px] gap-[16px] gap-y-[32px]">
@@ -14,51 +17,13 @@ export const InfoBlockActivities = () => {
             Choose your activity and easily book your visit time
           </p>
           <ul className="flex flex-wrap gap-[16px] text-gray50">
-            <li>
-              <Button variant="text">Acrobatics</Button>
-            </li>
-            <li>
-              <Button variant="text">Aikido</Button>
-            </li>
-            <li>
-              <Button variant="text">Badminton</Button>
-            </li>
-            <li>
-              <Button variant="text">Basketball</Button>
-            </li>
-            <li>
-              <Button variant="text">Billiard</Button>
-            </li>
-            <li>
-              <Button variant="text">Bowling</Button>
-            </li>
-            <li>
-              <Button variant="text">Box</Button>
-            </li>
-            <li>
-              <Button variant="text">Football</Button>
-            </li>
-            <li>
-              <Button variant="text">Golf</Button>
-            </li>
-            <li>
-              <Button variant="text">Hockey</Button>
-            </li>
-            <li>
-              <Button variant="text">Indoor Rock Climbing</Button>
-            </li>
-            <li>
-              <Button variant="text">Swimming</Button>
-            </li>
-            <li>
-              <Button variant="text">Table Tennis</Button>
-            </li>
-            <li>
-              <Button variant="text">Tennis</Button>
-            </li>
-            <li>
-              <Button variant="text">Volleyball</Button>
-            </li>
+            {activities.map((activity) => (
+              <li key={activity}>
+                <Link href={`/grounds?activity=${activity}`}>
+                  <Button variant="text">{activity}</Button>
+                </Link>
+              </li>
+            ))}            
           </ul>
         </div>
         <Link href="/about" className="md:col-span-2 col-spa-1 self-end">

@@ -4,18 +4,46 @@ import { GroundCardBlock } from "@/components/GroundCardBlock";
 import { DropDownCity } from "./ui/dropDownCity";
 import { useEffect, useState } from "react";
 import { CITIES } from "@/app/constants/cities";
+import { GroundType } from "@/app/types/ground";
+import { Loader } from "./ui/loader";
 
 export const PopularClubsBlock = () => {
   const [location, setLocation] = useState(CITIES[0]);
   const [windowWidth, setWindowWidth] = useState(0);
-  const groundCards = [
-    { image: "new_3.png" },
-    { image: "new_2.png" },
-    { image: "new_1.png" },
-    { image: "new_4.png" },
-    { image: "new_5.png" },
-    { image: "new_4.png" },
-  ];
+
+  const [grounds, setGrounds] = useState<GroundType[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [url, setUrl] = useState(
+    "https://sportspace.onrender.com/api/service/sports-complexes/"
+  );
+
+  useEffect(() => {
+    setUrl(
+      `https://sportspace.onrender.com/api/service/sports-complexes/?location=${location}`
+    );
+  }, [location]);
+
+  useEffect(() => {
+    setLoading(true);
+    fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setGrounds(data.results);
+
+        console.log("Response data:", data.results);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [url]);
 
   useEffect(() => {
     setWindowWidth(window.innerWidth);
@@ -27,8 +55,11 @@ export const PopularClubsBlock = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const displayCards =
-    windowWidth < 640 ? groundCards.slice(0, 3) : groundCards;
+  useEffect(() => {
+    setGrounds((currentGrounds) => {
+      return windowWidth < 640 ? currentGrounds.slice(0, 3) : currentGrounds;
+    });
+  }, [windowWidth]);
 
   return (
     <section className="ownContainer ownGrid mb-[60px]">
@@ -41,9 +72,25 @@ export const PopularClubsBlock = () => {
           setValue={setLocation}
         />
       </h2>
-      {displayCards.map((card) => (
-        <GroundCardBlock key={card.image} image={card.image} />
-      ))}
+      <div className="col-span-full">
+        {loading ? (
+          <Loader />
+        ) : (
+          <>
+            {!!grounds.length ? (
+              <div className="col-span-full ownGrid">
+                {grounds.map((ground) => (
+                  <GroundCardBlock key={ground.id} ground={ground} />
+                ))}
+              </div>
+            ) : (
+              <p className="m-auto text-gray50 text-center">
+                There are no fields matching your criteria
+              </p>
+            )}
+          </>
+        )}
+      </div>
     </section>
   );
 };

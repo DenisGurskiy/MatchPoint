@@ -8,12 +8,12 @@ import { GroundCardBlock } from "@/components/GroundCardBlock";
 import { SearchForm } from "@/components/SearchForm";
 import { SearchFormHeader } from "@/components/SearchFormHeader";
 import { ModalSearch } from "@/components/ui/modalSearch";
-import { Ground } from "../types/ground";
+import { GroundType } from "../types/ground";
 import { Loader } from "@/components/ui/loader";
 
 export default function Grounds() {
   const [isSearchFormActive, setIsSearchFormActive] = useState(false);
-  const [grounds, setGrounds] = useState<Ground[]>([]);
+  const [grounds, setGrounds] = useState<GroundType[]>([]);
   const [loading, setLoading] = useState(false);
 
   const searchParams = useSearchParams();
@@ -76,13 +76,13 @@ export default function Grounds() {
           {!!grounds.length ? (
             <section className="ownGrid mb-[60px]">
               {grounds.map((ground) => (
-                <GroundCardBlock key={ground?.id} image="new_3.png" />
+                <GroundCardBlock key={ground.id} ground={ground} />
               ))}
-              <GroundCardBlock image="new_2.png" />
+              {/* <GroundCardBlock image="new_2.png" />
               <GroundCardBlock image="new_1.png" />
               <GroundCardBlock image="new_4.png" />
               <GroundCardBlock image="new_5.png" />
-              <GroundCardBlock image="new_4.png" />
+              <GroundCardBlock image="new_4.png" /> */}
             </section>
           ) : (
             <p className="m-auto text-gray50">
