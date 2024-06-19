@@ -8,11 +8,11 @@ type Props = {
 };
 
 export const GroundCardBlock: React.FC<Props> = ({ ground }) => {
-  const { id, name, location, phone } = ground;
+  const { id, name } = ground;
 
   const minPrice = ground.fields?.reduce((min, field) => {
-    return min > field.price ? field.price : min;
-  }, 0);
+    return min > +field.price ? +field.price : min;
+  }, +ground.fields[0].price);
 
   return (
     <div className="md:col-span-4 sm:col-span-1 col-span-full grid grid-cols-4 gap-x-[24px] gap-y-[8px] text-gray100Primary">

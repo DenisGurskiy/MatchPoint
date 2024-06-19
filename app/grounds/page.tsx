@@ -66,7 +66,11 @@ export default function Grounds() {
           onClick={() => setIsSearchFormActive(true)}
         >
           <Image src="/images/Search.svg" alt="logo" width={24} height={24} />
-          <p>Kyiv · Tennis</p>
+          <ul className="list-horizontal list-none text-[16px] font-normal">
+            {location && <li>{location}</li>}
+            {activity && <li>{activity}</li>}
+            {date && <li>{date}</li>}
+          </ul>
         </div>
       </div>
       {loading ? (
@@ -78,11 +82,6 @@ export default function Grounds() {
               {grounds.map((ground) => (
                 <GroundCardBlock key={ground.id} ground={ground} />
               ))}
-              {/* <GroundCardBlock image="new_2.png" />
-              <GroundCardBlock image="new_1.png" />
-              <GroundCardBlock image="new_4.png" />
-              <GroundCardBlock image="new_5.png" />
-              <GroundCardBlock image="new_4.png" /> */}
             </section>
           ) : (
             <p className="m-auto text-gray50">
@@ -91,7 +90,6 @@ export default function Grounds() {
           )}
         </>
       )}
-
       <ModalSearch
         isActive={isSearchFormActive}
         setIsActive={setIsSearchFormActive}

@@ -4,13 +4,50 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { GroundType } from "@/app/types/ground";
+import { Field } from "@/app/types/field";
+import { format } from "date-fns";
 
 type Props = {
   setIsActive: (flag: boolean) => void;
   setPayIsOk: (flag: boolean) => void;
+  pickSlots: Set<string>;
+  field: Field;
+  amount: number;
+  ground: GroundType;
 };
 
-export const BlockBooking: React.FC<Props> = ({ setIsActive, setPayIsOk }) => {
+export const BlockBooking: React.FC<Props> = ({
+  setIsActive,
+  setPayIsOk,
+  pickSlots,
+  field,
+  amount,
+  ground,
+}) => {
+  const slotsArray = Array.from(pickSlots);
+
+  const parsedSlots = slotsArray.map((slot) => JSON.parse(slot));
+
+  const groupedSlots = parsedSlots.reduce(
+    (acc: Record<string, any[]>, slot) => {
+      const day = slot.day;
+      if (!acc[day]) {
+        acc[day] = [];
+      }
+      acc[day].push(slot);
+      return acc;
+    },
+    {}
+  );
+
+  const sortedGroupedSlots = Object.keys(groupedSlots)
+    .sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
+    .reduce((acc: Record<string, any[]>, key) => {
+      acc[key] = groupedSlots[key].sort((a, b) => a.time - b.time);
+      return acc;
+    }, {});
+
   return (
     <div className="flex flex-col gap-[24px]">
       <div className="flex justify-end" onClick={() => setIsActive(false)}>
@@ -28,19 +65,19 @@ export const BlockBooking: React.FC<Props> = ({ setIsActive, setPayIsOk }) => {
       <div className="col-span-full lg:col-span-4 rounded-[24px] border-[1px] border-gray20divider p-[24px] flex flex-col gap-[24px]">
         <div className="flex gap-[8px]">
           <Link
-            href="/grounds/1"
+            href={`/grounds/${ground.id}`}
             className="overflow-hidden flex gap-[8px] cursor-pointer "
           >
             <Image
               className="hover:scale-[1.1] transition duration-300 ease-in-out rounded-[8px]"
-              src={`/photos/ground_1.jpg`}
+              src={`/photo/grounds/${ground.id}/1.jpg`}
               alt="Main picture"
               width={98}
               height={67}
             />
             <div className="flex flex-col gap-[8px]">
               <h3 className="text-[16px] leading-[1.3em] text-gray100Primary font-semibold">
-                Tennis court in Kyiv
+                {ground.name}
               </h3>
               <p className="text-[14px] leading-[1.35em] text-gray50 font-normal">
                 12 Khreshchatyk Street, Kyiv, Ukraine
@@ -49,29 +86,32 @@ export const BlockBooking: React.FC<Props> = ({ setIsActive, setPayIsOk }) => {
           </Link>
         </div>
 
-        <div className="flex flex-col gap-[8px]">
-          <h4 className="text-[16px] leading-[1.3em] text-gray100Primary font-semibold">
-            Date & Time
-          </h4>
-          <div>
+        {Object.keys(sortedGroupedSlots).map((date, index) => (
+          <div key={index}>
             <p className="text-[14px] leading-[1.35em] text-gray50 font-normal">
-              Mon, 03 June, 2024
+              {format(new Date(date), "EEE, dd MMMM, yyyy")}
             </p>
-            <p className="text-[14px] leading-[1.35em] text-gray50 font-normal">
-              7:00 - 8:00
-            </p>
+            {sortedGroupedSlots[date].map((slot, idx) => (
+              <p
+                key={idx}
+                className="text-[14px] leading-[1.35em] text-gray50 font-normal"
+              >
+                {`${slot.time}:00 - ${slot.time + 1}:00`}
+              </p>
+            ))}
           </div>
-        </div>
+        ))}
         <div className="flex flex-col gap-[8px]">
           <h4 className="text-[16px] leading-[1.3em] text-gray100Primary font-semibold">
             Sports ground rental
           </h4>
           <div className="flex justify-between">
             <p className="text-[14px] leading-[1.35em] text-gray50 font-normal">
-              600₴ x 1 hour
+              {`${+field?.price} x ${pickSlots.size} `}{" "}
+              {pickSlots.size === 1 ? "hour" : "hours"}
             </p>
             <p className="text-[14px] leading-[1.35em] text-gray50 font-normal">
-              600₴
+              {`${amount}₴`}
             </p>
           </div>
         </div>
@@ -80,7 +120,7 @@ export const BlockBooking: React.FC<Props> = ({ setIsActive, setPayIsOk }) => {
             Total
           </h4>
           <h4 className="text-[16px] leading-[1.3em] text-gray100Primary font-semibold">
-            600₴
+            {`${amount}₴`}
           </h4>
         </div>
       </div>

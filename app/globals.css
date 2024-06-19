@@ -25,6 +25,16 @@ input:-webkit-autofill {
   }
 }
 
+.list-horizontal > li:not(:first-child)::before {
+  content: "•";
+  margin-right: 0.5rem;
+}
+
+.list-horizontal > li {
+  display: inline;
+  margin-right: 0.5em;
+}
+
 @layer components {
   .ownGrid {
     @apply grid md:grid-cols-12 md:gap-[24px] grid-cols-2 gap-y-[24px] gap-[16px];
