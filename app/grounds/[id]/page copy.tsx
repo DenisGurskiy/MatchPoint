@@ -1,15 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { addDays, format, isSameDay, startOfDay } from "date-fns";
-import { useState } from "react";
 import classNames from "classnames";
-import { GroundType } from "@/app/types/ground";
 import { Booking } from "@/app/types/booking";
 
 type Props = {
-  bookings: Booking[] | undefined;
+  bookings: Booking[];
   pickSlots: Set<string>;
   choseSlot: (day: Date, hour: number) => void;
 };
@@ -40,15 +38,9 @@ export const GroundSlotsBlock: React.FC<Props> = ({
     setDate((prevDate) => startOfDay(addDays(prevDate, 1)));
   };
 
-  const isSlotBusy = (day: Date, hour: number, bookings: Booking[]) => {
-    const formattedDay = format(day, "yyyy-MM-dd");
-    const formattedTime = `${hour}:00:00`;
-
-    return bookings.some(
-      (booking) =>
-        booking.day === formattedDay && booking.time === formattedTime
-    );
-  };
+  console.log("bookings...", bookings);
+  console.log("pickSlots...", pickSlots);
+  console.log("date...", date);
 
   return (
     <div className="rounded-t-[24px] border-[1px] border-gray20divider flex flex-col items-center pt-[24px] gap-y-[24px]">
@@ -153,26 +145,19 @@ export const GroundSlotsBlock: React.FC<Props> = ({
                     time: hour,
                   });
                   const isPicked = pickSlots.has(slot);
-                  let isBusy = false;
-
-                  if (bookings) {
-                    isBusy = isSlotBusy(day, hour, bookings);
-                  }
                   return (
                     <td
                       key={index}
                       className={classNames(
-                        "h-[50px] col-span-1 border-[1px] border-gray20divider w-full flex items-center justify-center",
+                        "h-[50px] col-span-1 border-[1px] border-gray20divider w-full flex items-center justify-center cursor-pointer",
                         {
-                          "cursor-pointer": !isBusy,
                           "bg-primaryGreen10 border-primaryGreen100": isPicked,
-                          "bg-white": !isPicked && !isBusy,
-                          "bg-gray10Background": isBusy,
+                          "bg-white": !isPicked,
                         }
                       )}
-                      onClick={!isBusy ? () => choseSlot(day, hour) : undefined}
+                      onClick={() => choseSlot(day, hour)}
                     >
-                      {!isBusy && "+"}
+                      +
                     </td>
                   );
                 })}
@@ -220,8 +205,6 @@ export const GroundSlotsBlock: React.FC<Props> = ({
                   className={classNames(
                     "h-[50px] border-[1px] cursor-pointer",
                     {
-                      // "border-gray20divider bg-gray10Background":
-                      //   endHour === hour + countHours,
                       "bg-primaryGreen10 border-primaryGreen100":
                         isPickedSecondColumn,
                       "bg-white border-gray20divider": !isPickedSecondColumn,

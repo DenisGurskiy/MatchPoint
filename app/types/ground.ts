@@ -1,3 +1,4 @@
+import { Booking } from "./booking";
 import { City } from "./city";
 import { Field } from "./field";
 
@@ -8,4 +9,5 @@ export type GroundType = {
   location: City;
   phone: string;
   fields?: Field[];
+  bookings?: Booking[];
 };

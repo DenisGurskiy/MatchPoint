@@ -1,7 +1,7 @@
 export enum Activity {
-  Soccer = "Soccer",
+  Football = "Football",
   Basketball = "Basketball",
-  Tennis = "Tennis ",
-  Volleyball = "Volleyball ",
+  Tennis = "Tennis",
+  Volleyball = "Volleyball",
   Badminton = "Badminton",
 }

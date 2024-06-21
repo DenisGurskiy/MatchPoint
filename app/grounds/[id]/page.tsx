@@ -127,8 +127,6 @@ export default function Ground({ params: { id } }: Props) {
 
   const amount = (field?.price || 0) * pickSlots.size;
 
-  console.log("pickSlots...", pickSlots);
-
   return (
     <>
       <section className="ownContainer ownGrid md:mb-[60px] mb-[32px] pt-[24px] gap-y-[24px]">
@@ -150,6 +148,7 @@ export default function Ground({ params: { id } }: Props) {
                     setField={setField}
                   />
                   <GroundSlotsBlock
+                    bookings={ground.bookings}
                     pickSlots={pickSlots}
                     choseSlot={choseSlot}
                   />
@@ -237,3 +236,22 @@ export default function Ground({ params: { id } }: Props) {
     </>
   );
 }
+
+// "bookings": [
+//     {
+//       "id": 1,
+//       "field": 1,
+//       "day": "2024-07-01",
+//       "time": "10:00:00",
+//       "created_at": "2024-06-03T00:00:00Z",
+//       "personal_data": 1
+//     },
+//     {
+//       "id": 2,
+//       "field": 2,
+//       "day": "2024-07-02",
+//       "time": "11:00:00",
+//       "created_at": "2024-06-03T00:00:00Z",
+//       "personal_data": 3
+//     }
+//   ]
