@@ -13,6 +13,7 @@ import { User } from "@/app/types/user";
 
 interface AuthContextType {
   user: User | null;
+  loadingUser: boolean;
   setUser: (user: User | null) => void;
   login: (username: string, password: string) => Promise<void>;
   signUp: (username: string) => Promise<void>;
@@ -27,12 +28,17 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [loadingUser, setLoadingUser] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
+    setLoadingUser(false);
+
     const fetchData = async () => {
       const token = localStorage.getItem("access_token");
       if (token && !user) {
+        setLoadingUser(true);
+
         try {
           const response = await fetch(
             "https://sportspace.onrender.com/api/client/me/",
@@ -53,6 +59,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           setUser(userData);
         } catch (error) {
           console.error("Error fetching user data:", error);
+        } finally {
+          setLoadingUser(false);
         }
       }
     };
@@ -98,7 +106,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
               ...userData,
             });
             toast.success("You are logged in now!");
-            router.push("/account");
           } else {
             toast.error("Failed to fetch user data");
           }
@@ -178,6 +185,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const value = {
     user,
+    loadingUser,
     setUser,
     login,
     logout,

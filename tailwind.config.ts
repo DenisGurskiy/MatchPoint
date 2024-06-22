@@ -34,16 +34,18 @@ const config = {
         gray10Background: "#F4F4F5",
         systemRedError: "#C33433",
         systemGreenSuccess: "#13A14E",
+        systemYellow: "#F3FFA6",
+        systemYellowBorder: "#ECFF6E",
         disabled: "#F4F4F5",
       },
       borderRadius: {
         full: "100px",
       },
       boxShadow: {
-        'custom': '0px 1px 2px 1px #1018280D',
+        custom: "0px 1px 2px 1px #1018280D",
       },
       gridTemplateColumns: {
-        'table': '120px repeat(7, 1f)',
+        table: "120px repeat(7, 1f)",
       },
       keyframes: {},
       animation: {},

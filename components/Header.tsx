@@ -14,7 +14,7 @@ export const Header = () => {
   const [isLoginFormActive, setIsLoginFormActive] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [modal, setModal] = useState<"login" | "signup">("login");
-  const { user, logout } = useAuth();
+  const { user, loadingUser, logout } = useAuth();
 
   useEffect(() => {
     if (isOpen || isLoginFormActive) {
@@ -41,6 +41,7 @@ export const Header = () => {
     <header className="fixed top-0 z-40 bg-white w-full flex justify-center items-center md:h-[80px] h-[56px] border-b-[1px] border-gray20divider">
       <Navigation
         user={user}
+        loadingUser={loadingUser}
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         setIsActive={setLoginForm}
@@ -59,7 +60,7 @@ export const Header = () => {
           <Button variant="mobileTinyText" className="text-left">
             About
           </Button>
-        </Link>
+        </Link>        
         {!user ? (
           <>
             <div

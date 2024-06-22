@@ -4,20 +4,23 @@ import React from "react";
 import Image from "next/image";
 import { addDays, format, isSameDay, startOfDay } from "date-fns";
 import { useState } from "react";
-import classNames from "classnames";
-import { GroundType } from "@/app/types/ground";
 import { Booking } from "@/app/types/booking";
+import { User } from "@/app/types/user";
+import { GroundSlotsTableMin } from "./GroundSlotsTableMin";
+import { GroundSlotsTableMax } from "./GroundSlotsTableMax";
 
 type Props = {
-  bookings: Booking[] | undefined;
+  bookings: Booking[] | [];
   pickSlots: Set<string>;
   choseSlot: (day: Date, hour: number) => void;
+  user: User | null;
 };
 
 export const GroundSlotsBlock: React.FC<Props> = ({
   bookings,
   pickSlots,
   choseSlot,
+  user,
 }) => {
   const today = startOfDay(new Date());
   const tomorrow = addDays(today, 1);
@@ -47,6 +50,18 @@ export const GroundSlotsBlock: React.FC<Props> = ({
     return bookings.some(
       (booking) =>
         booking.day === formattedDay && booking.time === formattedTime
+    );
+  };
+
+  const isSlotYours = (day: Date, hour: number, bookings: Booking[]) => {
+    const formattedDay = format(day, "yyyy-MM-dd");
+    const formattedTime = `${hour}:00:00`;
+
+    return bookings.some(
+      (booking) =>
+        booking.day === formattedDay &&
+        booking.time === formattedTime &&
+        booking.personal_data === user?.id
     );
   };
 
@@ -112,131 +127,34 @@ export const GroundSlotsBlock: React.FC<Props> = ({
             </div>
             <p>Selected</p>
           </div>
+          <div className="flex gap-[4px]">
+            <div className="w-[40px] h-[20px] border-[1px]  bg-systemYellow flex items-center justify-center"></div>
+            <p>Yours</p>
+          </div>
         </div>
       </div>
 
-      <table className="hidden sm:table w-full text-center">
-        <thead>
-          <tr className="grid grid-cols-[120px_repeat(7,_1fr)]">
-            <th className="col-span-1"></th>
-            {Array.from({ length: 7 }, (_, index) => {
-              const day = addDays(date, index);
-              return (
-                <th
-                  key={index}
-                  className="bg-gray10Background border-[1px] border-gray20divider col-span-1 text-[16px] font-normal text-gray100Primary"
-                >
-                  <p className="text-[16px] text-gray50 font-normal">
-                    {format(day, "EEE")}
-                  </p>
-                  <p className="text-[16px] font-semibold text-gray100Primary">
-                    {format(day, "dd")}
-                  </p>
-                </th>
-              );
-            })}
-          </tr>
-        </thead>
-        <tbody>
-          {Array.from({ length: endHour - startHour }, (_, index) => {
-            const hour = index + startHour;
-            const nextHour = hour + 1;
-            return (
-              <tr key={index} className="grid grid-cols-[120px_repeat(7,_1fr)]">
-                <td className="col-span-1 h-[50px] bg-gray10Background border-[1px] border-gray20divider flex items-center justify-center">
-                  {`${hour}:00 - ${nextHour}:00`}
-                </td>
-                {Array.from({ length: 7 }, (_, index) => {
-                  const day = addDays(date, index);
-                  const slot = JSON.stringify({
-                    day: format(day, "yyyy-MM-dd"),
-                    time: hour,
-                  });
-                  const isPicked = pickSlots.has(slot);
-                  let isBusy = false;
-
-                  if (bookings) {
-                    isBusy = isSlotBusy(day, hour, bookings);
-                  }
-                  return (
-                    <td
-                      key={index}
-                      className={classNames(
-                        "h-[50px] col-span-1 border-[1px] border-gray20divider w-full flex items-center justify-center",
-                        {
-                          "cursor-pointer": !isBusy,
-                          "bg-primaryGreen10 border-primaryGreen100": isPicked,
-                          "bg-white": !isPicked && !isBusy,
-                          "bg-gray10Background": isBusy,
-                        }
-                      )}
-                      onClick={!isBusy ? () => choseSlot(day, hour) : undefined}
-                    >
-                      {!isBusy && "+"}
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-      <table className="sm:hidden w-full text-center">
-        <caption className="bg-gray10Background py-[4px]">
-          <p className="text-[16px] text-gray50">{format(date, "EEE")}</p>
-          <p className="text-[16px] font-semibold text-gray100Primary">
-            {format(date, "dd")}
-          </p>
-        </caption>
-        <tbody>
-          {Array.from({ length: countHours }, (_, index) => {
-            const firstColumnHour = index + startHour;
-            const secondColumnHour = firstColumnHour + countHours;
-            const firstColumnSlot = JSON.stringify({
-              day: format(date, "yyyy-MM-dd"),
-              time: firstColumnHour,
-            });
-            const secondColumnSlot = JSON.stringify({
-              day: format(date, "yyyy-MM-dd"),
-              time: secondColumnHour,
-            });
-
-            const isPickedFirstColumn = pickSlots.has(firstColumnSlot);
-            const isPickedSecondColumn = pickSlots.has(secondColumnSlot);
-            return (
-              <tr key={index}>
-                <td
-                  className={classNames(
-                    "h-[50px] border-[1px] cursor-pointer",
-                    {
-                      "bg-primaryGreen10 border-primaryGreen100":
-                        isPickedFirstColumn,
-                      "bg-white border-gray20divider": !isPickedFirstColumn,
-                    }
-                  )}
-                  onClick={() => choseSlot(date, firstColumnHour)}
-                >{`${firstColumnHour}:00 -${firstColumnHour + 1}:00`}</td>
-                <td
-                  className={classNames(
-                    "h-[50px] border-[1px] cursor-pointer",
-                    {
-                      // "border-gray20divider bg-gray10Background":
-                      //   endHour === hour + countHours,
-                      "bg-primaryGreen10 border-primaryGreen100":
-                        isPickedSecondColumn,
-                      "bg-white border-gray20divider": !isPickedSecondColumn,
-                    }
-                  )}
-                  onClick={() => choseSlot(date, secondColumnHour)}
-                >
-                  {endHour !== secondColumnHour &&
-                    `${secondColumnHour}:00 -${secondColumnHour + 1}:00`}
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <GroundSlotsTableMax
+        date={date}
+        startHour={startHour}
+        endHour={endHour}
+        isSlotBusy={isSlotBusy}
+        isSlotYours={isSlotYours}
+        bookings={bookings}
+        pickSlots={pickSlots}
+        choseSlot={choseSlot}
+      />
+      <GroundSlotsTableMin
+        date={date}
+        startHour={startHour}
+        endHour={endHour}
+        countHours={countHours}
+        isSlotBusy={isSlotBusy}
+        isSlotYours={isSlotYours}
+        bookings={bookings}
+        pickSlots={pickSlots}
+        choseSlot={choseSlot}
+      />
     </div>
   );
 };

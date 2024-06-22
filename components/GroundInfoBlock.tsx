@@ -10,7 +10,7 @@ type Props = {
 };
 
 export const GroundInfoBlock: React.FC<Props> = ({ ground }) => {
-  const { name, location, phone, fields } = ground;
+  const { name, phone, fields } = ground;
 
   return (
     <div className="w-full flex flex-col gap-[16px] mb-[16px]">
@@ -19,13 +19,13 @@ export const GroundInfoBlock: React.FC<Props> = ({ ground }) => {
       </h3>
       <div className="col-span-full">
         {fields?.map((field) => (
-          <Button key={field.id} variant="badge">
+          <Button key={field.id} variant="badge" className="mr-[10px]">
             {field.activity}
           </Button>
         ))}
       </div>
       <a
-        href={`https://www.google.com/maps/search/?api=1&query=${location}`}
+        href={`https://www.google.com/maps/search/?api=1&query=${ground.address}`}
         target="_blank"
         rel="noopener noreferrer"
         className="flex gap-[5px] col-span-full"
@@ -38,7 +38,7 @@ export const GroundInfoBlock: React.FC<Props> = ({ ground }) => {
           height={24}
         />
         <p className="text-gray100Primary text-[16px] font-normal">
-          12 Khreshchatyk Street, Kyiv, Ukraine
+          {ground.address}
         </p>
       </a>
       <a href="tel: +380888888888" className="flex gap-[5px] col-span-full">

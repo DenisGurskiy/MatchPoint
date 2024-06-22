@@ -20,21 +20,22 @@ export const BlockBookingConfirmed: React.FC<Props> = ({
   pickSlots,
   ground,
 }) => {
-  const slotsArray = Array.from(pickSlots);
+  const slotsArray = Array.from(pickSlots).map((slot) => {
+    const slotData = JSON.parse(slot);
+    return {
+      day: slotData.day,
+      time: `${slotData.time}:00`,
+    };
+  });
 
-  const parsedSlots = slotsArray.map((slot) => JSON.parse(slot));
-
-  const groupedSlots = parsedSlots.reduce(
-    (acc: Record<string, any[]>, slot) => {
-      const day = slot.day;
-      if (!acc[day]) {
-        acc[day] = [];
-      }
-      acc[day].push(slot);
-      return acc;
-    },
-    {}
-  );
+  const groupedSlots = slotsArray.reduce((acc: Record<string, any[]>, slot) => {
+    const day = slot.day;
+    if (!acc[day]) {
+      acc[day] = [];
+    }
+    acc[day].push(slot);
+    return acc;
+  }, {});
 
   const sortedGroupedSlots = Object.keys(groupedSlots)
     .sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
@@ -70,7 +71,7 @@ export const BlockBookingConfirmed: React.FC<Props> = ({
                 {ground.name}
               </h3>
               <p className="text-[14px] leading-[1.35em] text-gray50 font-normal">
-                12 Khreshchatyk Street, Kyiv, Ukraine
+                {ground.address}
               </p>
             </div>
           </Link>
@@ -81,14 +82,26 @@ export const BlockBookingConfirmed: React.FC<Props> = ({
             <p className="text-[14px] leading-[1.35em] text-gray50 font-normal">
               {format(new Date(date), "EEE, dd MMMM, yyyy")}
             </p>
-            {sortedGroupedSlots[date].map((slot, idx) => (
-              <p
-                key={idx}
-                className="text-[14px] leading-[1.35em] text-gray50 font-normal"
-              >
-                {`${slot.time}:00 - ${slot.time + 1}:00`}
-              </p>
-            ))}
+            {sortedGroupedSlots[date].map((slot, idx) => {
+              const startTime = new Date();
+              const [hour] = slot.time.split(":").map(Number);
+              startTime.setHours(hour, 0, 0);
+
+              const endTime = new Date(startTime);
+              endTime.setHours(startTime.getHours() + 1);
+
+              return (
+                <p
+                  key={idx}
+                  className="text-[14px] leading-[1.35em] text-gray50 font-normal"
+                >
+                  {`${format(startTime, "HH:mm")} - ${format(
+                    endTime,
+                    "HH:mm"
+                  )}`}
+                </p>
+              );
+            })}
           </div>
         ))}
       </div>

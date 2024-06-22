@@ -1,12 +1,14 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { GroundType } from "@/app/types/ground";
 import { Field } from "@/app/types/field";
 import { format } from "date-fns";
+import { Loader } from "./ui/loader";
+import { Booking } from "@/app/types/booking";
 
 type Props = {
   setIsActive: (flag: boolean) => void;
@@ -15,6 +17,7 @@ type Props = {
   field: Field;
   amount: number;
   ground: GroundType;
+  setBookings: React.Dispatch<React.SetStateAction<Booking[]>>;
 };
 
 export const BlockBooking: React.FC<Props> = ({
@@ -24,22 +27,59 @@ export const BlockBooking: React.FC<Props> = ({
   field,
   amount,
   ground,
+  setBookings,
 }) => {
-  const slotsArray = Array.from(pickSlots);
+  const [loading, setLoading] = useState(false);
 
-  const parsedSlots = slotsArray.map((slot) => JSON.parse(slot));
+  const slotsArray = Array.from(pickSlots).map((slot) => {
+    const slotData = JSON.parse(slot);
+    return {
+      day: slotData.day,
+      time: `${slotData.time}:00`,
+    };
+  });
 
-  const groupedSlots = parsedSlots.reduce(
-    (acc: Record<string, any[]>, slot) => {
-      const day = slot.day;
-      if (!acc[day]) {
-        acc[day] = [];
+  const groupedSlots = slotsArray.reduce((acc: Record<string, any[]>, slot) => {
+    const day = slot.day;
+    if (!acc[day]) {
+      acc[day] = [];
+    }
+    acc[day].push(slot);
+    return acc;
+  }, {});
+
+  const bookingSlots = async () => {
+    setLoading(true);
+
+    try {
+      const token = localStorage.getItem("access_token");
+      const response = await fetch(
+        `https://sportspace.onrender.com/api/service/sports-fields/${field.id}/booking/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          // body: JSON.stringify({ slots: slotsArray }),
+          body: JSON.stringify(slotsArray[0]),
+        }
+      );
+
+      if (response.ok) {
+        const result = await response.json();
+        setBookings((currentBookings) => [...currentBookings, result]);
+      } else {
+        console.error("Error creating slots:", response.statusText);
       }
-      acc[day].push(slot);
-      return acc;
-    },
-    {}
-  );
+    } catch (error) {
+      console.error("Error creating slots:", error);
+    } finally {
+      setLoading(false);
+      setPayIsOk(true);
+      setIsActive(false);
+    }
+  };
 
   const sortedGroupedSlots = Object.keys(groupedSlots)
     .sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
@@ -80,7 +120,7 @@ export const BlockBooking: React.FC<Props> = ({
                 {ground.name}
               </h3>
               <p className="text-[14px] leading-[1.35em] text-gray50 font-normal">
-                12 Khreshchatyk Street, Kyiv, Ukraine
+                {ground.address}
               </p>
             </div>
           </Link>
@@ -91,14 +131,26 @@ export const BlockBooking: React.FC<Props> = ({
             <p className="text-[14px] leading-[1.35em] text-gray50 font-normal">
               {format(new Date(date), "EEE, dd MMMM, yyyy")}
             </p>
-            {sortedGroupedSlots[date].map((slot, idx) => (
-              <p
-                key={idx}
-                className="text-[14px] leading-[1.35em] text-gray50 font-normal"
-              >
-                {`${slot.time}:00 - ${slot.time + 1}:00`}
-              </p>
-            ))}
+            {sortedGroupedSlots[date].map((slot, idx) => {
+              const startTime = new Date();
+              const [hour] = slot.time.split(":").map(Number);
+              startTime.setHours(hour, 0, 0);
+
+              const endTime = new Date(startTime);
+              endTime.setHours(startTime.getHours() + 1);
+
+              return (
+                <p
+                  key={idx}
+                  className="text-[14px] leading-[1.35em] text-gray50 font-normal"
+                >
+                  {`${format(startTime, "HH:mm")} - ${format(
+                    endTime,
+                    "HH:mm"
+                  )}`}
+                </p>
+              );
+            })}
           </div>
         ))}
         <div className="flex flex-col gap-[8px]">
@@ -124,14 +176,8 @@ export const BlockBooking: React.FC<Props> = ({
           </h4>
         </div>
       </div>
-      <Button
-        variant="primary"
-        onClick={() => {
-          setPayIsOk(true);
-          setIsActive(false);
-        }}
-      >
-        Go To Payment
+      <Button variant="primary" onClick={bookingSlots}>
+        {loading ? <Loader /> : `Go To Payment`}
       </Button>
     </div>
   );

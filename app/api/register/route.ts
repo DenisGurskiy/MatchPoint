@@ -4,8 +4,6 @@ export async function POST(req: Request) {
   try {
     const { email } = await req.json();
 
-    console.log('start register... email: ', email);
-
     const registerResponse = await fetch(
       "https://sportspace.onrender.com/api/client/register/",
       {
@@ -24,7 +22,6 @@ export async function POST(req: Request) {
     const registerData = await registerResponse.json();
     const { password } = registerData;
 
-    console.log('continue register... password: ', password);
 
     const emailResponse = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/sendEmail`,
@@ -44,7 +41,6 @@ export async function POST(req: Request) {
     const emailResult = await emailResponse.json();
     return NextResponse.json({ message: emailResult.message });
   } catch (error) {
-    console.log(error);
     return NextResponse.json(
       { message: "Failed to send email" },
       { status: 500 }

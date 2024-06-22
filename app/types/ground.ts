@@ -8,6 +8,7 @@ export type GroundType = {
   image: string;
   location: City;
   phone: string;
+  address: string;
   fields?: Field[];
   bookings?: Booking[];
 };

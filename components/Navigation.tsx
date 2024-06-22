@@ -8,9 +8,11 @@ import { useEffect, useRef, useState } from "react";
 import { SearchFormHeader } from "@/components/SearchFormHeader";
 import { ModalSearch } from "./ui/modalSearch";
 import { User } from "@/app/types/user";
+import { Loader } from "./ui/loader";
 
 type Props = {
   user: User | null;
+  loadingUser: boolean;
   isOpen: boolean;
   setIsOpen: (flag: boolean) => void;
   setIsActive: (flag: boolean) => void;
@@ -18,6 +20,7 @@ type Props = {
 
 export const Navigation: React.FC<Props> = ({
   user,
+  loadingUser,
   isOpen,
   setIsOpen,
   setIsActive,
@@ -139,21 +142,34 @@ export const Navigation: React.FC<Props> = ({
               About
             </Button>
           </Link>
-          {user ? (
-            <div className="w-[100px]" onClick={() => router.push("/account")}>
-              <Button
-                variant="secondary"
-                isActive={pathname.includes("/account")}
-              >
-                Account
+          {loadingUser ? (
+            <div className="w-[100px]">
+              <Button variant="secondary">
+                <Loader />
               </Button>
             </div>
           ) : (
-            <div className="w-[100px]" onClick={() => setIsActive(true)}>
-              <Button variant="secondary" isActive={pathname === "/login"}>
-                Log in
-              </Button>
-            </div>
+            <>
+              {user ? (
+                <div
+                  className="w-[100px]"
+                  onClick={() => router.push("/account")}
+                >
+                  <Button
+                    variant="secondary"
+                    isActive={pathname.includes("/account")}
+                  >
+                    Account
+                  </Button>
+                </div>
+              ) : (
+                <div className="w-[100px]" onClick={() => setIsActive(true)}>
+                  <Button variant="secondary" isActive={pathname === "/login"}>
+                    Log in
+                  </Button>
+                </div>
+              )}
+            </>
           )}
         </div>
       </nav>

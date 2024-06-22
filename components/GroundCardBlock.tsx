@@ -34,13 +34,13 @@ export const GroundCardBlock: React.FC<Props> = ({ ground }) => {
       <h3 className="font-semibold col-span-full">{name}</h3>
       <div className="col-span-full">
         {ground.fields?.map((filed) => (
-          <Button key={filed.id} variant="badge">
+          <Button key={filed.id} variant="badge" className="mr-[10px]">
             {filed.activity}
           </Button>
         ))}
       </div>
       <p className="text-gray50 text-[14px] font-normal col-span-full">
-        12 Khreshchatyk Street, Kyiv, Ukraine
+        {ground.address}
       </p>
       <Link href={`/grounds/${id}`} className="col-span-full">
         <Button variant="smallPrimary">Book</Button>

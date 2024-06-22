@@ -43,8 +43,6 @@ export default function Grounds() {
       .then((response) => response.json())
       .then((data) => {
         setGrounds(data.results);
-
-        console.log("Response data:", data.results);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);

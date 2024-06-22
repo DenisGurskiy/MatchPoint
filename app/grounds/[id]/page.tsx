@@ -18,6 +18,7 @@ import { GroundInfoBlock } from "@/components/GroundInfoBlock";
 import { Field } from "@/app/types/field";
 import { GroundChoseActivityBlock } from "@/components/GroundChoseActivityBlock";
 import { GroundSlotsBlock } from "@/components/GroundSlotsBlock";
+import { Booking } from "@/app/types/booking";
 
 type Props = {
   params: {
@@ -30,6 +31,7 @@ export default function Ground({ params: { id } }: Props) {
   const [pickSlots, setPickSlots] = useState<Set<string>>(new Set());
   const [ground, setGround] = useState<GroundType | null>(null);
   const [field, setField] = useState<Field | null>(null);
+  const [bookings, setBookings] = useState<Booking[] | []>([]);
   const [loading, setLoading] = useState(false);
 
   const [isOpenBook, setIsOpenBook] = useState(false);
@@ -67,8 +69,20 @@ export default function Ground({ params: { id } }: Props) {
   const url = `https://sportspace.onrender.com/api/service/sports-complexes/${id}`;
 
   useEffect(() => {
+    if (ground && field) {
+      const selectedField = ground.fields?.find(
+        (eachField) => eachField.id === field.id
+      );
+      if (selectedField) {
+        setBookings(selectedField.bookings);
+      } else {
+        setBookings([]);
+      }
+    } else {
+      setBookings([]);
+    }
     setPickSlots(new Set());
-  }, [field]);
+  }, [field, ground]);
 
   useEffect(() => {
     setLoading(true);
@@ -82,8 +96,6 @@ export default function Ground({ params: { id } }: Props) {
       .then((data) => {
         setGround(data);
         setField(data.fields[0]);
-
-        console.log("Response data:", data);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -148,9 +160,10 @@ export default function Ground({ params: { id } }: Props) {
                     setField={setField}
                   />
                   <GroundSlotsBlock
-                    bookings={ground.bookings}
+                    bookings={bookings}
                     pickSlots={pickSlots}
                     choseSlot={choseSlot}
+                    user={user || null}
                   />
                   <div className="hidden md:flex flex-col gap-[8px] mt-[16px] text-[16px] leading-[1.3em]">
                     <h3 className="mb-[8px] font-semibold text-gray100Primary">
@@ -211,6 +224,7 @@ export default function Ground({ params: { id } }: Props) {
             field={field}
             amount={amount}
             ground={ground}
+            setBookings={setBookings}
           />
         </Modal>
       )}
@@ -236,22 +250,3 @@ export default function Ground({ params: { id } }: Props) {
     </>
   );
 }
-
-// "bookings": [
-//     {
-//       "id": 1,
-//       "field": 1,
-//       "day": "2024-07-01",
-//       "time": "10:00:00",
-//       "created_at": "2024-06-03T00:00:00Z",
-//       "personal_data": 1
-//     },
-//     {
-//       "id": 2,
-//       "field": 2,
-//       "day": "2024-07-02",
-//       "time": "11:00:00",
-//       "created_at": "2024-06-03T00:00:00Z",
-//       "personal_data": 3
-//     }
-//   ]
