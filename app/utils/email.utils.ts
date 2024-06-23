@@ -1,5 +1,8 @@
 import nodemailer from "nodemailer";
 import SMTPTransport from "nodemailer/lib/smtp-transport";
+import { Booking } from "../types/booking";
+import { format } from "date-fns";
+import { GroupedSlots } from "../types/groupedSlots";
 
 require("dotenv").config();
 
@@ -25,6 +28,45 @@ export const sendEmail = (email: string, password: string) => {
     from: "SportSpace Auth API",
     to: email,
     subject: "Create account",
+    html,
+  });
+};
+
+export const sendEmailBookingInfo = (email: string, slots: GroupedSlots) => {
+  const html = Object.keys(slots)
+    .map((date) => {
+      const slotsHtml = slots[date]
+        .map((slot) => {
+          const startTime = new Date();
+          const [hour, minute] = slot.time.split(":").map(Number);
+          startTime.setHours(hour, minute, 0);
+
+          const endTime = new Date(startTime);
+          endTime.setHours(startTime.getHours() + 1);
+
+          return `
+            <p style="font-size: 14px; line-height: 1.35em; color: gray;">
+              ${format(startTime, "HH:mm")} - ${format(endTime, "HH:mm")}
+            </p>
+          `;
+        })
+        .join("");
+
+      return `
+        <div>
+          <p style="font-size: 14px; line-height: 1.35em; color: gray;">
+            ${format(new Date(date), "EEE, dd MMMM, yyyy")}
+          </p>
+          ${slotsHtml}
+        </div>
+      `;
+    })
+    .join("");
+
+  return transporter.sendMail({
+    from: "SportSpace Auth API",
+    to: email,
+    subject: "Booking confirmation",
     html,
   });
 };

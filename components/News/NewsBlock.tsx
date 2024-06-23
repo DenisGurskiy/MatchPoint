@@ -1,9 +1,9 @@
 "use client";
 
-import { NewCardBlock } from "@/components/NewCardBlock";
 import { useEffect, useState } from "react";
-import { Button } from "./ui/button";
 import Link from "next/link";
+import { Button } from "../ui/button";
+import { NewCardBlock } from "./NewCardBlock";
 
 export const NewsBlock = () => {
   const [windowWidth, setWindowWidth] = useState(0);

@@ -3,13 +3,13 @@ import React, { ReactNode } from "react";
 
 type Props = {
   isActive: boolean;
-  setIsActive: (flag: boolean) => void;
+  setError: (message: string) => void;
   children: ReactNode;
 };
 
 export const ModalError: React.FC<Props> = ({
   isActive,
-  setIsActive,
+  setError,
   children,
 }) => {
   return (
@@ -24,7 +24,7 @@ export const ModalError: React.FC<Props> = ({
     >
       <div
         className="fixed inset-0 bg-black bg-opacity-50"
-        onClick={() => setIsActive(false)}
+        onClick={() => setError("")}
       ></div>
       <div
         className="max-w-[564px] w-full h-auto bg-white z-50 rounded-[4px] sm:p-[48px] px-[20px] p-[24px] mx-[20px]"

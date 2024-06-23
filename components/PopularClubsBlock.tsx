@@ -1,6 +1,6 @@
 "use client";
 
-import { GroundCardBlock } from "@/components/GroundCardBlock";
+import { GroundCardBlock } from "@/components/Grounds/GroundCardBlock";
 import { DropDownCity } from "./ui/dropDownCity";
 import { useEffect, useState } from "react";
 import { GroundType } from "@/app/types/ground";

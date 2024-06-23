@@ -2,8 +2,8 @@ import { HeaderBlock } from "@/components/HeaderBlock";
 import { InfoBlock } from "@/components/InfoBlock";
 import { InfoBlockActivities } from "@/components/InfoBlockActivities";
 import { InfoBlockCities } from "@/components/InfoBlockCities";
+import { NewsBlock } from "@/components/News/NewsBlock";
 import { PopularClubsBlock } from "@/components/PopularClubsBlock";
-import { NewsBlock } from "@/components/NewsBlock";
 import { SearchForm } from "@/components/SearchForm";
 
 export default function Home() {

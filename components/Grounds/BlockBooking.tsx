@@ -7,12 +7,16 @@ import { Button } from "@/components/ui/button";
 import { GroundType } from "@/app/types/ground";
 import { Field } from "@/app/types/field";
 import { format } from "date-fns";
-import { Loader } from "./ui/loader";
+import { Loader } from "../ui/loader";
 import { Booking } from "@/app/types/booking";
+import { User } from "@/app/types/user";
+import { toast } from "sonner";
 
 type Props = {
+  user: User | null;
   setIsActive: (flag: boolean) => void;
   setPayIsOk: (flag: boolean) => void;
+  setError: (message: string) => void;
   pickSlots: Set<string>;
   field: Field;
   amount: number;
@@ -21,8 +25,10 @@ type Props = {
 };
 
 export const BlockBooking: React.FC<Props> = ({
+  user,
   setIsActive,
   setPayIsOk,
+  setError,
   pickSlots,
   field,
   amount,
@@ -53,6 +59,7 @@ export const BlockBooking: React.FC<Props> = ({
 
     try {
       const token = localStorage.getItem("access_token");
+      const email = user?.email;
       const response = await fetch(
         `https://sportspace.onrender.com/api/service/sports-fields/${field.id}/booking/`,
         {
@@ -69,24 +76,61 @@ export const BlockBooking: React.FC<Props> = ({
       if (response.ok) {
         const result = await response.json();
         setBookings((currentBookings) => [...currentBookings, result]);
+
+        if (result) {
+          try {
+            const res = await fetch(
+              `${process.env.NEXT_PUBLIC_BASE_URL}/api/sendEmailBooking`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email, slots: sortedGroupedSlots }),
+              }
+            );
+
+            if (!res.ok) {
+              throw new Error("Failed to sign up");
+            }
+
+            const result = await res.json();
+            toast.success(result.message);
+          } catch (error) {
+            console.error("Error:", error);
+            toast.error("Failed to send an email");
+          }
+        } else {
+          toast.error("Oops, something went wrong");
+        }
+
+        setPayIsOk(true);
       } else {
-        console.error("Error creating slots:", response.statusText);
+        const result = await response.json();
+        let message = result.time ? result.time[0] : "";
+        message += "\n" + (result.day ? result.day[0] : "");
+        setError(message);
       }
     } catch (error) {
       console.error("Error creating slots:", error);
     } finally {
       setLoading(false);
-      setPayIsOk(true);
       setIsActive(false);
     }
   };
 
   const sortedGroupedSlots = Object.keys(groupedSlots)
     .sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
-    .reduce((acc: Record<string, any[]>, key) => {
-      acc[key] = groupedSlots[key].sort((a, b) => a.time - b.time);
+    .reduce((acc: Record<string, Booking[]>, key) => {
+      acc[key] = groupedSlots[key].sort((a, b) => {
+        const [aHour, aMinute] = a.time.split(":").map(Number);
+        const [bHour, bMinute] = b.time.split(":").map(Number);
+        return aHour - bHour || aMinute - bMinute;
+      });
       return acc;
     }, {});
+
+  console.log("sortedGroupedSlots...", sortedGroupedSlots);
 
   return (
     <div className="flex flex-col gap-[24px]">

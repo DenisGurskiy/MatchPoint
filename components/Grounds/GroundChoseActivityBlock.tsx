@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { GroundType } from "@/app/types/ground";
 import { Field } from "@/app/types/field";
-import { DropDownActivity } from "./ui/dropDownActivity";
+import { DropDownActivity } from "../ui/dropDownActivity";
 
 type Props = {
   ground: GroundType;

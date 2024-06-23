@@ -1,8 +1,8 @@
 "use client";
 
-import { BlockAbout } from "@/components/BlockAbout";
-import { BlockFAQs } from "@/components/BlockFAQs";
-import { BlockContactUs } from "@/components/BlockContactUs";
+import { BlockAbout } from "@/components/StaticBlocks/BlockAbout";
+import { BlockFAQs } from "@/components/StaticBlocks/BlockFAQs";
+import { BlockContactUs } from "@/components/StaticBlocks/BlockContactUs";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 

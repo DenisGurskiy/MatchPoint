@@ -5,19 +5,19 @@ import { format } from "date-fns";
 import { useState, useEffect } from "react";
 import { LoginForm } from "@/components/LoginForm";
 import { Modal } from "@/components/ui/modal";
-import { BlockBooking } from "@/components/BlockBooking";
-import { BlockBookingConfirmed } from "@/components/BlockBookingConfirmed";
-import { BlockError } from "@/components/BlockError";
+import { BlockBooking } from "@/components/Grounds/BlockBooking";
+import { BlockBookingConfirmed } from "@/components/Grounds/BlockBookingConfirmed";
+import { BlockError } from "@/components/Grounds/BlockError";
 import { ModalError } from "@/components/ui/modalError";
 import { useAuth } from "@/components/AuthContext";
 import { GroundType } from "@/app/types/ground";
 import { Loader } from "@/components/ui/loader";
 import { GroundPicture } from "@/components/ui/groundPicture";
-import { BlockBookingDetails } from "@/components/BlockBookingDetails";
-import { GroundInfoBlock } from "@/components/GroundInfoBlock";
+import { BlockBookingDetails } from "@/components/Grounds/BlockBookingDetails";
+import { GroundInfoBlock } from "@/components/Grounds/GroundInfoBlock";
 import { Field } from "@/app/types/field";
-import { GroundChoseActivityBlock } from "@/components/GroundChoseActivityBlock";
-import { GroundSlotsBlock } from "@/components/GroundSlotsBlock";
+import { GroundChoseActivityBlock } from "@/components/Grounds/GroundChoseActivityBlock";
+import { GroundSlotsBlock } from "@/components/Grounds/GroundSlotsBlock";
 import { Booking } from "@/app/types/booking";
 
 type Props = {
@@ -39,8 +39,10 @@ export default function Ground({ params: { id } }: Props) {
   const [isLoginFormActive, setIsLoginFormActive] = useState(false);
   const [isBookingFormActive, setIsBookingFormActive] = useState(false);
   const [isConfirmFormActive, setIsConfirmFormActive] = useState(false);
-  const [isErrorFormActive, setIsErrorFormActive] = useState(false);
+  const [error, setError] = useState("");
   const [modal, setModal] = useState<"login" | "signup">("login");
+
+  console.log("user...", user);
 
   useEffect(() => {
     if (
@@ -48,7 +50,7 @@ export default function Ground({ params: { id } }: Props) {
       isLoginFormActive ||
       isBookingFormActive ||
       isConfirmFormActive ||
-      isErrorFormActive
+      error
     ) {
       document.body.classList.add("overflow-hidden");
     } else {
@@ -63,7 +65,7 @@ export default function Ground({ params: { id } }: Props) {
     isLoginFormActive,
     isBookingFormActive,
     isConfirmFormActive,
-    isErrorFormActive,
+    error,
   ]);
 
   const url = `https://sportspace.onrender.com/api/service/sports-complexes/${id}`;
@@ -133,11 +135,17 @@ export default function Ground({ params: { id } }: Props) {
     setIsConfirmFormActive(true);
   };
 
+  const handleError = (message: string) => {
+    setError(message);
+  };
+
   const handleClearSlots = () => {
     setPickSlots(new Set());
   };
 
   const amount = (field?.price || 0) * pickSlots.size;
+
+  console.log("error...", error);
 
   return (
     <>
@@ -218,8 +226,10 @@ export default function Ground({ params: { id } }: Props) {
           setIsActive={setIsBookingFormActive}
         >
           <BlockBooking
+            user={user}
             setIsActive={setIsBookingFormActive}
             setPayIsOk={handleConfirm}
+            setError={handleError}
             pickSlots={pickSlots}
             field={field}
             amount={amount}
@@ -228,11 +238,8 @@ export default function Ground({ params: { id } }: Props) {
           />
         </Modal>
       )}
-      <ModalError
-        isActive={isErrorFormActive}
-        setIsActive={setIsErrorFormActive}
-      >
-        <BlockError setIsActive={setIsErrorFormActive} />
+      <ModalError isActive={!!error.length} setError={setError}>
+        <BlockError setError={setError} error={error} />
       </ModalError>
       {ground && (
         <Modal

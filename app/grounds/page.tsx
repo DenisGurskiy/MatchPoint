@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 
-import { GroundCardBlock } from "@/components/GroundCardBlock";
+import { GroundCardBlock } from "@/components/Grounds/GroundCardBlock";
 import { SearchForm } from "@/components/SearchForm";
 import { SearchFormHeader } from "@/components/SearchFormHeader";
 import { ModalSearch } from "@/components/ui/modalSearch";
