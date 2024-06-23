@@ -1,4 +1,4 @@
-import { NewCardBlock } from "@/components/NewCardBlock";
+import { NewCardBlock } from "@/components/News/NewCardBlock";
 import { BackButton } from "@/components/ui/backButton";
 
 export default function News() {
