@@ -68,8 +68,8 @@ export const BlockBooking: React.FC<Props> = ({
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          // body: JSON.stringify({ slots: slotsArray }),
-          body: JSON.stringify(slotsArray[0]),
+          body: JSON.stringify({ slots: slotsArray }),
+          // body: JSON.stringify(slotsArray[0]),
         }
       );
 

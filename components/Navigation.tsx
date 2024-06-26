@@ -87,7 +87,7 @@ export const Navigation: React.FC<Props> = ({
   return (
     <>
       <nav className="ownContainer md:ownGrid flex justify-between">
-        <div className="flex items-center md:col-span-6">
+        <div className="flex items-center md:col-span-5">
           <div className="mr-[16px] md:hidden">
             <Image
               className="cursor-pointer"
@@ -136,12 +136,17 @@ export const Navigation: React.FC<Props> = ({
             />
           </div>
         )}
-        <div className="col-end-13 col-span-3 md:flex justify-between hidden">
-          <Link href="/about" className="w-[82px] flex items-center">
+        <div className="col-start-6 col-span-2 md:flex justify-between hidden justify-self-center">
+          <Link
+            href="/about"
+            className="w-[82px] flex justify-center items-center"
+          >
             <Button variant="search" isActive={pathname === "/about"}>
               About
             </Button>
           </Link>
+        </div>
+        <div className="col-end-13 col-span-2 md:flex justify-between hidden justify-self-end">
           {loadingUser ? (
             <div className="w-[100px]">
               <Button variant="secondary">

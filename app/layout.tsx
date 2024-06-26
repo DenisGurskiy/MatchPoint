@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import { Toaster } from "sonner";
 import "./globals.css";
+
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { Toaster } from "sonner";
 import { AuthProvider } from "@/components/AuthContext";
 import { Loader } from "@/components/ui/loader";
 

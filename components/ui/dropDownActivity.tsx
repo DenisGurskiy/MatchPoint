@@ -7,7 +7,6 @@ import { Field } from "@/app/types/field";
 type Props = {
   question: string;
   title: string;
-  // options: string[];
   value: Field | null;
   setValue: React.Dispatch<React.SetStateAction<Field | null>>;
   fields: Field[] | undefined;
@@ -16,12 +15,10 @@ type Props = {
 export const DropDownActivity: FC<Props> = ({
   question,
   title,
-  // options,
   value,
   setValue,
   fields,
 }) => {
-  // const [value, setValue] = useState<string>(title);
   const [isDropdownActive, setIsDropdownActive] = useState(false);
   const dropdownRef = useRef<HTMLUListElement | null>(null);
 
