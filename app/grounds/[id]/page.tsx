@@ -29,8 +29,6 @@ type Props = {
 
 export default function Ground({ params: { id } }: Props) {
   const { user } = useAuth();
-  // const [pickSlots, setPickSlots] = useState<Set<string>>(new Set());
-  // const [pickSlots, setPickSlots] = useState<GroupedSlots>({});
   const [pickSlots, setPickSlots] = useState<GroupedSlots>({});
 
   const [ground, setGround] = useState<GroundType | null>(null);
@@ -112,45 +110,29 @@ export default function Ground({ params: { id } }: Props) {
   const choseSlot = (day: Date, hour: number) => {
     setPickSlots((prevSlots) => {
       const formattedDay = format(day, "yyyy-MM-dd");
-      const newSlots = { ...prevSlots }; 
+      const newSlots = { ...prevSlots };
 
       if (!newSlots[formattedDay]) {
-        newSlots[formattedDay] = {}; 
+        newSlots[formattedDay] = {};
       }
 
-      const newDaySlots = { ...newSlots[formattedDay] }; 
+      const newDaySlots = { ...newSlots[formattedDay] };
 
       if (newDaySlots[hour]) {
-        delete newDaySlots[hour]; 
+        delete newDaySlots[hour];
         if (Object.keys(newDaySlots).length === 0) {
-          delete newSlots[formattedDay]; 
+          delete newSlots[formattedDay];
         } else {
           newSlots[formattedDay] = newDaySlots;
         }
       } else {
-        newDaySlots[hour] = true; 
+        newDaySlots[hour] = true;
         newSlots[formattedDay] = newDaySlots;
       }
 
       return newSlots;
     });
   };
-
-  // const choseSlot = (day: Date, hour: number) => {
-  //   setPickSlots((prevSlots) => {
-  //     const slot = JSON.stringify({
-  //       day: format(day, "yyyy-MM-dd"),
-  //       time: hour,
-  //     });
-  //     const newSlots = new Set(prevSlots);
-  //     if (newSlots.has(slot)) {
-  //       newSlots.delete(slot);
-  //     } else {
-  //       newSlots.add(slot);
-  //     }
-  //     return newSlots;
-  //   });
-  // };
 
   const handleBook = () => {
     if (user) {
@@ -172,8 +154,6 @@ export default function Ground({ params: { id } }: Props) {
     setPickSlots({});
   };
 
-  // const amount = (field?.price || 0) * pickSlots.size;
-
   const calculateTotalAmount = (pricePerSlot: number) => {
     let totalSlots = 0;
 
@@ -186,8 +166,6 @@ export default function Ground({ params: { id } }: Props) {
 
   const pricePerSlot = field?.price || 0;
   const amount = calculateTotalAmount(pricePerSlot);
-
-  console.log("bookings...", bookings);
 
   return (
     <>

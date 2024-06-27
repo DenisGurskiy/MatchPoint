@@ -21,13 +21,6 @@ export const BlockBookingConfirmed: React.FC<Props> = ({
   pickSlots,
   ground,
 }) => {
-  // const slotsArray = Array.from(pickSlots).map((slot) => {
-  //   const slotData = JSON.parse(slot);
-  //   return {
-  //     day: slotData.day,
-  //     time: `${slotData.time}:00`,
-  //   };
-  // });
 
   const slotsArray = Object.entries(pickSlots).flatMap(([day, times]) =>
     Object.keys(times).map((time) => ({ day, time }))

@@ -45,14 +45,6 @@ export const BlockBooking: React.FC<Props> = ({
     }))
   );
 
-  // const slotsArray = Array.from(pickSlots).map((slot) => {
-  //   const slotData = JSON.parse(slot);
-  //   return {
-  //     day: slotData.day,
-  //     time: `${slotData.time}:00`,
-  //   };
-  // });
-
   const groupedSlots = slotsArray.reduce((acc: Record<string, any[]>, slot) => {
     const day = slot.day;
     if (!acc[day]) {
@@ -145,17 +137,6 @@ export const BlockBooking: React.FC<Props> = ({
       setIsActive(false);
     }
   };
-
-  // const sortedGroupedSlots = Object.keys(groupedSlots)
-  //   .sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
-  //   .reduce((acc: Record<string, Booking[]>, key) => {
-  //     acc[key] = groupedSlots[key].sort((a, b) => {
-  //       const [aHour, aMinute] = a.time.split(":").map(Number);
-  //       const [bHour, bMinute] = b.time.split(":").map(Number);
-  //       return aHour - bHour || aMinute - bMinute;
-  //     });
-  //     return acc;
-  //   }, {});
 
   return (
     <div className="flex flex-col gap-[24px]">
