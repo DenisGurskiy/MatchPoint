@@ -8,10 +8,11 @@ import { Booking } from "@/app/types/booking";
 import { User } from "@/app/types/user";
 import { GroundSlotsTableMin } from "./GroundSlotsTableMin";
 import { GroundSlotsTableMax } from "./GroundSlotsTableMax";
+import { GroupedSlots } from "@/app/types/groupedSlots";
 
 type Props = {
   bookings: Booking[] | [];
-  pickSlots: Set<string>;
+  pickSlots: GroupedSlots;
   choseSlot: (day: Date, hour: number) => void;
   user: User | null;
 };
@@ -45,7 +46,7 @@ export const GroundSlotsBlock: React.FC<Props> = ({
 
   const isSlotBusy = (day: Date, hour: number, bookings: Booking[]) => {
     const formattedDay = format(day, "yyyy-MM-dd");
-    const formattedTime = `${hour}:00:00`;
+    const formattedTime = `${hour.toString().padStart(2, "0")}:00:00`;
 
     return bookings.some(
       (booking) =>
@@ -55,7 +56,7 @@ export const GroundSlotsBlock: React.FC<Props> = ({
 
   const isSlotYours = (day: Date, hour: number, bookings: Booking[]) => {
     const formattedDay = format(day, "yyyy-MM-dd");
-    const formattedTime = `${hour}:00:00`;
+    const formattedTime = `${hour.toString().padStart(2, "0")}:00:00`;
 
     return bookings.some(
       (booking) =>

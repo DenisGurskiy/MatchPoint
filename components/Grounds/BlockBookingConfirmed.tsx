@@ -6,11 +6,12 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { GroundType } from "@/app/types/ground";
 import { format } from "date-fns";
+import { GroupedSlots } from "@/app/types/groupedSlots";
 
 type Props = {
   setIsActive: (flag: boolean) => void;
   setConfirm: (flag: boolean) => void;
-  pickSlots: Set<string>;
+  pickSlots: GroupedSlots;
   ground: GroundType;
 };
 
@@ -20,13 +21,17 @@ export const BlockBookingConfirmed: React.FC<Props> = ({
   pickSlots,
   ground,
 }) => {
-  const slotsArray = Array.from(pickSlots).map((slot) => {
-    const slotData = JSON.parse(slot);
-    return {
-      day: slotData.day,
-      time: `${slotData.time}:00`,
-    };
-  });
+  // const slotsArray = Array.from(pickSlots).map((slot) => {
+  //   const slotData = JSON.parse(slot);
+  //   return {
+  //     day: slotData.day,
+  //     time: `${slotData.time}:00`,
+  //   };
+  // });
+
+  const slotsArray = Object.entries(pickSlots).flatMap(([day, times]) =>
+    Object.keys(times).map((time) => ({ day, time }))
+  );
 
   const groupedSlots = slotsArray.reduce((acc: Record<string, any[]>, slot) => {
     const day = slot.day;

@@ -4,6 +4,7 @@ import React from "react";
 import { addDays, format } from "date-fns";
 import classNames from "classnames";
 import { Booking } from "@/app/types/booking";
+import { GroupedSlots } from "@/app/types/groupedSlots";
 
 type Props = {
   date: Date;
@@ -12,7 +13,7 @@ type Props = {
   isSlotBusy: (day: Date, hour: number, bookings: Booking[]) => boolean;
   isSlotYours: (day: Date, hour: number, bookings: Booking[]) => boolean;
   bookings: Booking[] | [];
-  pickSlots: Set<string>;
+  pickSlots: GroupedSlots;
   choseSlot: (day: Date, hour: number) => void;
 };
 
@@ -26,6 +27,11 @@ export const GroundSlotsTableMax: React.FC<Props> = ({
   pickSlots,
   choseSlot,
 }) => {
+  const isSlotPicked = (day: Date, hour: number) => {
+    const formattedDay = format(day, "yyyy-MM-dd");
+    return !!pickSlots[formattedDay]?.[hour];
+  };
+
   return (
     <table className="hidden sm:table w-full text-center">
       <thead>
@@ -50,7 +56,51 @@ export const GroundSlotsTableMax: React.FC<Props> = ({
         </tr>
       </thead>
       <tbody>
-        {Array.from({ length: endHour - startHour }, (_, index) => {
+        {Array.from({ length: endHour - startHour }, (_, hourIndex) => {
+          const hour = hourIndex + startHour;
+          const nextHour = hour + 1;
+          return (
+            <tr
+              key={hourIndex}
+              className="grid grid-cols-[120px_repeat(7,_1fr)]"
+            >
+              <td className="col-span-1 h-[50px] bg-gray10Background border-[1px] border-gray20divider flex items-center justify-center">
+                {`${hour}:00 - ${nextHour}:00`}
+              </td>
+              {Array.from({ length: 7 }, (_, dayIndex) => {
+                const day = addDays(date, dayIndex);
+                const isPicked = isSlotPicked(day, hour);
+                let isBusy = false;
+                let isYours = false;
+
+                if (bookings) {
+                  isBusy = isSlotBusy(day, hour, bookings);
+                  isYours = isSlotYours(day, hour, bookings);
+                }
+                return (
+                  <td
+                    key={dayIndex}
+                    className={classNames(
+                      "h-[50px] col-span-1 border-[1px] border-gray20divider w-full flex items-center justify-center",
+                      {
+                        "cursor-pointer": !isBusy,
+                        "bg-primaryGreen10 border-primaryGreen100": isPicked,
+                        "bg-white": !isPicked && !isBusy,
+                        "bg-gray10Background": isBusy && !isYours,
+                        "bg-systemYellow": isYours,
+                      }
+                    )}
+                    onClick={!isBusy ? () => choseSlot(day, hour) : undefined}
+                  >
+                    {!isBusy && "+"}
+                  </td>
+                );
+              })}
+            </tr>
+          );
+        })}
+
+        {/* {Array.from({ length: endHour - startHour }, (_, index) => {
           const hour = index + startHour;
           const nextHour = hour + 1;
           return (
@@ -64,7 +114,9 @@ export const GroundSlotsTableMax: React.FC<Props> = ({
                   day: format(day, "yyyy-MM-dd"),
                   time: hour,
                 });
-                const isPicked = pickSlots.has(slot);
+                // const isPicked = pickSlots.has(slot);
+                const isPicked = isSlotPicked(day, hour);
+
                 let isBusy = false;
                 let isYours = false;
 
@@ -93,7 +145,7 @@ export const GroundSlotsTableMax: React.FC<Props> = ({
               })}
             </tr>
           );
-        })}
+        })} */}
       </tbody>
     </table>
   );

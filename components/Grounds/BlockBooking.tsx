@@ -11,13 +11,14 @@ import { Loader } from "../ui/loader";
 import { Booking } from "@/app/types/booking";
 import { User } from "@/app/types/user";
 import { toast } from "sonner";
+import { GroupedSlots } from "@/app/types/groupedSlots";
 
 type Props = {
   user: User | null;
   setIsActive: (flag: boolean) => void;
   setPayIsOk: (flag: boolean) => void;
   setError: (message: string) => void;
-  pickSlots: Set<string>;
+  pickSlots: GroupedSlots;
   field: Field;
   amount: number;
   ground: GroundType;
@@ -37,13 +38,20 @@ export const BlockBooking: React.FC<Props> = ({
 }) => {
   const [loading, setLoading] = useState(false);
 
-  const slotsArray = Array.from(pickSlots).map((slot) => {
-    const slotData = JSON.parse(slot);
-    return {
-      day: slotData.day,
-      time: `${slotData.time}:00`,
-    };
-  });
+  const slotsArray = Object.entries(pickSlots).flatMap(([day, times]) =>
+    Object.keys(times).map((time) => ({
+      day,
+      time: `${time}:00`,
+    }))
+  );
+
+  // const slotsArray = Array.from(pickSlots).map((slot) => {
+  //   const slotData = JSON.parse(slot);
+  //   return {
+  //     day: slotData.day,
+  //     time: `${slotData.time}:00`,
+  //   };
+  // });
 
   const groupedSlots = slotsArray.reduce((acc: Record<string, any[]>, slot) => {
     const day = slot.day;
@@ -53,6 +61,26 @@ export const BlockBooking: React.FC<Props> = ({
     acc[day].push(slot);
     return acc;
   }, {});
+
+  const sortedGroupedSlots = Object.keys(groupedSlots)
+    .sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
+    .reduce((acc: Record<string, Booking[]>, key) => {
+      acc[key] = groupedSlots[key].sort((a, b) => {
+        const [aHour, aMinute] = a.time.split(":").map(Number);
+        const [bHour, bMinute] = b.time.split(":").map(Number);
+        return aHour - bHour || aMinute - bMinute;
+      });
+      return acc;
+    }, {});
+
+  const dayTimeSlots = Object.keys(sortedGroupedSlots).map((day) => ({
+    day,
+    time: sortedGroupedSlots[day].map((slot) => slot.time),
+  }));
+
+  const requestBody = {
+    day_time_slots: dayTimeSlots,
+  };
 
   const bookingSlots = async () => {
     setLoading(true);
@@ -68,14 +96,13 @@ export const BlockBooking: React.FC<Props> = ({
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({ slots: slotsArray }),
-          // body: JSON.stringify(slotsArray[0]),
+          body: JSON.stringify(requestBody),
         }
       );
 
       if (response.ok) {
         const result = await response.json();
-        setBookings((currentBookings) => [...currentBookings, result]);
+        setBookings((currentBookings) => [...currentBookings, ...result]);
 
         if (result) {
           try {
@@ -119,18 +146,16 @@ export const BlockBooking: React.FC<Props> = ({
     }
   };
 
-  const sortedGroupedSlots = Object.keys(groupedSlots)
-    .sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
-    .reduce((acc: Record<string, Booking[]>, key) => {
-      acc[key] = groupedSlots[key].sort((a, b) => {
-        const [aHour, aMinute] = a.time.split(":").map(Number);
-        const [bHour, bMinute] = b.time.split(":").map(Number);
-        return aHour - bHour || aMinute - bMinute;
-      });
-      return acc;
-    }, {});
-
-  console.log("sortedGroupedSlots...", sortedGroupedSlots);
+  // const sortedGroupedSlots = Object.keys(groupedSlots)
+  //   .sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
+  //   .reduce((acc: Record<string, Booking[]>, key) => {
+  //     acc[key] = groupedSlots[key].sort((a, b) => {
+  //       const [aHour, aMinute] = a.time.split(":").map(Number);
+  //       const [bHour, bMinute] = b.time.split(":").map(Number);
+  //       return aHour - bHour || aMinute - bMinute;
+  //     });
+  //     return acc;
+  //   }, {});
 
   return (
     <div className="flex flex-col gap-[24px]">
@@ -204,7 +229,7 @@ export const BlockBooking: React.FC<Props> = ({
           <div className="flex justify-between">
             <p className="text-[14px] leading-[1.35em] text-gray50 font-normal">
               {`${+field?.price} x ${pickSlots.size} `}{" "}
-              {pickSlots.size === 1 ? "hour" : "hours"}
+              {Object.keys(pickSlots).length === 1 ? "hour" : "hours"}
             </p>
             <p className="text-[14px] leading-[1.35em] text-gray50 font-normal">
               {`${amount}₴`}

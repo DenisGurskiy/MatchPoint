@@ -19,6 +19,7 @@ import { Field } from "@/app/types/field";
 import { GroundChoseActivityBlock } from "@/components/Grounds/GroundChoseActivityBlock";
 import { GroundSlotsBlock } from "@/components/Grounds/GroundSlotsBlock";
 import { Booking } from "@/app/types/booking";
+import { GroupedSlots } from "@/app/types/groupedSlots";
 
 type Props = {
   params: {
@@ -28,7 +29,10 @@ type Props = {
 
 export default function Ground({ params: { id } }: Props) {
   const { user } = useAuth();
-  const [pickSlots, setPickSlots] = useState<Set<string>>(new Set());
+  // const [pickSlots, setPickSlots] = useState<Set<string>>(new Set());
+  // const [pickSlots, setPickSlots] = useState<GroupedSlots>({});
+  const [pickSlots, setPickSlots] = useState<GroupedSlots>({});
+
   const [ground, setGround] = useState<GroundType | null>(null);
   const [field, setField] = useState<Field | null>(null);
   const [bookings, setBookings] = useState<Booking[] | []>([]);
@@ -41,8 +45,6 @@ export default function Ground({ params: { id } }: Props) {
   const [isConfirmFormActive, setIsConfirmFormActive] = useState(false);
   const [error, setError] = useState("");
   const [modal, setModal] = useState<"login" | "signup">("login");
-
-  console.log("user...", user);
 
   useEffect(() => {
     if (
@@ -83,7 +85,7 @@ export default function Ground({ params: { id } }: Props) {
     } else {
       setBookings([]);
     }
-    setPickSlots(new Set());
+    setPickSlots({});
   }, [field, ground]);
 
   useEffect(() => {
@@ -109,19 +111,46 @@ export default function Ground({ params: { id } }: Props) {
 
   const choseSlot = (day: Date, hour: number) => {
     setPickSlots((prevSlots) => {
-      const slot = JSON.stringify({
-        day: format(day, "yyyy-MM-dd"),
-        time: hour,
-      });
-      const newSlots = new Set(prevSlots);
-      if (newSlots.has(slot)) {
-        newSlots.delete(slot);
-      } else {
-        newSlots.add(slot);
+      const formattedDay = format(day, "yyyy-MM-dd");
+      const newSlots = { ...prevSlots }; 
+
+      if (!newSlots[formattedDay]) {
+        newSlots[formattedDay] = {}; 
       }
+
+      const newDaySlots = { ...newSlots[formattedDay] }; 
+
+      if (newDaySlots[hour]) {
+        delete newDaySlots[hour]; 
+        if (Object.keys(newDaySlots).length === 0) {
+          delete newSlots[formattedDay]; 
+        } else {
+          newSlots[formattedDay] = newDaySlots;
+        }
+      } else {
+        newDaySlots[hour] = true; 
+        newSlots[formattedDay] = newDaySlots;
+      }
+
       return newSlots;
     });
   };
+
+  // const choseSlot = (day: Date, hour: number) => {
+  //   setPickSlots((prevSlots) => {
+  //     const slot = JSON.stringify({
+  //       day: format(day, "yyyy-MM-dd"),
+  //       time: hour,
+  //     });
+  //     const newSlots = new Set(prevSlots);
+  //     if (newSlots.has(slot)) {
+  //       newSlots.delete(slot);
+  //     } else {
+  //       newSlots.add(slot);
+  //     }
+  //     return newSlots;
+  //   });
+  // };
 
   const handleBook = () => {
     if (user) {
@@ -140,12 +169,25 @@ export default function Ground({ params: { id } }: Props) {
   };
 
   const handleClearSlots = () => {
-    setPickSlots(new Set());
+    setPickSlots({});
   };
 
-  const amount = (field?.price || 0) * pickSlots.size;
+  // const amount = (field?.price || 0) * pickSlots.size;
 
-  console.log("error...", error);
+  const calculateTotalAmount = (pricePerSlot: number) => {
+    let totalSlots = 0;
+
+    Object.values(pickSlots).forEach((times) => {
+      totalSlots += Object.keys(times).length;
+    });
+
+    return totalSlots * pricePerSlot;
+  };
+
+  const pricePerSlot = field?.price || 0;
+  const amount = calculateTotalAmount(pricePerSlot);
+
+  console.log("bookings...", bookings);
 
   return (
     <>
