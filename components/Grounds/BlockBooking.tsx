@@ -109,6 +109,8 @@ export const BlockBooking: React.FC<Props> = ({
               }
             );
 
+            console.log("sortedGroupedSlots...", sortedGroupedSlots);
+
             if (!res.ok) {
               throw new Error("Failed to sign up");
             }
@@ -209,8 +211,8 @@ export const BlockBooking: React.FC<Props> = ({
           </h4>
           <div className="flex justify-between">
             <p className="text-[14px] leading-[1.35em] text-gray50 font-normal">
-              {`${+field?.price} x ${pickSlots.size} `}{" "}
-              {Object.keys(pickSlots).length === 1 ? "hour" : "hours"}
+              {`${+field?.price} x ${slotsArray.length} `}{" "}
+              {slotsArray.length === 1 ? "hour" : "hours"}
             </p>
             <p className="text-[14px] leading-[1.35em] text-gray50 font-normal">
               {`${amount}₴`}

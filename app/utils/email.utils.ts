@@ -2,7 +2,6 @@ import nodemailer from "nodemailer";
 import SMTPTransport from "nodemailer/lib/smtp-transport";
 import { Booking } from "../types/booking";
 import { format } from "date-fns";
-import { GroupedSlots } from "../types/groupedSlots";
 
 require("dotenv").config();
 
@@ -32,7 +31,10 @@ export const sendEmail = (email: string, password: string) => {
   });
 };
 
-export const sendEmailBookingInfo = (email: string, slots: GroupedSlots) => {
+export const sendEmailBookingInfo = (
+  email: string,
+  slots: Record<string, Booking[]>
+) => {
   const html = Object.keys(slots)
     .map((date) => {
       const slotsHtml = slots[date]
