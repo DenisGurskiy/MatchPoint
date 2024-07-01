@@ -1,18 +1,153 @@
 "use client";
 
 import classNames from "classnames";
-import { SetStateAction, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
+import { SetStateAction, useEffect, useState } from "react";
+import { toast } from "sonner";
+import { useAuth } from "@/components/AuthContext";
+import { Loader } from "@/components/ui/loader";
+import { GroundType } from "@/app/types/ground";
+import { GroupedBooking } from "@/app/types/booking";
+import { BlockBookingHistory } from "@/components/Grounds/BlockBookingHistory";
 
 export default function History() {
+  const { user } = useAuth();
   const [activePage, setActivePage] = useState<"upcoming" | "history">(
     "upcoming"
   );
 
+  const [grounds, setGrounds] = useState<GroundType[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   const changePage = (page: SetStateAction<"upcoming" | "history">) => {
     setActivePage(page);
   };
+
+  useEffect(() => {
+    setIsLoading(true);
+    const token = localStorage.getItem("access_token");
+    if (user) {
+      fetch(`https://sportspace.onrender.com/api/client/me/schedule/`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          setGrounds(data);
+        })
+        .catch((error) => {
+          console.error("Save error:", error);
+          toast.error("Failed to save data. Please try again.");
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
+  }, [user]);
+
+  const groupAndSortBookings = (complexes: GroundType[]) => {
+    const groupedBookings: Record<string, GroupedBooking> = {};
+
+    complexes.forEach((complex) => {
+      complex.fields.forEach((field) => {
+        field.bookings.forEach((booking) => {
+          const { day } = booking;
+
+          if (!groupedBookings[complex.name]) {
+            groupedBookings[complex.name] = {
+              id: complex.id,
+              address: complex.address,
+              fields: {},
+            };
+          }
+
+          if (!groupedBookings[complex.name].fields[field.activity]) {
+            groupedBookings[complex.name].fields[field.activity] = {};
+          }
+
+          if (!groupedBookings[complex.name].fields[field.activity][day]) {
+            groupedBookings[complex.name].fields[field.activity][day] = [];
+          }
+
+          groupedBookings[complex.name].fields[field.activity][day].push(
+            booking
+          );
+        });
+      });
+    });
+
+    Object.keys(groupedBookings).forEach((complexName) => {
+      Object.keys(groupedBookings[complexName].fields).forEach((fieldName) => {
+        Object.keys(groupedBookings[complexName].fields[fieldName]).forEach(
+          (day) => {
+            groupedBookings[complexName].fields[fieldName][day].sort((a, b) => {
+              return a.time.localeCompare(b.time);
+            });
+          }
+        );
+      });
+    });
+
+    return groupedBookings;
+  };
+
+  const separateUpcomingAndHistoryBookings = (
+    groupedBookings: Record<string, GroupedBooking>,
+    currentDate: string
+  ) => {
+    const upcomingBookings: Record<string, GroupedBooking> = {};
+    const historyBookings: Record<string, GroupedBooking> = {};
+
+    Object.keys(groupedBookings).forEach((complexName) => {
+      const complex = groupedBookings[complexName];
+
+      Object.keys(complex.fields).forEach((fieldName) => {
+        Object.keys(complex.fields[fieldName]).forEach((day) => {
+          if (day >= currentDate) {
+            if (!upcomingBookings[complexName]) {
+              upcomingBookings[complexName] = {
+                id: complex.id,
+                address: complex.address,
+                fields: {},
+              };
+            }
+            if (!upcomingBookings[complexName].fields[fieldName]) {
+              upcomingBookings[complexName].fields[fieldName] = {};
+            }
+            upcomingBookings[complexName].fields[fieldName][day] =
+              complex.fields[fieldName][day];
+          } else {
+            if (!historyBookings[complexName]) {
+              historyBookings[complexName] = {
+                id: complex.id,
+                address: complex.address,
+                fields: {},
+              };
+            }
+            if (!historyBookings[complexName].fields[fieldName]) {
+              historyBookings[complexName].fields[fieldName] = {};
+            }
+            historyBookings[complexName].fields[fieldName][day] =
+              complex.fields[fieldName][day];
+          }
+        });
+      });
+    });
+
+    return { upcomingBookings, historyBookings };
+  };
+
+  const groupedAndSortedBookings = groupAndSortBookings(grounds);
+
+  const currentDate = new Date().toISOString().split("T")[0];
+  const { upcomingBookings, historyBookings } =
+    separateUpcomingAndHistoryBookings(groupedAndSortedBookings, currentDate);
+
+  console.log("upcomingBookings...", upcomingBookings);
+  console.log("historyBookings...", historyBookings);
+  console.log("groupedAndSortedBookings...", groupedAndSortedBookings);
 
   return (
     <section className="col-span-full md:col-span-6 md:grid md:grid-cols-6 flex flex-col gap-[24px]">
@@ -40,53 +175,20 @@ export default function History() {
             History
           </button>
         </div>
-        {activePage === "history" && (
-          <div className="col-span-full grow">
-            <p className="text-center md:text-left text-[16px] leading-[1.3em] text-gray100Primary font-normal">
-              There is no information at this time.
-            </p>
-          </div>
-        )}
       </div>
-      {activePage === "upcoming" && (
-        <div className="col-span-full lg:col-span-4 rounded-[24px] border-[1px] border-gray20divider p-[24px] flex flex-col gap-[24px]">
-          <div className="flex gap-[8px]">
-            <Link
-              href="/grounds/1"
-              className="overflow-hidden flex gap-[8px] cursor-pointer "
-            >
-              <Image
-                className="hover:scale-[1.1] transition duration-300 ease-in-out rounded-[8px]"
-                src={`/photos/ground_1.jpg`}
-                alt="Main picture"
-                width={98}
-                height={67}
-              />
-              <div className="flex flex-col gap-[8px]">
-                <h3 className="text-[16px] leading-[1.3em] text-gray100Primary font-semibold">
-                  Tennis court in Kyiv
-                </h3>
-                <p className="text-[14px] leading-[1.35em] text-gray50 font-normal">
-                  12 Khreshchatyk Street, Kyiv, Ukraine
-                </p>
-              </div>
-            </Link>
-          </div>
-
-          <div className="flex flex-col gap-[8px]">
-            <h4 className="text-[16px] leading-[1.3em] text-gray100Primary font-semibold">
-              Date & Time
-            </h4>
-            <div>
-              <p className="text-[14px] leading-[1.35em] text-gray50 font-normal">
-                Mon, 03 June, 2024
-              </p>
-              <p className="text-[14px] leading-[1.35em] text-gray50 font-normal">
-                7:00 - 8:00
-              </p>
-            </div>
-          </div>
+      {isLoading ? (
+        <div className="col-span-full">
+          <Loader />
         </div>
+      ) : (
+        <>
+          {activePage === "history" && (
+            <BlockBookingHistory bookings={historyBookings} />
+          )}
+          {activePage === "upcoming" && (
+            <BlockBookingHistory bookings={upcomingBookings} />
+          )}
+        </>
       )}
     </section>
   );

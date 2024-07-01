@@ -49,7 +49,7 @@ export const Header = () => {
       <nav
         className={cn(
           isOpen ? "translate-x-0" : "-translate-x-full",
-          "md:hidden overflow-hidden w-full fixed top-[56px] full_height z-10 bg-white transition-transf orm transform px-[20px] py-[24px] flex flex-col gap-y-[4px]"
+          "md:hidden overflow-hidden w-full fixed top-[56px] full_height z-10 bg-white transition-transform transform px-[20px] py-[24px] flex flex-col gap-y-[4px]"
         )}
       >
         <Link

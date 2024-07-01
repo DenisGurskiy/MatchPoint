@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -15,34 +15,71 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Loader } from "@/components/ui/loader";
 
 const formSchema = z.object({
-  password: z.string(),
-  passwordConfirm: z.string(),
+  old_password: z.string().min(1, "Old password is required"),
+  new_password: z
+    .string()
+    .min(8, "New password must be at least 8 characters long")
+    .regex(/[a-zA-Z]/, "New password must contain at least one letter")
+    .regex(/\d/, "New password must contain at least one digit"),
 });
 
 export default function Password() {
+  const [loading, setLoading] = useState(false);
+  const [serverErrors, setServerErrors] = useState<{ [key: string]: string[] }>(
+    {}
+  );
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {},
+    defaultValues: {
+      old_password: "",
+      new_password: "",
+    },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const response = await fetch("/api/changePassword", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(values),
-    });
+    setLoading(true);
+    setServerErrors({});
+    const token = localStorage.getItem("access_token");
 
-    const data = await response.json();
+    console.log("values...", values);
+    try {
+      const response = await fetch(
+        "https://sportspace.onrender.com/api/client/me/password/",
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(values),
+        }
+      );
 
-    if (data.error) {
-      toast.error(data.error);
+      const data = await response.json();
+
+      console.log("data...", data);
+
+      if (!response.ok) {
+        if (data) {
+          setServerErrors(data);
+        } else if (data.error) {
+          toast.error(data.error);
+        }
+        return;
+      }
+
+      toast.success("Your password has been changed!");
+      form.reset();
+    } catch (error) {
+      console.error("Save error:", error);
+      toast.error("Failed to save data. Please try again.");
+    } finally {
+      setLoading(false);
     }
-
-    toast.success("Your password has been changed!");
   }
 
   return (
@@ -58,7 +95,7 @@ export default function Password() {
           >
             <FormField
               control={form.control}
-              name="password"
+              name="old_password"
               render={({ field }) => (
                 <FormItem className="col-span-full gap-y-[8px] flex flex-col">
                   <FormLabel>Old password</FormLabel>
@@ -66,22 +103,25 @@ export default function Password() {
                     <Input
                       placeholder="Enter your old password"
                       {...field}
+                      type="password"
                       className={
-                        form.formState.errors.password 
+                        form.formState.errors.old_password
                           ? "border-systemRedError"
                           : ""
                       }
                     />
                   </FormControl>
                   <FormMessage>
-                    {form.formState.errors.password?.message}
+                    {form.formState.errors.old_password?.message ||
+                      (serverErrors.old_password &&
+                        serverErrors.old_password.join(", "))}
                   </FormMessage>
                 </FormItem>
               )}
             />
             <FormField
               control={form.control}
-              name="passwordConfirm"
+              name="new_password"
               render={({ field }) => (
                 <FormItem className="col-span-full gap-y-[8px] flex flex-col">
                   <FormLabel>Password</FormLabel>
@@ -89,15 +129,18 @@ export default function Password() {
                     <Input
                       placeholder="Enter minimum 8 characters"
                       {...field}
+                      type="password"
                       className={
-                        form.formState.errors.passwordConfirm
+                        form.formState.errors.new_password
                           ? "border-systemRedError"
                           : ""
                       }
                     />
                   </FormControl>
                   <FormMessage>
-                    {form.formState.errors.passwordConfirm?.message}
+                    {form.formState.errors.new_password?.message ||
+                      (serverErrors.new_password &&
+                        serverErrors.new_password.join(", "))}
                   </FormMessage>
                 </FormItem>
               )}
@@ -106,8 +149,9 @@ export default function Password() {
               className="md:col-span-2 md:col-end-7 col-span-full"
               type="submit"
               variant="primary"
+              disabled={loading}
             >
-              Save
+              {loading ? <Loader /> : `Save`}
             </Button>
           </form>
         </Form>

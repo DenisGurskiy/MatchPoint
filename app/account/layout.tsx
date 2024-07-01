@@ -51,7 +51,7 @@ export default function Account({
                 </Button>
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link href="/account/delete" className="flex items-center">
                 <Button
                   variant="text"
@@ -61,7 +61,7 @@ export default function Account({
                   Delete Account
                 </Button>
               </Link>
-            </li>
+            </li> */}
             <li>
               <div
                 className="flex items-center"

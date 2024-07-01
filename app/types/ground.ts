@@ -9,6 +9,6 @@ export type GroundType = {
   location: City;
   phone: string;
   address: string;
-  fields?: Field[];
+  fields: Field[];
   bookings?: Booking[];
 };

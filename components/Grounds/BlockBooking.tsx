@@ -70,6 +70,8 @@ export const BlockBooking: React.FC<Props> = ({
     time: sortedGroupedSlots[day].map((slot) => slot.time),
   }));
 
+  console.log("sortedGroupedSlots", sortedGroupedSlots);
+
   const requestBody = {
     day_time_slots: dayTimeSlots,
   };
